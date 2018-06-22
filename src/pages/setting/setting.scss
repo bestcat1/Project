@@ -1,0 +1,21 @@
+page-setting {
+  .background{
+    background-image: url('../assets/bg1.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-attachment:fixed;
+    background-size: cover;
+  }
+  .logo4{
+
+    background-color: transparent ;
+    background-image: url('../assets/menu/3.png');
+    background-size: 100%;
+    background-position: center;
+    width: 200px;
+    height: 200px;
+    background-repeat: no-repeat;
+    margin: auto auto;
+
+  }
+}

@@ -1,0 +1,42 @@
+
+<ion-header>
+  <ion-navbar color="dark-blue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title >List</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content padding class="background">
+<ion-row>
+  <ion-col>
+  <table class='table'>
+  <thead>
+  <tr>
+      <td>Action</td>
+  <td>First</td>
+  <td>Last</td>
+  <td>User</td>
+  <td>Pass</td>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of item$ | async">
+     <td>
+      <button type="button" (click)="delWiki(item.key)" >Delete</button>
+    </td>
+    <td>{{item.fname}}</td>
+    <td>{{item.lname}}</td>
+    <td>{{item.user}}</td>
+    <td>{{item.pass}}</td>
+
+  </tr>
+  </tbody>
+  </table>
+</ion-col>
+</ion-row>
+</ion-content>

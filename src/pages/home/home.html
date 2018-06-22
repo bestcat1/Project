@@ -1,14 +1,20 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content class="background">
+  <ion-card >
+    <ion-card-header>
+        <a class="logo"></a>
+        <a class="sFont"><br>ระบบแจ้งเตือนการจัดการแม่พันธุ์<br>-------------------------<br></a>
+        <a class="sFont">Notification Dam Management<br></a>
+    </ion-card-header>
+    <ion-card-content padding>
+      <ion-list>
+        <button type="submit" ion-button block color="primary" (click)="login()">
+          <a class="mFont">เข้าสู่ระบบ</a>
+        </button>
+        <button type="submit" ion-button block color="light" (click)="register()">
+            <a class="mFont">ลงทะเบียน</a>
+          </button>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+

@@ -1,0 +1,53 @@
+<!--
+  Generated template for the MenuPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>หน้าหลัก</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="background">
+
+  <ion-grid text-center >
+    <ion-row >
+      <ion-col><ion-img class="logo1" (click)="mncattle()"></ion-img></ion-col>
+      <ion-col><ion-img class="logo5" (click)="mndam()"></ion-img></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>จัดการข้อมูลโค</ion-col>
+      <ion-col>บันทึกการจัดการแม่พันธุ์</ion-col>
+    </ion-row>
+    <br><br>
+
+    <ion-row>
+        <ion-col><ion-img class="logo2" (click)="mncalf()"></ion-img></ion-col>
+        <ion-col><ion-img class="logo3" (click)="setting()"></ion-img></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>บันทึกการจัดการลูกโค</ion-col>
+        <ion-col>ตั้งค่าและแจ้งเตือน</ion-col>
+      </ion-row>
+
+      <br><br>
+      <ion-row>
+          <ion-col><ion-img class="logo4" (click)="verify()"></ion-img></ion-col>
+          <ion-col><ion-img class="logo6" (click)="report()"></ion-img></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>ตรวจสอบข้อมูลโค</ion-col>
+          <ion-col>ออกรายงานข้อมูลโค</ion-col>
+        </ion-row>
+
+  </ion-grid>
+
+</ion-content>

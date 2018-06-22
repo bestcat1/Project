@@ -1,0 +1,47 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>สมัครสมาชิก</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <form (ngSubmit)="reg(wikiForm)" #wikiForm="ngForm" >
+    <ion-item>
+      <ion-label floating>ชื่อ: </ion-label>
+      <ion-input type="text" class="mFont" name="fname" ngModel #fname></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>นามสกุล: </ion-label>
+      <ion-input type="text" class="mFont" name="lname" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>ชื่อผู้ใช้: </ion-label>
+      <ion-input type="text"class="mFont" name="user" ngModel></ion-input>
+    </ion-item>
+
+    <small [hidden]="aa==true" class="atext">มีชื่อผู้ใช้นี้แล้ว</small>
+    <ion-item>
+      <ion-label floating>รหัสผ่าน: </ion-label>
+      <ion-input type="text" class="mFont" name="pass" ngModel></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>ยืนยันรหัสผ่าน: </ion-label>
+      <ion-input type="text" class="mFont" name="cpass" ngModel></ion-input>
+    </ion-item>
+    <br>
+    <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+
+  </form>
+
+
+
+
+</ion-content>

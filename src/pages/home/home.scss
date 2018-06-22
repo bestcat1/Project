@@ -1,3 +1,89 @@
 page-home {
+  .background{
+    background-image: url('../assets/bg.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-attachment:fixed;
+    background-size: cover;
+  }
+  .logo{
+    background-image: url('../assets/icon/logo1.png');
+    background-size: cover;
+    width: 80px;
+    height: 90px;
+    display: block;
+    margin: auto;
+    align-self: auto;
 
+
+  }
+  .mFont{
+    font-size:14px;
+    color: rgb(0, 0, 0);
+  }
+  .lFont{
+    font-size: 24px;
+    align-self: center;
+    font-weight: bold;
+    font-family: 'TH Niramit AS';
+    line-height: 10pt;
+
+
+  }
+  .sFont{
+    font-size: 18px;
+    align-self: center;
+    font-family: cursive;
+    line-height: 10pt
+  }
+  .scroll-content{
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  ion-card.card{
+    box-shadow: none;
+    background: rgba(243, 238, 238, 0.5);
+    border-radius: 5px;
+  }
+  a,p,
+  ion-card-header.card-header{
+    color: rgb(0, 0, 0);
+  }
+  .list > .item-block:first-child{
+    border: medium none;
+  }
+
+
+  .item{
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.5);
+    border: medium none;
+    .text-input,{
+      color: #fff
+    }
+
+    *:-moz-placeholder{
+      color: #fff!important;
+    }
+    *:-ms-input-placeholder{
+      color: #fff!important;
+    }
+    *::-webkit-input-placeholder{
+      color: #fff!important;
+    }
+    input::-moz-placeholder{
+      color: #fff!important;
+    }
+    input:-moz-placeholder{
+      color: #fff!important;
+    }
+  }
+
+
+}
+.alert-wrapper {
+  min-width: 300px;
 }

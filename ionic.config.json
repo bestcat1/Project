@@ -1,6 +1,8 @@
 {
-  "name": "TestApp",
+  "name": "Notification Dam Management",
   "app_id": "",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

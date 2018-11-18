@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
+
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
@@ -21,10 +20,10 @@ export class SettingcolorPage {
 item$;
 user;
 colors=[];
-cattle:Observable<any[]>;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,private db:AngularFireDatabase,public alertCtrl: AlertController,
+  ,public alertCtrl: AlertController,
     private api:NodeapiProvider) {
 
   }

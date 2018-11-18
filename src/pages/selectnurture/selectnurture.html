@@ -1,0 +1,39 @@
+<!--
+  Generated template for the SelectnurturePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>บันทึกการรักษา</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+    <ion-searchbar class="test" (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+    <ion-item>
+      <ion-label>ปะเภทโค:</ion-label>
+      <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="แม่โค/พ่อโค" name="typecattle" (ionChange)="selecttype($event)">
+          <ion-option value="แม่โค/พ่อโค">แม่โค/พ่อโค</ion-option>
+          <ion-option value="ลูกโค">ลูกโค</ion-option>
+      </ion-select>
+    </ion-item>
+    เลือก{{name_type}}
+  <ion-list>
+    <ion-item *ngFor="let e of damList" [hidden]="type!=0">
+    <ion-label>หมายเลขโค: {{e.cattle_id}}</ion-label>
+    <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.id)">
+        เลือก
+    </button>
+    </ion-item>
+    <ion-item *ngFor="let e of damList" [hidden]="type==0">
+      <ion-label>เบอร์แรกเกิด: {{e.birth_id}}</ion-label>
+      <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.bid)">
+          เลือก
+      </button>
+      </ion-item>
+  </ion-list>
+</ion-content>
+

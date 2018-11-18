@@ -1,20 +1,24 @@
 <ion-content class="background">
+  <div >
+    <ion-avatar class="logo" ></ion-avatar>
+  </div>
   <ion-card >
     <ion-card-header>
-        <a class="logo"></a>
-        <a class="sFont"><br>ระบบแจ้งเตือนการจัดการแม่พันธุ์<br>-------------------------<br></a>
-        <a class="sFont">Notification Dam Management<br></a>
+        <!-- <p class="sFont"><br>ระบบแจ้งเตือนการจัดการแม่พันธุ์<br>-------------------------<br>Notification Dam Management</p> -->
     </ion-card-header>
     <ion-card-content padding>
-      <ion-list>
-        <button type="submit" ion-button block color="primary" (click)="login()">
-          <a class="mFont">เข้าสู่ระบบ</a>
+        <p align="center" >
+        <button type="submit" ion-button block color="primary" (click)="login()" round>
+          <a class="mFont"><b><i class="fa fa-sign-in"></i>&nbsp;เข้าสู่ระบบ</b></a>
         </button>
-        <button type="submit" ion-button block color="light" (click)="register()">
-            <a class="mFont">ลงทะเบียน</a>
+        <button type="submit" ion-button block color="light" (click)="register()" round>
+            <ion-icon name="person-add"></ion-icon><a class="mFont"><b>&nbsp;สมัครสมาชิก</b></a>
           </button>
-      </ion-list>
+          <!-- <button type="submit" ion-button block color="light" (click)=" doLoginGoogle()" round>
+            Google
+          </button> -->
+        </p>
+        <a align="center" color="dark-blue" (click)="forgetpass()"><u><b>ลืมรหัสผ่าน?</b></u></a>
     </ion-card-content>
   </ion-card>
 </ion-content>
-

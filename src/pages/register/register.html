@@ -13,35 +13,73 @@
 </ion-header>
 <ion-content padding>
   <form (ngSubmit)="reg(wikiForm)" #wikiForm="ngForm" >
-    <ion-item>
-      <ion-label floating>ชื่อ: </ion-label>
-      <ion-input type="text" class="mFont" name="fname" ngModel #fname></ion-input>
-    </ion-item>
+    <ion-input type="hidden" name="count_login" ngModel="0"></ion-input>
+      <ion-item>
+          <ion-label floating>Username</ion-label>
+          <ion-input type="text"class="mFont" name="user" ngModel></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label floating>นามสกุล: </ion-label>
-      <ion-input type="text" class="mFont" name="lname" ngModel></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>ชื่อผู้ใช้: </ion-label>
-      <ion-input type="text"class="mFont" name="user" ngModel></ion-input>
-    </ion-item>
+        <small [hidden]="check" class="atext">มีชื่อผู้ใช้นี้แล้ว</small>
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input type="text" class="mFont" name="pass" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Confirm Password</ion-label>
+          <ion-input type="text" class="mFont" name="cpass" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>คำถามเมื่อลืมรหัสผ่าน</ion-label>
+            <ion-input type="text" class="mFont" name="question" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>คำถามตอบ</ion-label>
+            <ion-input type="text" class="mFont" name="anwser" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>ชื่อ</ion-label>
+            <ion-input type="text" class="mFont" name="fname" ngModel #fname></ion-input>
+        </ion-item>
 
-    <small [hidden]="aa==true" class="atext">มีชื่อผู้ใช้นี้แล้ว</small>
-    <ion-item>
-      <ion-label floating>รหัสผ่าน: </ion-label>
-      <ion-input type="text" class="mFont" name="pass" ngModel></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>ยืนยันรหัสผ่าน: </ion-label>
-      <ion-input type="text" class="mFont" name="cpass" ngModel></ion-input>
-    </ion-item>
+        <ion-item>
+            <ion-label floating>นามสกุล</ion-label>
+            <ion-input type="text" class="mFont" name="lname" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>เพศ</ion-label>
+            <ion-select ngModel="ชาย" name="gender">
+                <ion-option value="ชาย">ชาย</ion-option>
+                <ion-option value="หญิง">หญิง</ion-option>
+              </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>ว/ด/ป เกิด</ion-label>
+            <ion-input type="date" name="day_of_birth" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>เบอร์โทร</ion-label>
+            <ion-input type="text" class="mFont" name="phone_num" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>รหัสบัตรประชาชน</ion-label>
+            <ion-input type="pincode" pattern="\d{13}" maxlength="13" name="id_card" ngModel required></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>ที่อยู่</ion-label>
+            <ion-input type="text" class="mFont" name="address" ngModel></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input type="text" class="mFont" name="email" ngModel></ion-input>
+        </ion-item>
+        <small [hidden]="checkEmail" class="atext">มีผู้ใช้งานอีเมลนี้แล้ว</small>
+        <ion-item>
+            <ion-label floating>Fax.</ion-label>
+            <ion-input type="text" class="mFont" name="fax" ngModel></ion-input>
+        </ion-item>
     <br>
     <button type="submit" ion-button block color="facebook">ยืนยัน</button>
 
   </form>
-
-
-
-
 </ion-content>
+

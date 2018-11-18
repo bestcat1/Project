@@ -1,0 +1,60 @@
+<!--
+  Generated template for the SettingdetailprogreammaintainPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>รายการบำรุง</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="addpromain(pmForm)" #pmForm="ngForm" >
+    เพิ่มรายการบำรุง<br>
+  <ion-card>
+      <ion-input type="hidden" name="pro_maintain" ngModel="{{program}}"></ion-input>
+      <ion-item>
+
+        <ion-label stacked>ชื่อยาบำรุง</ion-label>
+          <ion-input type="text" name="drug_maintain" placeholder="กรอกชื่อยา" ngModel></ion-input>
+      </ion-item>
+      <ion-row>
+      <ion-col col-6>
+      <ion-item>
+          <ion-label stacked>ปริมาณที่ใช้</ion-label>
+         <ion-input  type="text" name="volumn" ngModel placeholder="จำนวนวัน" placeholder="กรอกปริมาณ"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-6>
+        <ion-item>
+        <ion-label class="myCustomSelect" stacked>จำนวนวัน</ion-label>
+        <ion-input class="test" type="number" name="day_length" ngModel placeholder="กรอกจำนวนวัน"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <p align="center">
+      <button type="submit" ion-button round color="secondary"><i class="fa fa-save" style="font-size:24px"></i></button>
+    </p>
+    </ion-card>
+</form>
+
+<br>รายการเหนี่ยวนำ<br>
+<ion-card>
+  <ion-row>
+    <ion-col col-2><p align="center">ลำดับ</p></ion-col>
+    <ion-col col-6><p align="center">รายการ</p></ion-col>
+    <ion-col col-4><p align="center">ตั้งค่า</p></ion-col>
+  </ion-row>
+  <ion-row *ngFor="let d of data_drug | async; let i = index">
+      <ion-col col-2><p align="center">{{i+1}}</p></ion-col>
+      <ion-col col-6><p align="center">{{d.drug_maintain}}</p></ion-col>
+      <ion-col col-2><p align="center"><button ion-button class="customBtn" (click)="detail(d)" >แก้ไข</button></p></ion-col>
+      <ion-col col-2><p align="center"><button ion-button class="customBtn" color="danger" (click)="delete(d.key)">ลบ</button></p></ion-col>
+    </ion-row>
+</ion-card>
+</ion-content>

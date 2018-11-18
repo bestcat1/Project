@@ -1,0 +1,53 @@
+<!--
+  Generated template for the SettingfarmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ตั้งค่าระบบฟาร์ม</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card>
+    <ion-list>
+      <ion-list-header color="primary">
+        <ion-label class="font"><i class="material-icons" style="font-size:16px">settings</i>ตั้งค่าเกี่ยวกับโค</ion-label>
+      </ion-list-header>
+      <ion-item detail-push (click)="stcorral()">
+        <ion-label>ตั้งค่าคอกวัว</ion-label>
+      </ion-item>
+
+      <ion-item detail-push (click)="ststrian()">
+        <ion-label>ตั้งค่าสายพันธุ์</ion-label>
+      </ion-item>
+
+      <ion-item detail-push (click)="stcolor()">
+        <ion-label>ตั้งค่าสีโค</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-list>
+      <ion-list-header color="primary">
+        <ion-label class="font"><i class="material-icons" style="font-size:16px">settings</i>ตั้งค่าเกี่ยวกับการจัดการแม่พันธุ์</ion-label>
+      </ion-list-header>
+      <ion-item detail-push (click)="stpromaintain()">
+        <ion-label>ตั้งค่ารายการบำรุง</ion-label>
+      </ion-item>
+
+      <ion-item detail-push (click)="stprosync()">
+        <ion-label>ตั้งค่ารายการเหนี่ยวนำ</ion-label>
+      </ion-item>
+      <ion-item detail-push (click)="stdrug()">
+        <ion-label>ตั้งค่ารายการยารักษา</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

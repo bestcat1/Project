@@ -17,28 +17,91 @@
 
 
 <ion-content padding class="background">
-    <ion-row>
-        <ion-img class="logo4"></ion-img>
+  <ion-item>
+    <ion-label floating>เลือกตั้งค่า แจ้งเตือน</ion-label>
+    <ion-select interface="action-sheet" cancelText="ยกเลิก" (ionChange)="selectType($event)">
+      <ion-option value="การแจ้งเตือน">การแจ้งเตือน</ion-option>
+      <ion-option value="ตั้งค่าการแจ้งเตือน">ตั้งค่าการแจ้งเตือน</ion-option>
+      <ion-option value="จัดการข้อมูลผู้ใช้">จัดการข้อมูลผู้ใช้</ion-option>
+      <ion-option value="ตั้งค่าระบบฟาร์ม">ตั้งค่าระบบฟาร์ม</ion-option>
+    </ion-select>
+</ion-item>
+
+
+<!-- ==================== setting ======================= -->
+
+<ion-list [hidden]="checktype!=1">
+  <div class="center">
+<ion-label><b>รายการแจ้งเตือน</b></ion-label>
+</div>
+<ion-grid>
+<ion-row>
+   <ion-col col-4>
+     <ion-label>หมายเลขโค</ion-label>
+   </ion-col>
+   <ion-col col-5>
+     <ion-label>รายการแจ้งเตือน</ion-label>
+   </ion-col>
+   <ion-col col-3>
+       <ion-label>ตั้งค่า</ion-label>
+   </ion-col>
+ </ion-row>
+<ion-row *ngFor="let n of notification ">
+<ion-col col-4>
+ <ion-label>{{n.id_cattle}}</ion-label>
+</ion-col>
+<ion-col col-5>
+ <ion-label>{{n.type}}<br>{{n.date | date:'dd/MM/yyyy'}}</ion-label>
+</ion-col>
+<ion-col col-3>
+ <button ion-button type="button" color="danger" class="customBtn" (click)="delete(n.key,n.date)">ลบ</button>
+</ion-col>
+</ion-row>
+</ion-grid>
+</ion-list>
+
+<!-- =============== setting Notification =============-->
+<ion-list [hidden]="checktype!=2">
+    <ion-grid>
+        <ion-row>
+            <ion-col col-6 >รายการ</ion-col>
+            <ion-col col-3 >วัน</ion-col>
+            <ion-col col-3 >ตั้งค่า</ion-col>
+        </ion-row>
+      <ion-row *ngFor="let n of settingnotification">
+          <ion-col col-6 >{{n.list}}<br>({{n.note}})</ion-col>
+          <ion-col col-3 >{{n.day_length}} วัน</ion-col>
+          <ion-col col-3 ><button ion-button class="customBtn" color="secondary" (click)="edit(n.key,n.day_length,n.list,n.note)"><ion-icon name="md-build"></ion-icon></button></ion-col>
       </ion-row>
-      <br>
-      <ion-row>
-          <button type="submit" ion-button block color="light" >
-              การแจ้งเตือน
-            </button>
-      </ion-row>
-      <ion-row>
-          <button type="submit" ion-button block color="light">
-              ตั้งค่าการแจ้งเตือน
-            </button>
-      </ion-row>
-      <ion-row>
-          <button type="submit" ion-button block color="light">
-              แก้ไขข้อมูลส่วนตัว
-            </button>
-      </ion-row>
-      <ion-row>
-          <button type="submit" ion-button block color="light">
-              จัดการข้อมูลผู้ใช้
-            </button>
-      </ion-row>
+    </ion-grid>
+</ion-list>
+
+<!-- =============== setting Farm =============-->
+<br>
+<ion-list [hidden]="checktype!=4">
+          <ion-list-header color="primary">
+            <ion-label class="font"><i class="material-icons" style="font-size:16px">settings</i>ตั้งค่าระบบฟาร์มต่างๆ</ion-label>
+          </ion-list-header>
+          <ion-item detail-push (click)="stcorral()">
+            <ion-label>ตั้งค่าคอกวัว</ion-label>
+          </ion-item>
+
+          <ion-item detail-push (click)="ststrian()">
+            <ion-label>ตั้งค่าสายพันธุ์</ion-label>
+          </ion-item>
+
+          <ion-item detail-push (click)="stcolor()">
+            <ion-label>ตั้งค่าสีโค</ion-label>
+          </ion-item>
+          <ion-item detail-push (click)="stpromaintain()">
+              <ion-label>ตั้งค่ารายการบำรุง</ion-label>
+            </ion-item>
+
+            <ion-item detail-push (click)="stprosync()">
+              <ion-label>ตั้งค่ารายการเหนี่ยวนำ</ion-label>
+            </ion-item>
+            <ion-item detail-push (click)="stdrug()">
+              <ion-label>ตั้งค่ารายการยารักษา</ion-label>
+            </ion-item>
+            </ion-list>
 </ion-content>

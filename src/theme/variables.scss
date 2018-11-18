@@ -32,23 +32,20 @@ $app-direction: ltr;
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-
+$font-path: "../assets/fonts";
 $colors: (
   primary:    #488aff,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  dark-blue: #000066
+  dark-blue: #000066,
+  white:#ffffff
 
 );
-
-
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
-
 
 
 // App Material Design Variables
@@ -88,3 +85,55 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url($font-path + '/MaterialIcons-Regular.eot'); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url($font-path + '/MaterialIcons-Regular.woff2') format('woff2'),
+    url($font-path + '/MaterialIcons-Regular.woff') format('woff'),
+    url($font-path + '/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Quark-Light';
+  font-style: normal;
+  font-weight: 400;
+  src: url($font-path + '/onlinefontconverter.com/onlinefontconverter.com/quark-light/Quark-Light.eot'); /* For IE6-8 */
+  src: local('Quark-Light'),
+    local('Quark-Light'),
+    url($font-path + '/onlinefontconverter.com/onlinefontconverter.com/quark-light/Quark-Light.woff2') format('woff2'),
+    url($font-path + '/onlinefontconverter.com/onlinefontconverter.com/quark-light/Quark-Light.woff') format('woff'),
+    url($font-path + '/onlinefontconverter.com/onlinefontconverter.com/quark-light') format('truetype'),
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}
+
+$item-md-detail-push-show: true;
+$item-wp-detail-push-show: true;
+
+ion-label,ion-select{
+  max-width: 100% !important;
+}
+*{
+  font-family: 'Quark-Light';
+}

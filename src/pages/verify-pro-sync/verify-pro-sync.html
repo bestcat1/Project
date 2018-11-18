@@ -1,0 +1,54 @@
+<!--
+  Generated template for the VerifyProSyncPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ตรวจสอบโปรแกรม</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+      <ion-list>
+          <ion-list-header color="primary">
+    <p align="center">{{program}}</p>
+      </ion-list-header>
+  <ion-row>
+    <ion-col col-2>
+        <p align="center">ลำดับ</p>
+    </ion-col>
+    <ion-col col-4>
+        <p align="center">รายการ</p>
+    </ion-col>
+    <ion-col col-3>
+        <p align="center"> วัน</p>
+    </ion-col>
+    <ion-col col-3>
+        <p align="center">เวลา</p>
+     </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let d of drug_pro_sync | async,let i=index;">
+      <ion-col col-2>
+         <p align="center">{{ i+1 }}</p>
+        </ion-col>
+        <ion-col col-4>
+            <p align="center"> {{d.drug_sync}}</p>
+        </ion-col>
+        <ion-col col-3>
+            <p align="center">{{d.day_length}}</p>
+        </ion-col>
+        <ion-col col-3>
+            <p align="center">{{d.time_length}}</p>
+         </ion-col>
+  </ion-row>
+  </ion-list>
+</ion-card>
+  <br>
+  <p align="center"><button ion-button (click)="back()">ย้อนกลับ</button></p>
+</ion-content>

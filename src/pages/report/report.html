@@ -17,65 +17,27 @@
 
 
 <ion-content padding class="background">
-    <ion-grid>
-        ออกรายงานข้อมูลโค
-        <ion-row>
-            <button type="submit" ion-button block color="light" >
-                ข้อมูลโคทั้งหมด
-              </button>
-        </ion-row>
-        <br>ออกรายงานข้อมูลการจัดการแม่พันธุ์
-        <ion-row>
-          <ion-col>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการบำรุง
-              </button>
-            </ion-col>
-            <ion-col>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการเหนี่ยวนำ
-              </button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการผสมพันธุ์
-              </button>
-            </ion-col>
-            <ion-col>
-            <button type="submit" ion-button block color="light" >
-                ข้อมูลการตรวจท้อง
-              </button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการคลอด
-              </button>
-            </ion-col>
-            <ion-col>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการรักษา
-              </button>
-            </ion-col>
-        </ion-row>
-        <br>ออกรายงานข้อมูลการจัดการลูกโค
-        <ion-row>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการสูญเขา
-              </button>
-        </ion-row>
-        <ion-row>
-            <button type="submit" ion-button block color="light" >
-                ข้อมูลการตีเบอร์
-              </button>
-        </ion-row>
-        <ion-row>
-            <button type="submit" ion-button block color="light">
-                ข้อมูลการหย่านม
-              </button>
-        </ion-row>
-      </ion-grid>
+  <ion-list>
+    <h4><p align="center">เลือกประเภทรายงาน</p></h4>
+    <ion-item>
+      <ion-label><ion-icon name="md-archive"></ion-icon>&nbsp;รายงาน</ion-label>
+      <ion-select ngModel name="typereport" (ionChange)="typereport($event)">
+        <ion-option value="ข้อมูลโคทั้งหมด">ข้อมูลโคทั้งหมด</ion-option>
+        <ion-option value="ข้อมูลการบำรุง">ข้อมูลการบำรุง</ion-option>
+        <ion-option value="ข้อมูลการเหนี่ยวนำ">ข้อมูลการเหนี่ยวนำ</ion-option>
+        <ion-option value="ข้อมูลการผสมพันธุ์">ข้อมูลการผสมพันธุ์</ion-option>
+        <ion-option value="ข้อมูลการตรวจท้อง">ข้อมูลการตรวจท้อง</ion-option>
+        <ion-option value="ข้อมูลการคลอด">ข้อมูลการคลอด</ion-option>
+        <ion-option value="ข้อมูลการรักษา">ข้อมูลการรักษา</ion-option>
+        <ion-option value="ข้อมูลการสูญเขา">ข้อมูลการสูญเขา</ion-option>
+        <ion-option value="ข้อมูลการตีเบอร์">ข้อมูลการตีเบอร์</ion-option>
+        <ion-option value="ข้อมูลการหย่านม">ข้อมูลการหย่านม</ion-option>
+        <ion-option value="ข้อมูลโคแท้ง">ข้อมูลโคแท้ง</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <p align="center">
+      <button type="button" ion-button color="danger" round (click)="createPdf()"><ion-icon name="md-document" ></ion-icon>&nbsp;PDF</button>
+      <button type="button" ion-button color="secondary" round><ion-icon name="md-browsers"></ion-icon>&nbsp;EXCEL</button>
+  </p>
 </ion-content>

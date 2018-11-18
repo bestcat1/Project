@@ -1,0 +1,81 @@
+<!--
+  Generated template for the ShowdtnurturePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ข้อมูลการรักษา</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+    <a *ngFor="let a of item$ | async">
+    <form (ngSubmit)="nt(wikiForm)" #wikiForm="ngForm" >
+      <ion-item>
+        <ion-label>ชื่อโค :</ion-label>
+        <ion-input  type="text"  name="id" ngModel="{{a.id}}"></ion-input>
+      </ion-item>
+  
+  
+      <ion-item>
+        <ion-label>วันที่วินิจฉัย :</ion-label>
+        <ion-input  type="date"  name="datediagnose" ngModel="{{a.datediagnose}}"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>เวลาที่วินิจฉัย :</ion-label>
+        <ion-input type="time" name="timediagnose" ngModel="{{a.timediagnose}}"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>อาการเจ็บป่วย :</ion-label>
+        <ion-input type="text"  name="sickness" ngModel="{{a.sickness}}"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>ประเภทการรักษา :</ion-label>
+        <ion-select ngModel="{{a.type_of_treatment}}" name="type_of_treatment" placeholder="เลือกประเภทยา" >
+          <ion-option value="การรักษาโรค">การรักษาโรค</ion-option>
+          <ion-option value="การรักษาหลังสูญเขา">การรักษาหลังสูญเขา</ion-option>
+          <ion-option value="การรักษาหลังตีเบอร์">การรักษาหลังตีเบอร์</ion-option>
+          <ion-option value="การรักษาหลังโคแท้ง">การรักษาหลังโคแท้ง</ion-option>
+          <ion-option value="การรักษาหลังคลอด">การรักษาหลังคลอด</ion-option>
+          <ion-option value="การเหนี่ยวนำการกลับสัด">การเหนี่ยวนำการกลับสัด</ion-option>
+          <ion-option value="การรักษาหลังผสมพันธุ์">การรักษาหลังผสมพันธุ์</ion-option>
+          <ion-option value="อื่นๆ">อื่นๆ</ion-option>
+        </ion-select>
+      </ion-item>
+  
+      <ion-item >
+        <ion-label>ผู้บันทึก :</ion-label>
+        <ion-input type="text" name="users" ngModel="{{a.users}}"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>แจ้งเตือนการรักษา :</ion-label>
+        <ion-input type="text"  name="noti_treatment" ngModel="{{a.noti_treatment}}"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>เลือกจำนวนยา :</ion-label>
+        <ion-select ngModel="{{a.drug_treatment}}" name="drug_treatment" placeholder="เลือกจำนวนยา" >
+          <ion-option value="ยาตัวที่ 1">ยาตัวที่ 1</ion-option>
+          <ion-option value="ยาตัวที่ 2">ยาตัวที่ 2</ion-option>
+          <ion-option value="ยาตัวที่ 3">ยาตัวที่ 3</ion-option>
+          <ion-option value="ยาตัวที่ 4">ยาตัวที่ 4</ion-option>
+          <ion-option value="ยาตัวที่ 5">ยาตัวที่ 5</ion-option>
+          <ion-option value="ยาตัวที่ 6">ยาตัวที่ 6</ion-option>
+        </ion-select>
+      </ion-item>
+  
+      <ion-label>ยา</ion-label>
+  
+      <br>
+      <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+    </form>
+  </a>
+  </ion-content>
+  

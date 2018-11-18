@@ -4,12 +4,52 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+
 <ion-header>
 
   <ion-navbar color="dark-blue">
-      <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
-        </button>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>จัดการระบบสืบพันธุ์แม่พันธุ์โค</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="background" >
+
+    <ion-item>
+        <ion-label floating>เลือกสถานะจัดการ</ion-label>
+        <ion-select name="type" interface="action-sheet" (ionChange)="test($event)" cancelText="ยกเลิก">
+          <ion-option value="บันทึกการบำรุง">บันทึกการบำรุง</ion-option>
+          <ion-option value="บันทึกการเหนี่ยวนำ">บันทึกการเหนี่ยวนำ</ion-option>
+          <ion-option value="บันทึกการผสมพันธุ์">บันทึกการผสมพันธุ์</ion-option>
+          <ion-option value="บันทึกการตรวจท้อง">บันทึกการตรวจท้อง</ion-option>
+          <ion-option value="บันทึกการโคแท้ง">บันทึกข้อมูลโคแท้ง</ion-option>
+          <ion-option value="บันทึกการคลอด">บันทึกข้อมูลการคลอด</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-searchbar (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค"></ion-searchbar>
+      <button class="bgbt" ion-button block [hidden]="type!='บันทึกการบำรุง'&&type!='บันทึกการเหนี่ยวนำ'&&type!='บันทึกการผสมพันธุ์'" (click)="clickcorral()" color="secondary" outline round>บันทึกแบบเป็นคอก({{type}})</button>
+      <ion-list>
+        <ion-label color="danger"><b>เลือกหมายเลขโค</b></ion-label>
+        <ion-item *ngFor="let dam of damList">
+          <ion-label>หมายเลขโค: {{dam.cattle_id}}</ion-label>
+          <button class="button1" type="button" ion-button round outline color="secondary" item-end (click)="showdetail(dam.cattle_id)">
+            เลือก
+          </button>
+        </ion-item>
+      </ion-list>
+
+
+<!-- <ion-header>
+
+  <ion-navbar color="dark-blue">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>จัดการแม่พันธุ์</ion-title>
   </ion-navbar>
 
@@ -18,35 +58,55 @@
 
 <ion-content padding class="background">
 
-    <ion-grid text-center >
-      <ion-row >
-        <ion-col><ion-img class="logo1"></ion-img></ion-col>
-        <ion-col><ion-img class="logo2"></ion-img></ion-col>
+  <ion-grid text-center>
+    <ion-row>
+      <ion-col>
+        <ion-img class="logo1" (click)="maintain()"></ion-img>
+      </ion-col>
+      <ion-col>
+        <ion-img class="logo2" (click)="sync()"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>บันทึกการบำรุง</ion-col>
+      <ion-col>บันทึกการเหนี่ยวนำ</ion-col>
+    </ion-row>
+    <br>
+
+    <ion-row>
+      <ion-col>
+        <ion-img class="logo3" (click)="breed()"></ion-img>
+      </ion-col>
+      <ion-col>
+        <ion-img class="logo4" (click)="abdominal()"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>บันทึกการผสมพันธุ์</ion-col>
+      <ion-col>บันทึกการตรวจท้อง</ion-col>
+    </ion-row>
+
+    <br>
+    <ion-row>
+      <ion-col>
+        <ion-img class="logo5" (click)="delivery()"></ion-img>
+      </ion-col>
+      <ion-col>
+        <ion-img class="logo6" (click)="nurture()"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>บันทึกข้อมูลการคลอด</ion-col>
+      <ion-col>บันทึกข้อมูลการรักษา</ion-col>
+    </ion-row>
+    <br>
+    <ion-row>
+      <ion-col>
+          <ion-img class="logo7" (click)=" abortion()"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>บันทึกข้อมูลโคแท้ง</ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col>บันทึกการบำรุง</ion-col>
-        <ion-col>บันทึกการเหนี่ยวนำ</ion-col>
-      </ion-row>
-      <br><br>
-
-      <ion-row>
-          <ion-col><ion-img class="logo3"></ion-img></ion-col>
-          <ion-col><ion-img class="logo4"></ion-img></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>บันทึกการผสมพันธุ์</ion-col>
-          <ion-col>บันทึกการตรวจท้อง</ion-col>
-        </ion-row>
-
-        <br><br>
-        <ion-row>
-            <ion-col><ion-img class="logo5" ></ion-img></ion-col>
-            <ion-col><ion-img class="logo6" ></ion-img></ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>บันทึกข้อมูลการคลอด</ion-col>
-            <ion-col>บันทึกข้อมูลการรักษา</ion-col>
-          </ion-row>
-
-    </ion-grid>
-</ion-content>
+  </ion-grid>
+</ion-content> -->

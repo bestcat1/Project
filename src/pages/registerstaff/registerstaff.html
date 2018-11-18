@@ -1,0 +1,94 @@
+<!--
+  Generated template for the RegisterstaffPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ลงทะเบียนพนักงานในฟาร์ม</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form (ngSubmit)="reg_staff(wikiForm)" #wikiForm="ngForm" >
+    <ion-input type="hidden" name="adminfarm" ngModel="{{user}}"></ion-input>
+    <ion-item>
+            <ion-label floating>สิทธิ์การใช้งาน</ion-label>
+            <ion-select ngModel="พนักงานฟาร์ม" name="privilege">
+                <ion-option value="พนักงานฟาร์ม">พนักงานฟาร์ม</ion-option>
+                <ion-option value="สัตวแพทย์">สัตวแพทย์</ion-option>
+                <ion-option value="สัตวบาล">สัตวบาล</ion-option>
+                <ion-option value="เจ้าของฟาร์ม">เจ้าของฟาร์ม</ion-option>
+              </ion-select>
+        </ion-item>
+          <ion-item>
+              <ion-label floating>Username</ion-label>
+              <ion-input type="text" name="user" ngModel></ion-input>
+            </ion-item>
+    
+            <small [hidden]="check" class="atext">มีชื่อผู้ใช้นี้แล้ว</small>
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="text" name="pass" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Confirm Password</ion-label>
+              <ion-input type="text"  name="cpass" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>คำถามเมื่อลืมรหัสผ่าน</ion-label>
+                <ion-input type="text" name="question" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>คำถามตอบ</ion-label>
+                <ion-input type="text" name="anwser" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>ชื่อ</ion-label>
+                <ion-input type="text" name="fname" ngModel #fname></ion-input>
+            </ion-item>
+    
+            <ion-item>
+                <ion-label floating>นามสกุล</ion-label>
+                <ion-input type="text" name="lname" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>เพศ</ion-label>
+                <ion-select ngModel="ชาย" name="gender">
+                    <ion-option value="ชาย">ชาย</ion-option>
+                    <ion-option value="หญิง">หญิง</ion-option>
+                  </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>ว/ด/ป เกิด</ion-label>
+                <ion-input type="date" name="day_of_birth" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>เบอร์โทร</ion-label>
+                <ion-input type="text" name="phone_num" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>รหัสบัตรประชาชน</ion-label>
+                <ion-input type="text" name="id_card" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>ที่อยู่</ion-label>
+                <ion-input type="text" name="address" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Email</ion-label>
+                <ion-input type="text" name="email" ngModel></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Fax.</ion-label>
+                <ion-input type="text" name="fax" ngModel></ion-input>
+            </ion-item>
+        <br>
+        <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+    
+      </form>
+</ion-content>

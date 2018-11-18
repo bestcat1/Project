@@ -1,0 +1,132 @@
+<!--
+  Generated template for the EditdetailcattlePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="dark-blue">
+        <ion-title>แก้ไขข้อมูลโค</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <a *ngFor="let e of item$">
+        <form (ngSubmit)="editc(edit_cattle,e.key)" #edit_cattle="ngForm">
+          <ion-item>
+            <ion-label>ชื่อโค: </ion-label>
+            <ion-input type="text" name="cattle_id" ngModel="cattle_id"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>สายพันธุ์: </ion-label>
+            <ion-select name="breed" placeholder="เลือกสายพันธุ์โค" ngModel="{{e.breed}}">
+              <ion-option *ngFor="let s of strian" value="{{s.strian}}">{{s.strian}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>วัน/เดือน/ปี เกิด: </ion-label>
+            <ion-input type="date" name="birth_date" ngModel="{{e.birth_date}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>น้ำหนักแรกเกิด(กก.): </ion-label>
+            <ion-input type="number" name="birth_weight" ngModel="{{e.birth_weight}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>เพศ: </ion-label>
+            <ion-select name="sex" placeholder="เลือกเพศโค" ngModel="{{e.sex}}">
+              <ion-option value="BULL">เพศผู้</ion-option>
+              <ion-option value="MISS">เพศเมีย</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>สีโค: </ion-label>
+            <ion-select name="color" placeholder="เลือกสีโค" ngModel="{{e.color}}">
+              <ion-option *ngFor="let cl of color" value="{{cl.color}}">{{cl.color}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>ฝูงโค: </ion-label>
+            <ion-select name="herd_no" placeholder="เลือกฝูงโค" ngModel="{{e.herd_no}}">
+              <ion-option value="โคพร้อมผสมพันธุ์">โคพร้อมผสมพันธุ์</ion-option>
+              <ion-option value="โคตั้งท้อง">โคตั้งท้อง</ion-option>
+              <ion-option value="โคเลี้ยงลูกแรกคลอด(ยังไม่ได้หย่านม)">โคเลี้ยงลูกแรกคลอด(ยังไม่ได้หย่านม)</ion-option>
+              <ion-option value="โคเลี้ยงลูก2เดือน(เตรียมหย่านม)">โคเลี้ยงลูก2เดือน(เตรียมหย่านม)</ion-option>
+              <ion-option value="โคเลี้ยงลูกโต(หย่านมแล้ว)">โคเลี้ยงลูกโต(หย่านมแล้ว)</ion-option>
+              <ion-option value="ลูกโคโต(หย่านมแล้ว)">ลูกโคโต(หย่านมแล้ว)</ion-option>
+              <ion-option value="ลูกโคโต(ยังไม่ได้หย่านม)">ลูกโคโต(ยังไม่ได้หย่านม)</ion-option>
+              <ion-option value="โครุ่น">โครุ่น</ion-option>
+              <ion-option value="โคเตรียมหย่านม">โคเตรียมหย่านม</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>คอกโค: </ion-label>
+            <ion-select name="corral" placeholder="เลือกคอก" ngModel="{{e.corral}}">
+              <ion-option *ngFor="let c of corral" value="{{c.corral}}">{{c.corral}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>วิธีการผสมพันธุ์: </ion-label>
+            <ion-select name="breed_method" placeholder="เลือกฝูงโค" ngModel="{{e.breed_method}}">
+              <ion-option value="NT">ผสมธรรมขาติ</ion-option>
+              <ion-option value="AI">ผสมเทียม</ion-option>
+              <ion-option value="ET">การย้ายฝากตัวอ่อน</ion-option>
+              <ion-option value="IVF">การปฏิสนธิในหลอดทดลอง</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>รอบอกแรกเกิด(ซม.): </ion-label>
+            <ion-input type="number" name="birth_chest_head_ratio" ngModel="{{e.birth_chest_head_ratio}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>วัน/เดือน/ปี หย่านม: </ion-label>
+            <ion-input type="date" name="wean_date" ngModel="{{e.wean_date}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>น้ำหนักหย่านม(กก.): </ion-label>
+            <ion-input type="number" name="waen_weight" ngModel="{{e.waen_weight}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>รอบอกหลังหย่านม(ซม.): </ion-label>
+            <ion-input type="number" name="wean_chest_head_ratio" ngModel="{{e.wean_chest_head_ratio}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>น้ำหนัก 1 ปี(กก.): </ion-label>
+            <ion-input type="number" name="year_weight" ngModel="{{e.year_weight}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>ความสูงสะโพก 1 ปี(ซม.): </ion-label>
+            <ion-input type="number" name="year_hip_hight" ngModel="{{e.year_hip_hight}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>รหัสพ่อ: </ion-label>
+            <ion-input type="text" name="sire_id" ngModel="{{e.sire_id}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>รหัสแม่: </ion-label>
+            <ion-input type="text" name="dam_id" ngModel="{{e.dam_id}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>ผู้ผสมพันธุ์: </ion-label>
+            <ion-input type="text" name="breeder" ngModel="{{e.breeder}}"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>เจ้าของโค: </ion-label>
+            <ion-input type="text" name="owner" ngModel="{{e.owner}}" readonly></ion-input>
+          </ion-item>
+            <br>
+            <p align="center">
+                <button type="button" ion-button color="danger" (click)="exit()" round>
+                    <ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก
+                </button>
+                <button type="submit" ion-button color="facebook" round>
+                    <ion-icon name="md-create"></ion-icon>&nbsp;บันทึก
+                </button>
+
+
+            </p>
+        </form>
+    </a>
+</ion-content>

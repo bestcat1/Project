@@ -1,5 +1,6 @@
 page-mncattle {
 
+
   .logo1{
 
     background-color: transparent ;
@@ -12,5 +13,55 @@ page-mncattle {
     margin: auto auto;
 
   }
-}
 
+
+  // .seg{
+  //   height: 10%;
+  // }
+
+  // .segm{
+  //   border-radius: 5px;
+  // }
+  ion-segment{
+    border-radius: 5px
+  }
+  .segment-md .segment-button.segment-activated {
+    background-color:#488aff;
+    color:white;
+    border-radius: 5px;
+    opacity: 1;
+
+}
+ion-item{
+  border-radius: 20px;
+  background-color:black;
+}
+ion-list{
+  // border-radius: 20px;
+   width: 335px;
+  // box-shadow:
+  // inset 0px 25px 15px -15px #CCC,
+  // inset 0px -11px 5px -10px #CCC;
+}
+.button1{
+  align-items: center;
+  height: 50px;
+  width: 150px;
+  color: #ffffff;
+  background-color:#488aff;
+  border-radius: 10px;
+  font-size: 15px;
+
+}
+.button2{
+  width: 50px;
+}
+.list1{
+  border-radius: 20px;
+
+}
+// .d1{
+//   border-radius: 20px;
+// }
+
+}

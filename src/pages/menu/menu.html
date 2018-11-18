@@ -10,44 +10,74 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>หน้าหลัก</ion-title>
+    <ion-title>หน้าหลัก <i class="fa fa-home"></i></ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only id="notification-button" (click)="notificationview()">
+        <i class="fa fa-bell" style="font-size:24px"><ion-badge id="notifications-badge" color="danger">{{count_notification[0]}}</ion-badge></i>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding class="background">
+<ion-content class="background">
 
-  <ion-grid text-center >
-    <ion-row >
-      <ion-col><ion-img class="logo1" (click)="mncattle()"></ion-img></ion-col>
-      <ion-col><ion-img class="logo5" (click)="mndam()"></ion-img></ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>จัดการข้อมูลโค</ion-col>
-      <ion-col>บันทึกการจัดการแม่พันธุ์</ion-col>
-    </ion-row>
-    <br><br>
+  <div class="titlemenu">
+<ion-list>
+      <ion-avatar class="titleLogo">
+          <img src="{{myPhotoURL}}" (load)="endPresent()">
+        </ion-avatar>
+        <ion-label class="test">{{showname}}</ion-label>
+</ion-list>
 
-    <ion-row>
-        <ion-col><ion-img class="logo2" (click)="mncalf()"></ion-img></ion-col>
-        <ion-col><ion-img class="logo3" (click)="setting()"></ion-img></ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>บันทึกการจัดการลูกโค</ion-col>
-        <ion-col>ตั้งค่าและแจ้งเตือน</ion-col>
-      </ion-row>
+    </div>
 
-      <br><br>
-      <ion-row>
-          <ion-col><ion-img class="logo4" (click)="verify()"></ion-img></ion-col>
-          <ion-col><ion-img class="logo6" (click)="report()"></ion-img></ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>ตรวจสอบข้อมูลโค</ion-col>
-          <ion-col>ออกรายงานข้อมูลโค</ion-col>
-        </ion-row>
 
-  </ion-grid>
+  <ion-item detail-push class="but" color="light" (click)="mncattle()">
+    <ion-avatar item-start>
+      <img src="assets/menu1/1.png">
+    </ion-avatar>
+    <ion-label><b>บันทึกใบพันธุ์ประวัติโค</b></ion-label>
+  </ion-item>
+
+  <ion-item detail-push class="but" color="light" (click)="mndam()">
+    <ion-avatar item-start>
+      <img src="assets/menu1/2.png">
+    </ion-avatar>
+    <ion-label><b>บันทึกระบบสืบพันธุ์แม่โค</b></ion-label>
+  </ion-item>
+
+  <ion-item detail-push class="but" color="light" (click)="mncalf()">
+      <ion-avatar item-start>
+          <img src="assets/menu1/3.png">
+        </ion-avatar>
+    <ion-label><b>บันทึกการจัดการลูกโค</b></ion-label>
+  </ion-item>
+  <ion-item detail-push class="but" color="light" (click)="nurture()">
+    <ion-avatar item-start>
+        <img src="assets/menu1/6.png">
+      </ion-avatar>
+  <ion-label><b>การรักษา</b></ion-label>
+</ion-item>
+  <ion-item detail-push class="but" color="light" (click)="setting()">
+      <ion-avatar item-start>
+          <img src="assets/menu1/4.png">
+        </ion-avatar>
+    <ion-label><b>ตั้งค่าและแจ้งเตือน</b></ion-label>
+  </ion-item>
+
+  <ion-item detail-push class="but" color="light" (click)="verify()">
+      <ion-avatar item-start>
+          <img src="assets/menu1/5.png">
+        </ion-avatar>
+    <ion-label><b>เรียกดูและแก้ไขข้อมูลโค / ออกรายงาน</b></ion-label>
+  </ion-item>
+
+
+
+
+
 
 </ion-content>

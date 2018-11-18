@@ -1,0 +1,25 @@
+<!--
+  Generated template for the ShowbreedPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ข้อมูลการผสมพันธุ์</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+    <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+    <ion-list>
+      <ion-item *ngFor="let e of damList">
+      <ion-label>ชื่อแม่พันธุ์: {{e.id}}<br>{{e.date_breeding}}</ion-label>
+      <button type="button" ion-button round outline color="secondary" item-end (click)="showdtbreed(e.key)">
+        เลือก
+    </button>
+      </ion-item>
+  </ion-list>
+
+</ion-content>

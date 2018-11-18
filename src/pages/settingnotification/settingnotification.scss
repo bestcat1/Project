@@ -1,0 +1,30 @@
+page-settingnotification {
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+ion-row{
+  text-align: center;
+  vertical-align: middle;
+}
+ion-row:nth-child(even) {
+    background-color: #dddddd;
+    vertical-align: middle;
+}
+ion-row:nth-child(1){
+  font-weight: bold;
+  height: 100%;
+  background-color: skyblue;
+}
+.button.customBtn{
+  width: 40px;
+  height: 25px;
+}
+}

@@ -1,0 +1,98 @@
+<!--
+  Generated template for the DeliveryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>บันทึกการคลอด</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding >
+    <a *ngFor="let m of item ">
+  <form (ngSubmit)="dv(wikiForm,m.key)" #wikiForm="ngForm" >
+    <ion-item>
+        <ion-label>ชื่อแม่พันธุ์ :</ion-label>
+        <ion-input  type="text"  name="dam_id" ngModel="{{m.cattle_id}}" readonly></ion-input>
+    </ion-item>
+      <ion-item>
+          <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
+          <ion-input  type="text"  name="sire_id" ngModel="{{sire_id}}" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
+        <ion-input  type="date"  name="date" ngModel={{date}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label >ผู้ปฏิบัติการ: </ion-label>
+        <ion-select type="text" name="operator" ngModel="{{name}}" >
+          <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
+        </ion-select>
+    </ion-item>
+      <ion-item>
+        <ion-label>ผู้บันทึก :</ion-label>
+        <ion-input type="text"name="recoder" ngModel="{{name}}" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>สถานะ :</ion-label>
+        <ion-select ngModel name="count_calf" placeholder="สถานะการเกิด" (ionChange)="test($event)">
+            <ion-option value="1">ลูกปกติ</ion-option>
+            <ion-option value="2">ลูกแฝดสอง</ion-option>
+            <ion-option value="3">ลูกแฝดสาม</ion-option>
+            <ion-option value="4">ลูกแฝดสี่</ion-option>
+          </ion-select>
+      </ion-item>
+      <br>
+
+<br>
+<ion-card [hidden]="count_calf==0">
+<ion-slides>
+
+  <ion-slide *ngFor="let a of count_calfs; let i = index;" >
+      <p align="center">ลูกโคตัวที่ {{i+1}}</p>
+      <ion-item>
+        <ion-label>เบอร์แรกเกิด :</ion-label>
+        <ion-input  type="text"  name="bid{{i}}" ngModel></ion-input>
+    </ion-item>
+      <ion-item>
+          <ion-label>ชื่อโค :</ion-label>
+          <ion-input  type="text"  name="name_cattle{{i}}" ngModel></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>สายพันธุ์: </ion-label>
+        <ion-select name="spi{{i}}" placeholder="เลือกสายพันธุ์โค" ngModel>
+            <ion-option *ngFor="let s of strian" value="{{s.strian}}">{{s.strian}}</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>สีโค: </ion-label>
+      <ion-select name="colorcattle{{i}}" placeholder="เลือกสีโค" ngModel>
+          <ion-option *ngFor="let cl of color" value="{{cl.color}}">{{cl.color}}</ion-option>
+      </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>เพศ: </ion-label>
+    <ion-select name="sexct{{i}}" placeholder="เลือกเพศโค" ngModel>
+        <ion-option value="เพศผู้">เพศผู้</ion-option>
+        <ion-option value="เพศเมีย">เพศเมีย</ion-option>
+    </ion-select>
+</ion-item>
+<ion-item>
+    <ion-label>น้ำหนักแรกเกิด(กก.) :</ion-label>
+    <ion-input  type="number"  name="birth_weight{{i}}" ngModel></ion-input>
+</ion-item>
+      <button ion-button round (click)="backslide()" type="button" [hidden]="a==0">ย้อนกลับ</button>
+      <button ion-button round (click)="nextslide()" type="button" [hidden]="a==(count_calf-1)" color="secondary">ต่อไป</button>
+  </ion-slide>
+
+</ion-slides>
+</ion-card>
+<button type="submit" ion-button block color="facebook">ยืนยัน</button>
+</form>
+</a>
+</ion-content>

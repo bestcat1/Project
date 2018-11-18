@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Quark-Light';
+  src: url('Quark-Light.eot');
+  src: url('Quark-Light.woff2') format('woff2'),
+       url('Quark-Light.woff') format('woff'),
+       url('Quark-Light.ttf') format('truetype'),
+       url('Quark-Light.svg#Quark-Light') format('svg'),
+       url('Quark-Light.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

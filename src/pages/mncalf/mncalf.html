@@ -17,23 +17,23 @@
 
 
 <ion-content padding class="background">
-    <ion-row>
-        <ion-img class="logo3"></ion-img>
-      </ion-row>
-      <br>
-      <ion-row>
-          <button type="submit" ion-button block color="light" >
-              บันทึกข้อมูลการสูญเขา
-            </button>
-      </ion-row>
-      <ion-row>
-          <button type="submit" ion-button block color="light">
-              บันทึกข้อมูลการตีเบอร์
-            </button>
-      </ion-row>
-      <ion-row>
-          <button type="submit" ion-button block color="light">
-              บันทึกข้อมูลการหย่านม
-            </button>
-      </ion-row>
+  <ion-item>
+    <ion-label floating>เลือกสถานะจัดการ</ion-label>
+    <ion-select (ionChange)="selectType($event)" interface="action-sheet" cancelText="ยกเลิก">
+      <ion-option value="บันทึกข้อมูลการสูญเขา">บันทึกข้อมูลการสูญเขา</ion-option>
+      <ion-option value="บันทึกข้อมูลการตีเบอร์">บันทึกข้อมูลการตีเบอร์</ion-option>
+      <ion-option value="บันทึกข้อมูลการหย่านม">บันทึกข้อมูลการหย่านม</ion-option>
+    </ion-select>
+</ion-item>
+
+<ion-searchbar class="test" (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+<ion-label color="danger"><b>เลือกลูกโค</b></ion-label>
+<ion-list>
+  <ion-item *ngFor="let e of damList" >
+  <ion-label>เบอร์แรกเกิด: {{e.birth_id}}</ion-label>
+  <button type="button" ion-button round outline color="secondary" item-end (click)="selectcalf(e.bid)">
+      เลือก
+  </button>
+  </ion-item>
+</ion-list>
 </ion-content>

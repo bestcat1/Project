@@ -12,12 +12,10 @@ import { MenuController } from 'ionic-angular';
   templateUrl: 'detail.html',
 })
 export class DetailPage {
-  item : Observable<any[]>;
+
   item$ : Observable<any[]>;
 
 constructor(private db: AngularFireDatabase,public menuCtrl: MenuController,public NavCtrl: NavController,public alertCtrl:AlertController) {
-
-  this.item=this.db.list('/User').valueChanges();
   this.item$=this.db.list('/User').snapshotChanges().map(chang =>{
     return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
   });

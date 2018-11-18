@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
@@ -22,13 +20,12 @@ user;
 item$
 strian=[];
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,private db:AngularFireDatabase,public alertCtrl:AlertController,
+    ,public alertCtrl:AlertController,
     private api: NodeapiProvider) {
-
+      this.user=this.navParams.get('user');
   }
 
   ionViewWillEnter(){
-    this.user=this.navParams.get('user');
 
     this.api.getBreed(this.user).subscribe(data=>{
       if(data!=null){
@@ -56,6 +53,7 @@ strian=[];
   }
   addstrian(data:NgForm){
     this.api.addSettingBreed(this.user,data.value).subscribe();
+    this.ionViewWillEnter()
   }
   removestrian(k,c){
     let check=0;
@@ -92,9 +90,10 @@ strian=[];
         });
         alert41.present();
       }
+      this.ionViewWillEnter()
   }
   editstrian(k,c){
-    let t=[];
+
     console.log(c);
 
     let alert42 = this.alertCtrl.create({
@@ -119,21 +118,18 @@ strian=[];
             this.api.updateBreed(this.user,k,{strian:data.spi}).subscribe();
 
             this.api.getCattleByBreed(this.user,c).subscribe(data=>{
+              if(data!=null){
               var value = Object.keys(data);
               value.forEach(snap=>{
                 this.api.updateType('cattle',this.user,snap,{breed:data.spi}).subscribe();
               })
+            }
             })
-
-
-            t=[];
-            console.log(t.length);
           }
         }
       ]
     });
     alert42.present();
+    this.ionViewWillEnter();
   }
-
-
 }

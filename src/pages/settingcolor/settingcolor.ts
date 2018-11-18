@@ -21,7 +21,6 @@ item$;
 user;
 colors=[];
 
-// ===============================================================================================
   constructor(public navCtrl: NavController, public navParams: NavParams
   ,public alertCtrl: AlertController,
     private api:NodeapiProvider) {
@@ -58,10 +57,7 @@ colors=[];
   }
   removecolor(k,c){
     let check=0;
-    console.log(k,c)
 
-    console.log(this.colors);
-    console.log(this.colors.length);
     for(let i = 0 ;i<this.colors.length;i++){
       if(this.colors[i]==c){
         check++;
@@ -70,7 +66,7 @@ colors=[];
         check=check;
       }
     }
-    console.log(check);
+
       if(check==0){
         this.api.removeColor(this.user,k).subscribe();
       }
@@ -103,11 +99,13 @@ editcolor(k,c){
 console.log(c);
     let t=[];
     this.api.getCattleByColor(this.user,c).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data);
       values.forEach(snap=>{
         console.log(snap);
         t.push(snap);
       })
+    }
     });
     let alert38 = this.alertCtrl.create({
       title: 'ชื่อ',
@@ -127,14 +125,14 @@ console.log(c);
         {
           text: 'ยืนยัน',
           handler: data => {
-            console.log(c,data.color);
+
             this.api.updateColor(this.user,k,{color:data.color}).subscribe();
 
             for(let j=0;j<t.length;j++){
               this.api.updateType('cattle',this.user,t[j],{color:data.color}).subscribe();
             }
             t=[];
-            console.log(t.length);
+
           }
         }
       ]

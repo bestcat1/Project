@@ -196,7 +196,7 @@ export class NodeapiProvider {
   }
 
   updateBreed(user,key,data){
-    return this.http.post(URL_API.NODE_API+'/setting/farm/breed/'+user+'/'+key,data).pipe(map(res=>res.json()));
+    return this.http.post(URL_API.NODE_API+'/setting/farm/breed/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
 
   removeBreed(user,key){

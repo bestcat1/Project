@@ -100,13 +100,15 @@ corral=[];
           ]
         }).present();
       }
-
+      this.ionViewWillEnter();
   }
   editcorral(k,c){
     console.log(c);
         let t=[];
         this.api.getCattleByCorral(this.user,c).subscribe(data=>{
+          if(data!=null){
           t=Object.keys(data);
+          }
         })
         let alert40 = this.alertCtrl.create({
           title: 'ชื่อคอก',

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
  * Generated class for the SettingprogrammaintainPage page.
@@ -18,25 +17,38 @@ import { NgForm } from '@angular/forms';
 })
 export class SettingprogrammaintainPage {
   user;
-  item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase
-    ,public viewCtrl :ViewController) {
+  item$
+  pro_maintain:String;
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,public viewCtrl :ViewController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.item$=this.db.list('/setting/farm/program_maintain/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+
+  }
+
+  ionViewWillEnter(){
+    this.api.getFarm('program_maintain',this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      this.item$ = values;
+      for(let i=0;i<values.length;i++){
+        this.item$[i].key = Object.keys(data)[i];
+      }
+    }
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingprogrammaintainPage');
   }
   addpro(data:NgForm){
-    this.db.list('/setting/farm/program_maintain/'+this.user).push(data.value);
-    this.viewCtrl.dismiss();
-    this.navCtrl.push(this.navCtrl.getActive().component,{user:this.user});
+    this.api.addProgram_maintain(this.user,data.value).subscribe();
+    this.pro_maintain='';
+    this.ionViewWillEnter();
+
   }
   removepro(k){
-    this.db.list('/setting/farm/program_maintain/'+this.user).remove(k);
+    this.api.removeProgram_maintain(this.user,k).subscribe();
+    this.ionViewWillEnter();
   }
   setpromaintain(p){
     console.log(p);

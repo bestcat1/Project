@@ -18,14 +18,14 @@
     เพิ่มรายการบำรุง<br>
     <ion-card>
       <ion-item>
-          <ion-input type="text" name="pro_maintain" placeholder="กรอกชื่อการบำรุง" ngModel></ion-input>
+          <ion-input type="text" name="pro_maintain" [(ngModel)]="pro_maintain" placeholder="กรอกชื่อการบำรุง" ngModel></ion-input>
           <button item-end type="submit" ion-button round color="secondary"><ion-icon name="md-add"></ion-icon></button>
       </ion-item>
       </ion-card>
 </form>
 <br>รายการบำรุงที่มี<br>
 <ion-card>
-<ion-item *ngFor="let m of item$ | async">
+<ion-item *ngFor="let m of item$">
   <ion-label>{{m.pro_maintain}}</ion-label>
   <button type="button" ion-button color="primary" item-end (click)="setpromaintain(m.pro_maintain)" >
       <i class="fa fa-flask"></i>&nbsp;รายการยา

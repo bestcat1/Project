@@ -20,13 +20,14 @@ export class SettingcolorPage {
 item$;
 user;
 colors=[];
-
+datacolor:String;
   constructor(public navCtrl: NavController, public navParams: NavParams
   ,public alertCtrl: AlertController,
     private api:NodeapiProvider) {
 
   }
   ionViewWillEnter(){
+    this.colors = [];
     this.user=this.navParams.get('user');
     this.api.getColor(this.user).subscribe(data=>{
       if(data!=null){
@@ -54,6 +55,8 @@ colors=[];
   }
   addcolor(data:NgForm){
     this.api.addColor(this.user,data.value).subscribe();
+    this.datacolor='';
+    this.ionViewWillEnter()
   }
   removecolor(k,c){
     let check=0;
@@ -69,6 +72,7 @@ colors=[];
 
       if(check==0){
         this.api.removeColor(this.user,k).subscribe();
+
       }
       else{
         let alert37 = this.alertCtrl.create({
@@ -92,21 +96,11 @@ colors=[];
           ]
         });
         alert37.present();
-
       }
+      this.ionViewWillEnter()
   }
 editcolor(k,c){
 console.log(c);
-    let t=[];
-    this.api.getCattleByColor(this.user,c).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data);
-      values.forEach(snap=>{
-        console.log(snap);
-        t.push(snap);
-      })
-    }
-    });
     let alert38 = this.alertCtrl.create({
       title: 'ชื่อ',
       inputs: [
@@ -128,11 +122,16 @@ console.log(c);
 
             this.api.updateColor(this.user,k,{color:data.color}).subscribe();
 
-            for(let j=0;j<t.length;j++){
-              this.api.updateType('cattle',this.user,t[j],{color:data.color}).subscribe();
+            this.api.getCattleByColor(this.user,c).subscribe(data=>{
+              if(data!=null){
+              var values = Object.keys(data);
+              values.forEach(snap=>{
+                this.api.updateType('cattle',this.user,snap,{color:data.color}).subscribe();
+              })
             }
-            t=[];
+            });
 
+            this.ionViewWillEnter()
           }
         }
       ]

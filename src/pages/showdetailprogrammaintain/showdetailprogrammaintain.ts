@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
  * Generated class for the ShowdetailprogrammaintainPage page.
@@ -20,7 +20,7 @@ detail;
 edit=true;
 user;
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController
-    ,private db:AngularFireDatabase,public alertCtrl:AlertController) {
+    ,public alertCtrl:AlertController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.detail=this.navParams.get('detail');
     console.log(this.detail);
@@ -37,7 +37,7 @@ user;
   }
   edits(data:NgForm){
     console.log(data.value);
-    this.db.list('/setting/farm/program_maintain/drug_pro_maintain/'+this.user).update(this.detail.key,data.value);
+    this.api.updateDetailMaintain(this.user,this.detail.key,data.value).subscribe();
     let alert = this.alertCtrl.create({
       title: 'แก้ไขข้อมูล',
       subTitle: 'แก้ไขข้อมูเสร็จสิ้น',

@@ -222,4 +222,28 @@ export class NodeapiProvider {
   updateColor(user,key,data){
     return this.http.post(URL_API.NODE_API+'/setting/farm/color/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+
+  addProgram_maintain(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_maintain/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  removeProgram_maintain(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/program_maintain/remove/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
+
+  getDetailMaintainByType(user,type){
+    return this.http.get(URL_API.NODE_API+'/setting/farm/program_maintain/drug_pro_maintain/'+user+'/'+type).pipe(map(res=>res.json()));
+  }
+
+  addDetailMaintain(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_maintain/drug_pro_maintain/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  removeDetailMaintain(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/program_maintain/drug_pro_maintain/remove/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
+
+  updateDetailMaintain(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_maintain/drug_pro_maintain/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
 }

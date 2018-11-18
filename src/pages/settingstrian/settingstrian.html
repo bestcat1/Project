@@ -18,7 +18,7 @@
         เพิ่มรายการสายพันธุ์<br>
         <ion-card>
           <ion-item>
-              <ion-input type="text" name="strian" placeholder="กรอกชื่อสายพันธุ์" ngModel></ion-input>
+              <ion-input type="text" name="strian" [(ngModel)]="datastrian" placeholder="กรอกชื่อสายพันธุ์" ngModel></ion-input>
                 <button item-end type="submit" ion-button round color="secondary"><ion-icon name="md-add"></ion-icon></button>
           </ion-item>
         </ion-card>
@@ -28,10 +28,10 @@
   <ion-item *ngFor="let s of item$">
       <ion-label>{{s.strian}}</ion-label>
       <button type="button" ion-button color="secondary" item-end (click)="editstrian(s.key,s.strian)">
-          <ion-icon name="ios-trash">&nbsp;แก้ไข</ion-icon>
+          <ion-icon name="ios-trash"></ion-icon>&nbsp;แก้ไข
       </button>
       <button type="button" ion-button color="danger" item-end (click)="removestrian(s.key,s.strian)">
-          <ion-icon name="ios-trash">&nbsp;ลบ</ion-icon>
+          <ion-icon name="ios-trash"></ion-icon>&nbsp;ลบ
       </button>
   </ion-item>
     </ion-card>

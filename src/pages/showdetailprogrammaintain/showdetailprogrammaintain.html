@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="dark-blue"> 
+  <ion-navbar color="dark-blue">
     <ion-title>รายละเอียดการเหนี่ยวนำ</ion-title>
   </ion-navbar>
 
@@ -29,9 +29,9 @@
         <ion-input type="text" name="volumn" ngModel="{{detail.volumn}}" [disabled]="edit"></ion-input>
       </ion-item>
       <br>
-  
-  
-    <p align="center" [hidden]="!edit" ><button type="button" ion-button (click)="back()">ย้อนกลับ</button><button type="button" ion-button color="secondary" (click)="cancel(false)">แก้ไข</button></p>
+
+
+    <p align="center" [hidden]="!edit" ><button type="button" ion-button color="secondary" (click)="cancel(false)">แก้ไข</button></p>
     <p align="center" [hidden]="edit"><button type="button" ion-button color="danger" (click)="cancel(true)">ยกเลิก</button><button type="submit" ion-button color="secondary" >บันทึก</button></p>
     </form>
   </ion-card>

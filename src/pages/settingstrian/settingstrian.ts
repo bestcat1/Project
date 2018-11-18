@@ -19,6 +19,7 @@ export class SettingstrianPage {
 user;
 item$
 strian=[];
+datastrian:String;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public alertCtrl:AlertController,
     private api: NodeapiProvider) {
@@ -26,7 +27,7 @@ strian=[];
   }
 
   ionViewWillEnter(){
-
+    this.strian = [];
     this.api.getBreed(this.user).subscribe(data=>{
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
@@ -53,6 +54,7 @@ strian=[];
   }
   addstrian(data:NgForm){
     this.api.addSettingBreed(this.user,data.value).subscribe();
+    this.datastrian='';
     this.ionViewWillEnter()
   }
   removestrian(k,c){
@@ -125,11 +127,12 @@ strian=[];
               })
             }
             })
+            this.ionViewWillEnter();
           }
         }
       ]
     });
     alert42.present();
-    this.ionViewWillEnter();
+
   }
 }

@@ -20,6 +20,7 @@ export class SettingcorralPage {
 user;
 item$;
 corral=[];
+data_corral:String;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public alertCtrl:AlertController, private api:NodeapiProvider) {
 
@@ -57,6 +58,7 @@ corral=[];
   addcorral(data:NgForm){
     console.log(data.value);
     this.api.addCorral(this.user,data.value).subscribe();
+    this.data_corral='';
     this.ionViewWillEnter();
   }
   removecorral(n,c){

@@ -100,8 +100,8 @@ corrals;
   }
 
   this.damList = this.damList.filter((v) => {
-    if(v.id && q) {
-      if (v.id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+    if(v.cattle_id && q) {
+      if (v.cattle_id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
         return true;
       }
       return false;

@@ -18,7 +18,7 @@
         เพิ่มรายการสีโค<br>
         <ion-card>
           <ion-item>
-              <ion-input type="text" name="color" placeholder="กรอกสีโค" ngModel></ion-input>
+              <ion-input type="text" name="color" placeholder="กรอกสีโค" ngModel [(ngModel)]="datacolor"></ion-input>
               <button item-end type="submit" ion-button round color="secondary"><ion-icon name="md-add"></ion-icon></button>
           </ion-item>
         </ion-card>

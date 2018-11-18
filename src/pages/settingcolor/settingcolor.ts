@@ -21,7 +21,7 @@ item$;
 user;
 colors=[];
 
-
+// ===============================================================================================
   constructor(public navCtrl: NavController, public navParams: NavParams
   ,public alertCtrl: AlertController,
     private api:NodeapiProvider) {
@@ -30,18 +30,22 @@ colors=[];
   ionViewWillEnter(){
     this.user=this.navParams.get('user');
     this.api.getColor(this.user).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
       this.item$ = values;
       for(let i = 0 ; i < values.length ; i++){
         this.item$[i].key = Object.keys(data)[i];
       }
+    }
     })
 
     this.api.getAllCattle(this.user).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
       values.forEach(snap=>{
         this.colors.push(snap.color);
       })
+    }
     })
 
 

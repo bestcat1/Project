@@ -20,6 +20,7 @@
         <ion-label stacked>รายการ</ion-label>
           <ion-input type="text" name="drug_sync" placeholder="กรอกรายการ" ngModel></ion-input>
       </ion-item>
+      <ion-input type="hidden" name="pro_sync" ngModel="{{program}}"></ion-input>
       <ion-row>
       <ion-col col-6>
       <ion-item>
@@ -47,7 +48,7 @@
     <ion-col col-6><p align="center">รายการ</p></ion-col>
     <ion-col col-4><p align="center">ตั้งค่า</p></ion-col>
   </ion-row>
-  <ion-row *ngFor="let d of data_drug | async; let i = index">
+  <ion-row *ngFor="let d of data_drug; let i = index">
       <ion-col col-2><p align="center">{{i+1}}</p></ion-col>
       <ion-col col-6><p align="center">{{d.drug_sync}}</p></ion-col>
       <ion-col col-2><p align="center"><button ion-button class="customBtn" (click)="detail(d.key,d.day_length,d.time_length,d.drug_sync)" >แก้ไข</button></p></ion-col>

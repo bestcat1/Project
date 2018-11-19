@@ -15,7 +15,7 @@ import { EditdatauserPage } from '../pages/editdatauser/editdatauser';
 import { GlobalProvider } from '../providers/global/global';
 import { AuthProvider } from '../providers/auth/auth';
 import { MenuPage } from '../pages/menu/menu';
-import { AngularFireAuth } from 'angularfire2/auth';
+
 import firebase from 'firebase';
 import { SelectnurturePage } from '../pages/selectnurture/selectnurture';
 import { NodeapiProvider } from '../providers/nodeapi/nodeapi';
@@ -36,7 +36,7 @@ export class MyApp {
   constructor(private platform: Platform
     , statusBar: StatusBar, splashScreen: SplashScreen,public global:GlobalProvider,
      private alertCtrl: AlertController,private auth: AuthProvider,
-     private loadingCtrl:LoadingController,private afAuth:AngularFireAuth
+     private loadingCtrl:LoadingController
      ,private api:NodeapiProvider
      ) {
       platform.ready().then(() => {

@@ -15,11 +15,8 @@
 
 <ion-content padding>
   <form (ngSubmit)="adddrug(dForm)" #dForm="ngForm" >
-    เพิ่มรายการเหนี่ยวนำ<br>
-  <ion-card>
-      <ion-input type="hidden" name="pro_sync" ngModel="{{program}}"></ion-input>
+    <ion-card>
       <ion-item>
-
         <ion-label stacked>ชื่อยา</ion-label>
           <ion-input type="text" name="drug_name" placeholder="กรอกชื่อยา" ngModel></ion-input>
       </ion-item>
@@ -51,7 +48,7 @@
     <ion-col col-2><p align="center">ขนาด</p></ion-col>
     <ion-col col-2><p align="center">ตั้งค่า</p></ion-col>
   </ion-row>
-  <ion-row *ngFor="let d of drugs | async; let i = index">
+  <ion-row *ngFor="let d of drugs; let i = index">
       <ion-col col-2><p align="center">{{i+1}}</p></ion-col>
       <ion-col col-3><p align="center">{{d.drug_name}}</p></ion-col>
       <ion-col col-3><p align="center">{{d.common_drug}}</p></ion-col>

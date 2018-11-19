@@ -246,4 +246,36 @@ export class NodeapiProvider {
   updateDetailMaintain(user,key,data){
     return this.http.post(URL_API.NODE_API+'/setting/farm/program_maintain/drug_pro_maintain/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+
+  addProgramSync(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_sync/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  removeProgramSync(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/program_sync/remove/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
+
+  getDrugProgramSync(user,type){
+    return this.http.get(URL_API.NODE_API+'/setting/farm/program_sync/drug_pro_sync/'+user+'/'+type).pipe(map(res=>res.json()));
+  }
+
+  addDetailProgramSync(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_sync/drug_pro_sync/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  removeDetailProgramSync(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/program_sync/drug_pro_sync/remove/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
+
+  updateDetailProgramSync(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/program_sync/drug_pro_sync/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+
+  addDrug(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/drug/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  removeDrug(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/drug/remove/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
 }

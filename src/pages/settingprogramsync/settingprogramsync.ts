@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
+
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
  * Generated class for the SettingprogramsyncPage page.
@@ -18,22 +18,35 @@ import { NgForm } from '@angular/forms';
 })
 export class SettingprogramsyncPage {
   user;
-  item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db: AngularFireDatabase) {
+  item$;
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,private api : NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.item$=this.db.list('/setting/farm/program_sync/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+
+  }
+
+  ionViewWillEnter(){
+    this.api.getProgramSync(this.user).subscribe(data=>{
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      this.item$ = value;
+      for(let i=0;i<value.length;i++){
+        this.item$[i].key = Object.keys(data)[i];
+      }
+    }
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingprogramsyncPage');
   }
   addpro(data:NgForm){
-    this.db.list('/setting/farm/program_sync/'+this.user).push(data.value);
+    this.api.addProgramSync(this.user,data.value).subscribe();
+    this.ionViewWillEnter()
   }
   removepro(k){
-    this.db.list('/setting/farm/program_sync/'+this.user).remove(k);
+    this.api.removeProgramSync(this.user,k).subscribe();
+    this.ionViewWillEnter();
   }
   stdetailsync(p){
     console.log(p);

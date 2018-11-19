@@ -18,6 +18,10 @@
     <form (ngSubmit)="edits(data)" #data="ngForm">
     <h4><p align="center">รายการ {{drug_sync}}</p></h4>
     <ion-item>
+      <ion-label>ชื่อรายการ:</ion-label>
+      <ion-input type="text" name="drug_sync" ngModel="{{drug_sync}}" [disabled]="edit"></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label>วัน:</ion-label>
       <ion-input type="text" name="day_length" ngModel="{{day_length}}" [disabled]="edit"></ion-input>
     </ion-item>
@@ -28,7 +32,7 @@
     <br>
 
 
-  <p align="center" [hidden]="!edit" ><button type="button" ion-button (click)="back()">ย้อนกลับ</button><button type="button" ion-button color="secondary" (click)="cancel(false)">แก้ไข</button></p>
+  <p align="center" [hidden]="!edit" ><button type="button" ion-button color="secondary" (click)="cancel(false)">แก้ไข</button></p>
   <p align="center" [hidden]="edit"><button type="button" ion-button color="danger" (click)="cancel(true)">ยกเลิก</button><button type="submit" ion-button color="secondary" >บันทึก</button></p>
 </form>
 </ion-content>

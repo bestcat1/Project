@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
  * Generated class for the SettingdetailprogramsyncPage page.
@@ -19,28 +19,42 @@ export class SettingdetailprogramsyncPage {
 program;
 user;
 data_drug;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db: AngularFireDatabase,public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams
+  ,public modalCtrl: ModalController
+    ,private api:NodeapiProvider) {
 
     this.program=this.navParams.get('program');
     this.user=this.navParams.get('user');
-    this.data_drug=this.db.list('/setting/farm/program_sync/drug_pro_sync/'+this.user,ref=>ref.orderByChild('pro_sync').equalTo(this.program)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+    console.log(this.user,this.program);
   }
-
+  ionViewWillEnter(){
+    this.api.getDrugProgramSync(this.user,this.program).subscribe(data=>{
+      console.log(data);
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      this.data_drug = value;
+      for(let i=0;i<value.length;i++){
+        this.data_drug[i].key = Object.keys(data)[i];
+      }
+    }
+    })
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingdetailprogramsyncPage');
   }
   addprosync(data:NgForm){
     console.log(data.value);
-    this.db.list('/setting/farm/program_sync/drug_pro_sync/'+this.user).push(data.value);
+    this.api.addDetailProgramSync(this.user,data.value).subscribe();
+    this.ionViewWillEnter();
   }
   delete(k){
-    this.db.list('/setting/farm/program_sync/drug_pro_sync/'+this.user).remove(k);
+    this.api.removeDetailProgramSync(this.user,k).subscribe();
+    this.ionViewWillEnter();
   }
   detail(k,d,t,ds){
-    let profileModal = this.modalCtrl.create("ShowdetailprogramsyncPage", {user:this.user,key:k,day_length:d,time_length:t,drug_sync:ds });
-    profileModal.present();
+    this.navCtrl.push("ShowdetailprogramsyncPage", {user:this.user,key:k,day_length:d,time_length:t,drug_sync:ds });
   }
+
+
 
 }

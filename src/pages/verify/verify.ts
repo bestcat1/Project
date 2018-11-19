@@ -7,7 +7,6 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { File } from '@ionic-native/file';
-import { Observer } from 'rxjs/Observer';
 /**
  * Generated class for the VerifyPage page.
  *

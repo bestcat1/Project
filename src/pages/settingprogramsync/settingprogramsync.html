@@ -25,7 +25,7 @@
 </form>
 <br>โปรแกรมเหนี่ยวนำที่มี<br>
 <ion-card>
-<ion-item *ngFor="let s of item$ | async">
+<ion-item *ngFor="let s of item$ ">
   <ion-label>{{s.pro_sync}}</ion-label>
   <button type="button" ion-button color="primary" item-end (click)="stdetailsync(s.pro_sync)">
       <i class="fa fa-flask"></i> &nbsp;รายการยา

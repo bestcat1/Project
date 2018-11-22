@@ -37,7 +37,9 @@ export class NurturePage {
       console.log(this.id,this.user);
 
     this.api.getDrug(this.user).subscribe(data=>{
+      if(data!=null){
       this.drugs = Object.keys(data).map(key=>data[key]);
+      }
     })
     var d = new Date();
     this.time=d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit',hour12:false});
@@ -52,16 +54,20 @@ export class NurturePage {
       return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
     }
     this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
       this.name = values[0].fname + ' ' + values[0].lname;
       this.operator.push(values[0].fname + ' ' + values[0].lname);
+      }
     })
 
     this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
     for(let i = 0; i < values.length;i++){
       this.operator.push(values[i].fname + ' ' + values[i].lname);
     }
+  }
     });
 
     this.api.getNotiById(this.user,8).subscribe(data=>{
@@ -99,7 +105,7 @@ export class NurturePage {
             handler: () => {
               for(let i=0;i<this.use_drug.length;i++){
                 console.log(this.use_drug[i]);
-                this.api.addTreatmentDrug(this.user,data.value.id,{drug_name:this.use_drug[i]}).subscribe();
+                this.api.addTreatmentDrug(this.user,this.id,{drug_name:this.use_drug[i]}).subscribe();
               }
 
               this.api.addTreatment(this.user,data.value).subscribe();

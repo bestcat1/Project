@@ -24,13 +24,13 @@
   <ion-list>
     <ion-item *ngFor="let e of damList" [hidden]="type!=0">
     <ion-label>หมายเลขโค: {{e.cattle_id}}</ion-label>
-    <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.id)">
+    <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.cattle_id)">
         เลือก
     </button>
     </ion-item>
     <ion-item *ngFor="let e of damList" [hidden]="type==0">
       <ion-label>เบอร์แรกเกิด: {{e.birth_id}}</ion-label>
-      <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.bid)">
+      <button type="button" ion-button round outline color="secondary" item-end (click)="nur(e.birth_id)">
           เลือก
       </button>
       </ion-item>

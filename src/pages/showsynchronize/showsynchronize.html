@@ -15,7 +15,7 @@
     <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let e of damList ">
-    <ion-label>ชื่อแม่พันธุ์: {{e.id}}<br>{{e.datepro}}</ion-label>
+    <ion-label>ชื่อแม่พันธุ์: {{e.dam_id}}<br>{{e.datepro}}</ion-label>
     <button type="button" ion-button round outline color="secondary" item-end  (click)="showdtsynchronize(e.key)">
       เลือก
   </button>

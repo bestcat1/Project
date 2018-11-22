@@ -170,7 +170,7 @@ noti_pregnant;
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addPregnant(this.user,{ id: data.value.id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe();
+              this.api.addPregnant(this.user,{ id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe();
               if(data.value.result=='ท้อง'){
                 this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" }).subscribe();
               }

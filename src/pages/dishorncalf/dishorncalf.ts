@@ -27,21 +27,25 @@ key;
   public alertCtrl:AlertController,public viewCtrl:ViewController,private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.bid=this.navParams.get('id');
-
+console.log(this.bid);
 this.api.getUser(this.user).subscribe(data=>{
+  if(data!=null){
   var values = Object.keys(data).map(key=>data[key]);
   this.name = values[0].fname + ' ' + values[0].lname;
   this.operator.push(values[0].fname + ' ' + values[0].lname);
+  }
 })
 
 this.api.getPersonnel(this.user).subscribe(data=>{
+  if(data!=null){
   var values = Object.keys(data).map(key=>data[key]);
   values.forEach(snap=>{
     this.operator.push(snap.fname + ' ' + snap.lname);
   })
-
+  }
 })
   this.api.getCalfById(this.user,this.bid).subscribe(data=>{
+    console.log(data);
    var values = Object.keys(data).map(key=>data[key]);
    this.key = Object.keys(data)[0];
    values.forEach(snap=>{
@@ -90,8 +94,8 @@ this.api.getPersonnel(this.user).subscribe(data=>{
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addDishorn(this.user,data.value);
-              this.api.editCalf(this.user,this.key,{horndetering:true});
+              this.api.addDishorn(this.user,data.value).subscribe();
+              this.api.editCalf(this.user,this.key,{horndetering:true}).subscribe();
               this.success();
               this.viewCtrl.dismiss();
             }

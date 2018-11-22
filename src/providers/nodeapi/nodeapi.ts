@@ -278,4 +278,23 @@ export class NodeapiProvider {
   removeDrug(user,key){
     return this.http.delete(URL_API.NODE_API+'/setting/farm/drug/remove/'+user+'/'+key).pipe(map(res=>res.json()));
   }
+
+  getMaintainByUser(user){
+    return this.http.get(URL_API.NODE_API+'/maintain/show/'+user).pipe(map(res=>res.json()));
+  }
+  getSyncByUser(user){
+    return this.http.get(URL_API.NODE_API+'/synchronize/show/'+user).pipe(map(res=>res.json()));
+  }
+  getBreedByUser(user){
+    return this.http.get(URL_API.NODE_API+'/breed/show/'+user).pipe(map(res=>res.json()));
+  }
+  getPregnantByUser(user){
+    return this.http.get(URL_API.NODE_API+'/pregnant/show/'+user).pipe(map(res=>res.json()));
+  }
+  getDeliveryByUser(user){
+    return this.http.get(URL_API.NODE_API+'/delivery/show/'+user).pipe(map(res=>res.json()));
+  }
+  getTreatmentByUser(user){
+    return this.http.get(URL_API.NODE_API+'/treatment/show/'+user).pipe(map(res=>res.json()));
+  }
 }

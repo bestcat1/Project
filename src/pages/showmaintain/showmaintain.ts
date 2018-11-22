@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 
 
@@ -22,25 +21,26 @@ export class ShowmaintainPage {
   public loadeddamList:Array<any>;
 
   user:string;
-  item$ : Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.item$=this.db.list('/maintain/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+
+    this.api.getMaintainByUser(this.user).subscribe(data=>{
+      var dam = [];
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      for(let i=0;i<values.length;i++){
+        dam.push(values[i]);
+        dam[i].key = Object.keys(data)[i];
+      }
+    }
+    else{
+      dam = [];
+    }
+
+    this.damList = dam;
+    this.loadeddamList = dam;
     });
-
-    
-    this.item$.forEach(damList => {
-      let dam = [];
-      damList.forEach( country => {
-        dam.push(country);
-        return false;
-      });
-
-      this.damList = dam;
-      this.loadeddamList = dam;
-    });
-
   }
 
   ionViewDidLoad() {
@@ -66,8 +66,8 @@ export class ShowmaintainPage {
   }
 
   this.damList = this.damList.filter((v) => {
-    if(v.id && q) {
-      if (v.id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+    if(v.dam_id && q) {
+      if (v.dam_id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
         return true;
       }
       return false;

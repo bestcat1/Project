@@ -35,11 +35,12 @@ export class BrandingcalfPage {
     this.operator.push(values[0].fname + ' ' + values[0].lname)
   });
   this.api.getPersonnel(this.user).subscribe(data=>{
+    if(data!=null){
     var values = Object.keys(data).map(key=>data[key]);
    values.forEach(snap=>{
     this.operator.push(snap.fname + ' ' + snap.lname);
-   })
-
+  })
+    }
   });
 
   this.api.getCalfById(this.user,this.bid).subscribe(data=>{
@@ -90,8 +91,8 @@ export class BrandingcalfPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-             this.api.addBranding(this.user,data.value);
-             this.api.editCalf(this.user,this.key,{branding:true});
+             this.api.addBranding(this.user,data.value).subscribe();
+             this.api.editCalf(this.user,this.key,{branding:true}).subscribe();
               this.success();
               this.viewCtrl.dismiss();
             }

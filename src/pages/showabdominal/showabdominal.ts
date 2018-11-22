@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
-import firebase from 'firebase';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowabdominalPage page.
  *
@@ -18,27 +16,29 @@ import firebase from 'firebase';
 export class ShowabdominalPage {
   public damList:Array<any>;
   public loadeddamList:Array<any>;
-  public damRef:firebase.database.Reference;
+
   user:string;
-  item$ : Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-    console.log(this.user);
-    this.item$=this.db.list('/abdominal/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+    this.api.getPregnantByUser(this.user).subscribe(data=>{
+      var dam = [];
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      for(let i=0;i<values.length;i++){
+        dam.push(values[i]);
+        dam[i].key = Object.keys(data)[i];
+      }
+    }
+    else{
+      dam = [];
+    }
+
+    this.damList = dam;
+    this.loadeddamList = dam;
     });
 
-    
-    this.item$.forEach(damList => {
-      let dam = [];
-      damList.forEach( country => {
-        dam.push(country);
-        return false;
-      });
-
-      this.damList = dam;
-      this.loadeddamList = dam;
-    });
   }
 
   ionViewDidLoad() {
@@ -63,8 +63,8 @@ export class ShowabdominalPage {
   }
 
   this.damList = this.damList.filter((v) => {
-    if(v.iddam && q) {
-      if (v.iddam.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+    if(v.dam_id && q) {
+      if (v.dam_id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
         return true;
       }
       return false;

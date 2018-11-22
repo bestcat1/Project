@@ -17,12 +17,12 @@
     <form (ngSubmit)="weanc(wean_cattle)" #wean_cattle="ngForm" >
         <ion-item>
             <ion-label >ชื่อแม่พันธุ์: </ion-label>
-            <ion-input type="text" name="id" ngModel="{{dam_id[0]}}" readonly></ion-input>
+            <ion-input type="text" name="dam_id" ngModel="{{dam_id[0]}}" readonly></ion-input>
           </ion-item>
 
         <ion-item>
           <ion-label >เบอร์แรกเกิด: </ion-label>
-          <ion-input type="text" name="bid" ngModel="{{bid}}" readonly></ion-input>
+          <ion-input type="text" name="birth_id" ngModel="{{bid}}" readonly></ion-input>
         </ion-item>
         <ion-item>
           <ion-label>วันที่หย่านม: </ion-label>

@@ -47,6 +47,7 @@ export class ShowmaintainPage {
     console.log('ionViewDidLoad ShowmaintainPage');
   }
   showdtmaintain(k){
+    console.log(k);
     this.navCtrl.push('ShowdtmaintainPage',{user:this.user,key:k})
   }
 

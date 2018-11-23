@@ -18,8 +18,8 @@
     <ion-list>
       <ion-label color="danger">เลือกเบอร์แรกเกิดลูกโค</ion-label>
       <ion-item  *ngFor="let calf of calfList">
-          <ion-label>เบอร์แรกเกิด: {{calf.bid}}</ion-label>
-          <button type="button" ion-button round outline color="secondary" item-end (click)="showdetail(calf.bid)">
+          <ion-label>เบอร์แรกเกิด: {{calf.birth_id}}</ion-label>
+          <button type="button" ion-button round outline color="secondary" item-end (click)="showdetail(calf.birth_id)">
             เลือก
         </button>
       </ion-item>

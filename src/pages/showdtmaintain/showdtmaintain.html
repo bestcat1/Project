@@ -12,66 +12,70 @@
 
 </ion-header>
 <ion-content padding>
-  <a *ngFor="let a of item$ | async">
-  <form (ngSubmit)="mt(mtForm)" #mtForm="ngForm" >
+  <form (ngSubmit)="mt(mtForm)" #mtForm="ngForm">
     <ion-item>
-        <ion-label >หมายเลขแม่พันธุ์: </ion-label>
-        <ion-input type="text"  name="id" ngModel="{{a.id}}"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label >วันที่:</ion-label>
-        <ion-input type="date" name="date" ngModel="{{a.date}}"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label >เวลา:</ion-label>
-      <ion-input type="time" name="time" ngModel="{{a.time}}"></ion-input>
+      <ion-label >ชื่อแม่พันธุ์: </ion-label>
+      <ion-input type="text"  name="dam_id" ngModel="{{d.dam_id}}" readonly></ion-input>
   </ion-item>
-    <ion-item>
-      <ion-label >เลือกรายการบำรุง: </ion-label>
-      <ion-select ngModel="{{a.type_of_maintain}}" name="type_of_maintain" (ionChange)="select($event)">
-        <ion-option *ngFor="let m of maintain | async" value="{{m.pro_maintain}}">{{m.pro_maintain}}</ion-option>
-        </ion-select>
-    </ion-item>
-    <ion-item>
-        <ion-label >ผู้ทำการบำรุง: </ion-label>
-        <ion-input type="text"name="users" ngModel="{{a.users}}" readonly></ion-input>
-    </ion-item>
+  <ion-item>
+      <ion-label >วันที่:</ion-label>
+      <ion-input type="date" name="date" ngModel="{{d.date}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label >เวลา:</ion-label>
+    <ion-input type="time" name="time" ngModel="{{d.time}}"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label >รายการบำรุง: </ion-label>
+  <ion-select ngModel="{{d.type_of_maintain}}" name="type_of_maintain" placeholder="เลือกรายการบำรุง" (ionChange)="select($event)">
+      <ion-option *ngFor="let m of maintain" value="{{m.pro_maintain}}">{{m.pro_maintain}}</ion-option>
+    </ion-select>
+</ion-item>
+<ion-item>
+  <ion-label >ผู้ปฏิบัติการ: </ion-label>
+  <ion-select type="text" name="operator" ngModel="{{d.operator}}" >
+    <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
+  </ion-select>
+</ion-item>
+  <ion-item>
+      <ion-label >ผู้บันทึก: </ion-label>
+      <ion-input type="text"name="recoder" ngModel="{{d.name}}" readonly></ion-input>
+  </ion-item>
+<button ion-button block color="facebook">บันทึก</button>
 
-  <button ion-button block color="facebook">บันทึก</button>
-  </form>
-</a>
 <ion-label>รายการบำรุง</ion-label>
-  <ion-card>
-      <ion-row>
-        <ion-col col-2>
-          <ion-label><p align="center">ลำดับ</p></ion-label>
-        </ion-col>
-        <ion-col col-4>
-          <ion-label><p align="center">ชื่อรายการ</p></ion-label>
-        </ion-col>
-        <ion-col col-3>
-          <ion-label><p align="center">ขนาดยา</p></ion-label>
-        </ion-col>
-        <ion-col col-3>
-            <ion-label><p align="center">วัน</p></ion-label>
-        </ion-col>
-      </ion-row>
-      <ion-row *ngFor="let d of program | async;let i = index;">
-          <ion-col col-2>
-              <ion-label><p align="center">{{i+1}}</p></ion-label>
-            </ion-col>
-            <ion-col col-4>
-              <ion-label><p align="center">{{d.drug_maintain}}</p></ion-label>
-            </ion-col>
-            <ion-col col-3>
-              <ion-label><p align="center">{{d.volumn}}</p></ion-label>
-            </ion-col>
-            <ion-col col-3>
-                <ion-label><p align="center">{{d.day_length}}</p></ion-label>
-            </ion-col>
-      </ion-row>
-    </ion-card>
 
+  </form>
+  <ion-card>
+    <ion-row>
+      <ion-col col-2>
+        <ion-label><p align="center">ลำดับ</p></ion-label>
+      </ion-col>
+      <ion-col col-4>
+        <ion-label><p align="center">ชื่อรายการ</p></ion-label>
+      </ion-col>
+      <ion-col col-3>
+        <ion-label><p align="center">ขนาดยา</p></ion-label>
+      </ion-col>
+      <ion-col col-3>
+          <ion-label><p align="center">วัน</p></ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let d of program;let i = index;">
+        <ion-col col-2>
+            <ion-label><p align="center">{{i+1}}</p></ion-label>
+          </ion-col>
+          <ion-col col-4>
+            <ion-label><p align="center">{{d.drug_maintain}}</p></ion-label>
+          </ion-col>
+          <ion-col col-3>
+            <ion-label><p align="center">{{d.volumn}}</p></ion-label>
+          </ion-col>
+          <ion-col col-3>
+              <ion-label><p align="center">{{d.day_length}}</p></ion-label>
+          </ion-col>
+    </ion-row>
+  </ion-card>
 
 </ion-content>
 

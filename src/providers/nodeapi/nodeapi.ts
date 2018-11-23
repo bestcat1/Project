@@ -297,4 +297,16 @@ export class NodeapiProvider {
   getTreatmentByUser(user){
     return this.http.get(URL_API.NODE_API+'/treatment/show/'+user).pipe(map(res=>res.json()));
   }
+  getHorndeteringByUser(user){
+    return this.http.get(URL_API.NODE_API+'/dishorn/show/'+user).pipe(map(res=>res.json()));
+  }
+  getBrandingByUser(user){
+    return this.http.get(URL_API.NODE_API+'/branding/show/'+user).pipe(map(res=>res.json()));
+  }
+  getWeanByUser(user){
+    return this.http.get(URL_API.NODE_API+'/wean/show/'+user).pipe(map(res=>res.json()));
+  }
+  getMaintainByKey(user,key){
+    return this.http.get(URL_API.NODE_API+'/maintain/show/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
 }

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowdtmaintainPage page.
  *
@@ -18,32 +19,55 @@ import { NgForm } from '@angular/forms';
 export class ShowdtmaintainPage {
 
   user;
- key;
  program;
  maintain;
-
-  item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase) {
-;
+d:any;
+operator;
+  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,
+    private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.key=this.navParams.get('key');
-    console.log(this.key);
-    this.item$=this.db.list('/maintain/'+this.user,ref=>ref.orderByKey().equalTo(this.key)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+    this.d=this.navParams.get('key');;
+    this.api.getMaintainByKey(this.user,this.d.key).subscribe(data=>{
+      console.log(data);
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
 
-    this.item$.subscribe(data=>{
-      for(let i=0;i<data.length;i++){
-        console.log(data[i].type_of_maintain);
-        this.program = this.db.list('/setting/farm/program_maintain/drug_pro_maintain/' + this.user,ref=>ref.orderByChild('pro_maintain').equalTo(data[i].type_of_maintain)).snapshotChanges().map(chang => {
-          return chang.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-        });
-        break;
+        this.api.getDrugProMain(this.user,values[0].type_of_maintain).subscribe(datas =>{
+          if(datas!=null){
+            var value = Object.keys(datas).map(key => datas[key]);
+            this.program = value;
+          }
+          else{
+            this.program = [];
+          }
+
+        })
       }
     })
-    this.maintain = this.db.list('/setting/farm/program_maintain/' + this.user).snapshotChanges().map(chang => {
-      return chang.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+
+
+    this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key => data[key]);
+      this.operator.push({operator: values[0].fname+' '+values[0].lname});
+      }
     });
+
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key => data[key]);
+      for(let i = 0; i<values.length;i++){
+        this.operator.push({operator: values[i].fname+' '+values[i].lname});
+      }
+    }
+    });
+
+    this.api.getFarm('program_maintain', this.user).subscribe(data => {
+      if(data!=null){
+      this.maintain = Object.keys(data).map(key => data[key]);
+      }
+    });
+
 
   }
 

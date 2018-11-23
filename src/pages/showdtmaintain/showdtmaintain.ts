@@ -22,7 +22,7 @@ export class ShowdtmaintainPage {
  program;
  maintain;
 d:any;
-operator;
+operator=[];
   constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
@@ -75,13 +75,20 @@ operator;
     console.log('ionViewDidLoad ShowdtmaintainPage');
   }
 mt(data:NgForm){
-
+  console.log(data.value);
+  this.api.updateMaintainByKey(this.user,this.d.key,data.value).subscribe();
 }
 select(a)
 {
-  console.log(a);
-  this.program = this.db.list('/setting/farm/program_maintain/drug_pro_maintain/' + this.user,ref=>ref.orderByChild('pro_maintain').equalTo(a)).snapshotChanges().map(chang => {
-    return chang.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-  });
+  this.api.getDrugProMain(this.user,a).subscribe(datas =>{
+    if(datas!=null){
+      var value = Object.keys(datas).map(key => datas[key]);
+      this.program = value;
+    }
+    else{
+      this.program = [];
+    }
+
+  })
 }
 }

@@ -309,4 +309,8 @@ export class NodeapiProvider {
   getMaintainByKey(user,key){
     return this.http.get(URL_API.NODE_API+'/maintain/show/'+user+'/'+key).pipe(map(res=>res.json()));
   }
+
+  updateMaintainByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/maintain/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
 }

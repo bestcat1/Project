@@ -20,11 +20,6 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'report.html',
 })
 export class ReportPage {
-  externalDataRetrievedFromServer = [
-    { name: 'Bartek', age: 34 },
-    { name: 'John', age: 27 },
-    { name: 'Elizabeth', age: 30 },
-]
   data_cattle=[];
   letterObj = {
     to: '',

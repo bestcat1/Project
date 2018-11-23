@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
  * Generated class for the ShowdtsynchronizePage page.
@@ -18,25 +17,36 @@ import { NgForm } from '@angular/forms';
 })
 export class ShowdtsynchronizePage {
 user;
-key
+data;
 item=[];
 syncs;
 pro_sync=[];
-item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase
-    ,public modalCtrl:ModalController) {
-    this.key=this.navParams.get('key');
+pro;
+operator = [];
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,public modalCtrl:ModalController,private api:NodeapiProvider) {
+    this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
-    this.syncs=this.db.list('/setting/farm/program_sync/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+    this.pro = this.data.program_sync;
+    this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key => data[key]);
+      this.operator.push({operator: values[0].fname+' '+values[0].lname});
+      }
     });
-    this.item$=this.db.list('/synchronize/'+this.user,ref=>ref.orderByKey().equalTo(this.key)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key => data[key]);
+      for(let i = 0; i<values.length;i++){
+        this.operator.push({operator: values[i].fname+' '+values[i].lname});
+      }
+    }
     });
-    this.item$.forEach(data=>{
-      data.forEach(element => {
-        this.pro_sync.push(element.program_sync);
-      });
+    this.api.getProgramSync(this.user).subscribe(data=>{
+      if(data!=null){
+      this.syncs = Object.keys(data).map(key=>data[key]);
+      }
     })
   }
 
@@ -52,6 +62,14 @@ item$:Observable<any[]>
   }
   sync(data:NgForm){
     console.log(data.value);
+    this.api.updateSyncByKey(this.user,this.data.key,data.value).subscribe();
 
+  }
+  promain(p){
+    this.pro=p;
+  }
+  verifypro(){
+    const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program:this.pro});
+    modal.present();
   }
 }

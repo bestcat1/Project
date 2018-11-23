@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowdtdeliveryPage page.
  *
@@ -17,23 +16,37 @@ import { NgForm } from '@angular/forms';
 })
 export class ShowdtdeliveryPage {
   user;
-  key;
+  data;
+  operator=[];
 
-  item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase) {
-    this.key=this.navParams.get('key');
+  constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
+    this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
-    
-    this.item$=this.db.list('/delivery/'+this.user,ref=>ref.orderByKey().equalTo(this.key)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+
+    this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+
+      this.operator.push(values[0].fname+' '+values[0].lname);
+      }
     });
-  
+
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      values.forEach(snap=>{
+        this.operator.push(snap.fname+' '+snap.lname);
+      })
+    }
+    })
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowdtdeliveryPage');
   }
 dv(data:NgForm){
-
+  console.log(data.value);
+  this.api.updateDeliveryByKey(this.user,this.data.key,data.value).subscribe();
 }
 }

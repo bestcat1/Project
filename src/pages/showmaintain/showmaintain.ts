@@ -25,6 +25,9 @@ export class ShowmaintainPage {
     private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
 
+
+  }
+  ionViewWillEnter(){
     this.api.getMaintainByUser(this.user).subscribe(data=>{
       var dam = [];
       if(data!=null){
@@ -42,7 +45,6 @@ export class ShowmaintainPage {
     this.loadeddamList = dam;
     });
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowmaintainPage');
   }

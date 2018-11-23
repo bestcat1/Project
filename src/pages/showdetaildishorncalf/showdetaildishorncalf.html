@@ -14,36 +14,42 @@
 
 
 <ion-content padding>
-  <a *ngFor="let dh of item$ | async">
+
     <form (ngSubmit)="updatedishornc(updh_cattle)" #updh_cattle="ngForm" >
-        <ion-item>
-          <ion-label >เบอร์แรกเกิด: </ion-label>
-          <ion-input type="text" name="bid" ngModel="{{dh.bid}}" [disabled]="edit"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>วันที่สูญเขา: </ion-label>
-          <ion-input type="date" name="datedishorn" ngModel="{{dh.datedishorn}}" [disabled]="edit"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label >วิธีที่ใช้ในการสูญเขา: </ion-label>
-            <ion-select ngModel="{{dh.method}}" name="method" placeholder="เลือกการสูญเขา" [disabled]="edit">
-              <ion-option value="ความร้อน">ความร้อน</ion-option>
-              <ion-option value="ตัดเขา">ตัดเขา</ion-option>
-              <ion-option value="สารเคมี">สารเคมี</ion-option>
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-label >ผู้บันทึก: </ion-label>
-            <ion-input  type="text"name="use" ngModel="{{dh.uses}}" [disabled]="true"></ion-input>
-
-        </ion-item>
-        <ion-input  type="hidden"name="uses" ngModel="{{dh.uses}}"></ion-input>
-        <ion-input  type="hidden" name="key" ngModel="{{dh.key}}"></ion-input>
-        <ion-item>
-          <ion-label>หมายเหตุ: </ion-label>
-          <ion-input type="text" name="note" ngModel="{{dh.note}}" [disabled]="edit"></ion-input>
-        </ion-item>
-
+      <ion-item>
+        <ion-label >ชื่อแม่พันธุ์: </ion-label>
+        <ion-input type="text" name="dam_id" ngModel="{{data.dam_id}}" readonly  [disabled]="edit"></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label >เบอร์แรกเกิด: </ion-label>
+      <ion-input type="text" name="birth_id" ngModel="{{data.birth_id}}" readonly  [disabled]="edit"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>วันที่สูญเขา: </ion-label>
+      <ion-input type="date" name="datedishorn" ngModel="{{data.datedishorn}}"  [disabled]="edit"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label >วิธีที่ใช้ในการสูญเขา: </ion-label>
+        <ion-select ngModel="{{data.method}}" name="method" placeholder="เลือกการสูญเขา"  [disabled]="edit">
+            <ion-option value="ความร้อน">ความร้อน</ion-option>
+            <ion-option value="ตัดเขา">ตัดเขา</ion-option>
+            <ion-option value="สารเคมี">สารเคมี</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label >ผู้ปฏิบัติการ: </ion-label>
+      <ion-select type="text" name="operator" ngModel="{{data.operator}}"  [disabled]="edit">
+        <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
+      </ion-select>
+  </ion-item>
+    <ion-item>
+        <ion-label >ผู้บันทึก: </ion-label>
+        <ion-input  type="text"name="recoder" ngModel="{{data.recoder}}" readonly  [disabled]="edit"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>หมายเหตุ: </ion-label>
+      <ion-input type="text" name="note" ngModel="{{data.note}}"  [disabled]="edit"></ion-input >
+    </ion-item>
         <p align="center" [hidden]="!edit">
             <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
         </p>
@@ -52,5 +58,5 @@
           <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
         </p>
       </form>
-    </a>
+
 </ion-content>

@@ -21,6 +21,9 @@ export class ShowWeancalfPage {
   user;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+
+  }
+  ionViewWillEnter(){
     this.api.getWeanByUser(this.user).subscribe(data=>{
       console.log(data);
       var calf = [];

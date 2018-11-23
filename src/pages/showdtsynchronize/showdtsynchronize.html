@@ -12,34 +12,38 @@
 
 </ion-header>
 <ion-content padding>
-  <a *ngFor="let a of item$ |async">
   <form (ngSubmit)="sync(sync_cattle)" #sync_cattle="ngForm" >
     <ion-item>
-      <ion-label >หมายเลขแม่พันธุ์: </ion-label>
-      <ion-input type="text" name="id" ngModel="{{a.id}}"></ion-input>
+      <ion-label >ชื่อแม่พันธุ์: </ion-label>
+      <ion-input type="text" name="dam_id" ngModel={{data.dam_id}} readonly></ion-input>
     </ion-item>
 
     <ion-item>
-        <ion-label >โปรแกรมที่ใช้: </ion-label>
-        <ion-select ngModel="{{a.program_sync}}" name="program_sync" placeholder="เลือกรายการ" (ionChange)=verify($event)>
-          <ion-option *ngFor="let s of syncs | async" value="{{s.pro_sync}}">{{s.pro_sync}}</ion-option>
+      <ion-label >โปรแกรมที่ใช้: </ion-label>
+      <ion-select ngModel="{{data.program_sync}}" name="program_sync" placeholder="เลือกรายการ" (ionChange)="promain($event)" >
+        <ion-option *ngFor="let s of syncs" value="{{s.pro_sync}}">{{s.pro_sync}}</ion-option>
+      </ion-select>
+  </ion-item>
+    <div class="row">
+      <button class="center" type="button" ion-button round color="facebook" (click)="verifypro()">ตรวจสอบรายการ</button>
+      </div>
+      <ion-item>
+        <ion-label >ผู้ปฏิบัติการ: </ion-label>
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" readonly>
+          <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
         </ion-select>
     </ion-item>
-
-        <p align="center"><button type="button" ion-button round color="facebook" (click)="showverify()">ตรวจสอบรายการ</button></p>
-
-    <ion-item>
+    <ion-item >
         <ion-label >ผู้บันทึก: </ion-label>
-        <ion-input type="text" name="users" ngModel="{{a.users}}"></ion-input>
+        <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" readonly></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>วันที่เริ่มทำโปรแกรม: </ion-label>
-      <ion-input type="date" name="datepro" ngModel="{{a.datepro}}"></ion-input>
+      <ion-input type="date" name="datepro" ngModel="{{data.datepro}}"></ion-input>
     </ion-item>
     <br>
     <button type="submit" ion-button block color="facebook">ยืนยัน</button>
 
   </form>
-</a>
 </ion-content>
 

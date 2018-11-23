@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NgForm } from '../../../node_modules/@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from '../../../node_modules/angularfire2/database';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowdetaildishorncalfPage page.
  *
@@ -18,23 +17,37 @@ import { AngularFireDatabase } from '../../../node_modules/angularfire2/database
 export class ShowdetaildishorncalfPage {
 edit:boolean=true;
 user;
-id;
-item$ : Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,public viewCtrl:ViewController) {
+data;
+operator=[];
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,public viewCtrl:ViewController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.id=this.navParams.get('id');
-    this.item$=this.db.list('/dishorncalf/'+this.user,ref=>ref.orderByChild('bid').equalTo(this.id)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+    this.data=this.navParams.get('id');
+    this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      this.operator.push(values[0].fname + ' ' + values[0].lname);
+      }
+    })
+
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      values.forEach(snap=>{
+        this.operator.push(snap.fname + ' ' + snap.lname);
+      })
+      }
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowdetaildishorncalfPage');
   }
   updatedishornc(data:NgForm){
-    this.db.list('/dishorncalf/'+this.user).set(data.value.key,data.value)
     console.log(data.value);
-    this.viewCtrl.dismiss();
+
+    this.api.updateDishornByKey(this.user,this.data.key,data.value).subscribe();
+      this.viewCtrl.dismiss();
 
   }
   check(n){

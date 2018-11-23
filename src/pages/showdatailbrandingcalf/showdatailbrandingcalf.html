@@ -14,32 +14,40 @@
 
 
 <ion-content padding>
-  <a *ngFor="let bc of item$ | async">
+
   <form (ngSubmit)="editbranc(b_cattle)" #b_cattle="ngForm" >
     <ion-item>
-      <ion-label >เบอร์แรกเกิด: </ion-label>
-      <ion-input type="text" name="bid" ngModel="{{bc.bid}}" [disabled]="edit"></ion-input>
+      <ion-label >ชื่อแม่พันธุ์: </ion-label>
+      <ion-input type="text" name="dam_id" ngModel="{{data.dam_id}}" readonly  [disabled]="edit"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label >เบอร์ที่ต้องการตี: </ion-label>
-      <ion-input type="text" name="wid" ngModel="{{bc.wid}}" [disabled]="edit"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>วันที่ตีเบอร์: </ion-label>
-      <ion-input type="date" name="datebran" ngModel="{{bc.datebran}}" [disabled]="edit"></ion-input>
-    </ion-item>
-    <ion-input  type="hidden"name="users" ngModel="{{bc.users}}"></ion-input>
-    <ion-input  type="hidden" name="key" ngModel="{{bc.key}}"></ion-input>
-    <ion-item>
-        <ion-label >ผู้บันทึก: </ion-label>
-        <ion-input type="text" name="uses" ngModel="{{bc.users}}" [disabled]="true"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>หมายเหตุ: </ion-label>
-      <ion-input type="text" name="note" ngModel="{{bc.note}}" [disabled]="edit"></ion-input>
-    </ion-item>
+  <ion-item>
+    <ion-label >เบอร์แรกเกิด: </ion-label>
+    <ion-input type="text" name="birth_id" ngModel="{{data.birth_id}}" readonly  [disabled]="edit"></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label >เบอร์ที่ต้องการตี: </ion-label>
+    <ion-input type="text" name="wid" ngModel="{{data.wid}}"  [disabled]="edit"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>วันที่ตีเบอร์: </ion-label>
+    <ion-input type="date" name="datebran" ngModel="{{data.datebran}}"  [disabled]="edit"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label >ผู้ปฏิบัติการ: </ion-label>
+    <ion-select type="text" name="operator" ngModel="{{data.operator}}"  [disabled]="edit" >
+      <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
+    </ion-select>
+</ion-item>
+  <ion-item>
+      <ion-label >ผู้บันทึก: </ion-label>
+      <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" readonly  [disabled]="edit"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>หมายเหตุ: </ion-label>
+    <ion-input type="text" name="note" ngModel="{{data.note}}"  [disabled]="edit"></ion-input>
+  </ion-item>
     <br>
     <p align="center" [hidden]="!edit">
         <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
@@ -50,5 +58,4 @@
     </p>
 
   </form>
-</a>
 </ion-content>

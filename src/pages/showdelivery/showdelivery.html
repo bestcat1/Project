@@ -16,7 +16,7 @@
     <ion-list>
       <ion-item *ngFor="let e of damList" >
       <ion-label>ชื่อแม่พันธุ์: {{e.dam_id}}<br>{{e.date}}</ion-label>
-      <button type="button" ion-button round outline color="secondary" item-end (click)="showdtdelivery(e.key)">
+      <button type="button" ion-button round outline color="secondary" item-end (click)="showdtdelivery(e)">
         เลือก
     </button>
       </ion-item>

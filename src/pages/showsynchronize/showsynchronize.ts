@@ -22,6 +22,9 @@ export class ShowsynchronizePage {
     ,private api:NodeapiProvider) {
 
     this.user=this.navParams.get('user');
+
+  }
+  ionViewWillEnter(){
     this.api.getSyncByUser(this.user).subscribe(data=>{
       var dam = [];
       if(data!=null){
@@ -39,7 +42,6 @@ export class ShowsynchronizePage {
     this.loadeddamList = dam;
     });
   }
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowsynchronizePage');

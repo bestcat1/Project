@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
@@ -23,7 +21,7 @@ export class ShowdtmaintainPage {
  maintain;
 d:any;
 operator=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.d=this.navParams.get('key');;
@@ -70,6 +68,9 @@ operator=[];
 
 
   }
+
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowdtmaintainPage');

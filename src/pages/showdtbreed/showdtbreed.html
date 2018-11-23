@@ -13,52 +13,58 @@
 </ion-header>
 
 <ion-content padding>
-    <a *ngFor="let a of item$ | async">
     <form (ngSubmit)="breed(breed_cattle)" #breed_cattle="ngForm" >
       <ion-item>
         <ion-label >ชื่อแม่พันธุ์: </ion-label>
-        <ion-input type="text" name="id" ngModel="{{a.id}}"></ion-input>
+        <ion-input type="text" name="dam_id" ngModel={{data.dam_id}} readonly></ion-input>
       </ion-item>
       <ion-item>
         <ion-label >ชื่อพ่อพันธุ์: </ion-label>
-        <ion-input type="text" name="sireid" ngModel="{{a.sire_id}}"></ion-input>
+        <ion-select type="text" name="sire_id" ngModel="{{data.sire_id}}" placeholder="เลือกพ่อพันธุ์">
+            <ion-option *ngFor="let sid of sire_id" value="{{sid.sire_id}}">{{sid.sire_id}}</ion-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-label >ครั้งที่ผสม: </ion-label>
-        <ion-input type="text" name="number_of_breeding" ngModel="{{a.number_of_breeding}}" readonly></ion-input>
+        <ion-input type="text" name="number_of_breeding" ngModel="{{data.number_of_breeding}}" readonly></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>วันที่ผสมพันธุ์: </ion-label>
-        <ion-input type="date" name="datebreed" ngModel="{{a.date_breeding}}" readonly></ion-input>
+        <ion-input type="date" name="date_breeding" ngModel="{{data.date_breeding}}" readonly></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>เวลาที่ผสมพันธุ์: </ion-label>
-        <ion-input type="time" name="time_breeding" ngModel="{{a.time_breeding}}" ></ion-input>
+        <ion-input type="time" name="time_breeding" ngModel="{{data.time_breeding}}" ></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label >ผู้ปฏิบัติการ: </ion-label>
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+          <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
+        </ion-select>
+    </ion-item>
+      <ion-item>
         <ion-label >ผู้บันทึก: </ion-label>
-        <ion-input type="text" name="users" ngModel="{{a.users}}"></ion-input>
+        <ion-input type="text" name="recoder" ngModel="{{data.recoder}}"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>แจ้งเตือนตรวจท้อง(วัน): </ion-label>
-      <ion-input type="text" name="noti_pregnant" ngModel="{{a.noti_pregnant}}" readonly="{{bmark}}"></ion-input>
+      <ion-label >ผสมติด แจ้งเตือนตรวจท้อง(วัน): </ion-label>
+      <ion-input type="text" name="noti_pregnant" ngModel="{{data.noti_pregnant}}" readonly="{{bmark}}"></ion-input>
     </ion-item>
     <ion-item>
         <ion-label>กำหนดเอง</ion-label>
         <ion-checkbox ngModel="bmark" name="markbel" (click)="markb(bmark)"></ion-checkbox>
     </ion-item>
     <ion-item>
-      <ion-label>แจ้งเตือนวันกลับสัด(วัน): </ion-label>
-      <ion-input type="text" name="not_oestrus" ngModel={{a.noti_oestrus}} readonly="{{EPmark}}"></ion-input>
+      <ion-label>ผสมไม่ติด แจ้งเตือนวันกลับสัด(วัน): </ion-label>
+      <ion-input type="text" name="noti_oestrus" ngModel="{{data.noti_oestrus}}" readonly="{{EPmark}}"></ion-input>
     </ion-item>
     <ion-item>
         <ion-label>กำหนดเอง</ion-label>
       <ion-checkbox ngModel="EPmark" name="mEP" (click)="markep(EPmark)"></ion-checkbox>
     </ion-item>
-
       <ion-item>
         <ion-label>หมายเหตุ: </ion-label>
-        <ion-input type="text" name="note" ngModel="{{a.note}}"></ion-input>
+        <ion-input type="text" name="note" ngModel></ion-input>
       </ion-item>
 
       <br>
@@ -66,6 +72,5 @@
 
     </form>
 
-  </a>
 
   </ion-content>

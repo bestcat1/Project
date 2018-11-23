@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowdatailbrandingcalfPage page.
  *
@@ -17,13 +16,24 @@ import { NgForm } from '@angular/forms';
 })
 export class ShowdatailbrandingcalfPage {
   edit=true;
-  user;id;
-  item$:Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public db:AngularFireDatabase,public viewCtrl:ViewController) {
+  user;
+  data;
+  operator=[];
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,public viewCtrl:ViewController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-    this.id=this.navParams.get('id');
-    this.item$=this.db.list('/brandingcalf/'+this.user,ref=>ref.orderByChild('bid').equalTo(this.id)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+    this.data=this.navParams.get('id');
+    this.api.getUser(this.user).subscribe(data=>{
+      var values = Object.keys(data).map(key=>data[key]);
+      this.operator.push(values[0].fname + ' ' + values[0].lname)
+    });
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+     values.forEach(snap=>{
+      this.operator.push(snap.fname + ' ' + snap.lname);
+    })
+      }
     });
   }
 
@@ -31,8 +41,8 @@ export class ShowdatailbrandingcalfPage {
     console.log('ionViewDidLoad ShowdatailbrandingcalfPage');
   }
   editbranc(data:NgForm){
-    this.db.list('/brandingcalf/'+this.user).set(data.value.key,data.value)
     console.log(data.value);
+    this.api.updateBrandingByKey(this.user,this.data.key,data.value).subscribe();
     this.viewCtrl.dismiss();
   }
   check(n){

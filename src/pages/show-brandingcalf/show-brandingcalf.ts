@@ -20,6 +20,9 @@ export class ShowBrandingcalfPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
 
+
+  }
+  ionViewWillEnter(){
     this.api.getBrandingByUser(this.user).subscribe(data=>{
       console.log(data);
       var calf = [];
@@ -39,7 +42,6 @@ export class ShowBrandingcalfPage {
     });
 
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowBrandingcalfPage');
   }

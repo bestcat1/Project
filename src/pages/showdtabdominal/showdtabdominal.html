@@ -12,92 +12,102 @@
 
 </ion-header>
 <ion-content padding>
-    <a *ngFor="let a of item$ | async ">
+
   <form (ngSubmit)="abd(wikiForm)" #wikiForm="ngForm" >
     <ion-item>
       <ion-label>ชื่อแม่พันธุ์ :</ion-label>
-      <ion-input type="text"  name="id" ngModel="{{a.id}}" ></ion-input>
+      <ion-input type="text" ngModel={{data.dam_id}} name="dam_id" readonly></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>วันที่ตรวจท้อง :</ion-label>
-      <ion-input type="date"  name="dateabd" ngModel="{{a.dateabd}}"></ion-input>
+      <ion-input type="date" ngModel="{{data.dateabd}}" name="dateabd"  (input)="test($event.target.value)"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>เวลาที่ตรวจท้อง :</ion-label>
-      <ion-input type="time" ngModel="{{a.timeabd}}" name="timeabd" ></ion-input>
+      <ion-input type="time" ngModel="{{data.timeabd}}" name="timeabd" ></ion-input>
     </ion-item>
-
+    <ion-item>
+      <ion-label >ผู้ปฏิบัติการ: </ion-label>
+      <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+        <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
+      </ion-select>
+  </ion-item>
     <ion-item>
       <ion-label>ผู้บันทึก :</ion-label>
-      <ion-input type="text"name="users" ngModel="{{a.users}}" readonly></ion-input>
+      <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" readonly></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>ผลการตรวจท้อง :</ion-label>
-      <ion-select ngModel={{a.result}} name="result" placeholder="เลือกผลการตรวจท้อง" >
+      <ion-label>ผลการตรวจ :</ion-label>
+      <ion-select ngModel="{{data.result}}" name="result" placeholder="เลือกผลการตรวจท้อง" >
         <ion-option value="ท้อง">ท้อง</ion-option>
         <ion-option value="ไม่ท้อง">ไม่ท้อง</ion-option>
       </ion-select>
     </ion-item>
 
+
     <ion-item>
       <ion-label>ท้อง แจ้งเตือนคลอด(วัน) :</ion-label>
-      <ion-input type="text"  name="pregnant_noti" ngModel="{{a.pregnant_noti}}"></ion-input>
+      <ion-input type="text"  name="pregnant_noti" ngModel="{{data.pregnant_noti}}"></ion-input>
     </ion-item>
-
+    <ion-item>
+      <ion-label>กำหนดเอง</ion-label>
+      <ion-checkbox ngModel="bmark" name="markbel" (click)="markep(bmark)"></ion-checkbox>
+  </ion-item>
 
     <ion-item>
       <ion-label>ไม่ท้อง แจ้งเตือนการผสม(วัน) :</ion-label>
-      <ion-input type="text"  name="not_pregnant_niti" ngModel="{{a.not_pregnant_noti}}"></ion-input>
+      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{data.not_pregnant_noti}}"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>กำหนดเอง</ion-label>
+    <ion-checkbox ngModel="EPmark" name="mEP" (click)="markep(EPmark)"></ion-checkbox>
+  </ion-item>
 
     <ion-item>
       <ion-label>หมายเหตุ :</ion-label>
-      <ion-input type="text"  name="note" ngModel="{{a.note}}"></ion-input>
+      <ion-input type="text"  name="note" ngModel></ion-input>
     </ion-item>
 
-
-    <ion-card>
-      <ion-row>
-        <ion-col>
-        <p align="center">*ถ้าผสมพันธุ์ติด วันกำหนดคลอด(คาดการณ์)</p>
-        <h2><p align="center">{{a.calve_date | date : "dd/MM/yyyy"}}</p></h2>
-      </ion-col>
-      </ion-row>
-    </ion-card>
-
-    <ion-card>
-      <ion-row>
-          <ion-col>
-            <p align="center">*ถ้าผสมพันธุ์ติด ระยะเฝ้าระวังก่อนคลอด 7 วัน<br>(คาดการณ์)</p>
-            <h2><p align="center">{{a.alert_befor_7D | date : "dd/MM/yyyy"}}</p></h2>
-          </ion-col>
-      </ion-row>
-    </ion-card>
     <ion-card>
     <ion-row>
-          <ion-col>
-            <p align="center">*ถ้าผสมพันธุ์ติด ระยะเฝ้าระวังหลังคลอด 7 วัน<br>(คาดการณ์)</p>
-            <h2><p align="center">{{a.alert_after_7D  | date : "dd/MM/yyyy"}}</p></h2>
-        </ion-col>
-      </ion-row>
-    </ion-card>
+      <ion-col>
+      <p align="center">*ถ้าผสมพันธุ์ติด วันกำหนดคลอด(คาดการณ์)</p>
+      <h2><p align="center">{{calve_date | date : "dd/MM/yyyy"}}</p></h2>
+    </ion-col>
+    </ion-row>
+  </ion-card>
 
-    <ion-card>
-      <ion-row>
-          <ion-col>
-            <p align="center">*ถ้าผสมพันธุ์ไม่ติด ระยะเหนี่ยวนำการกลับสัด(คาดการณ์)</p>
-            <h2><p align="center">{{a.alert_sync  | date : "dd/MM/yyyy"}}</p></h2>
+  <ion-card>
+    <ion-row>
+        <ion-col>
+          <p align="center">*ถ้าผสมพันธุ์ติด ระยะเฝ้าระวังก่อนคลอด 7 วัน<br>(คาดการณ์)</p>
+          <h2><p align="center">{{alert_befor_7D | date : "dd/MM/yyyy"}}</p></h2>
         </ion-col>
-      </ion-row>
-    </ion-card>
+    </ion-row>
+  </ion-card>
+  <ion-card>
+  <ion-row>
+        <ion-col>
+          <p align="center">*ถ้าผสมพันธุ์ติด ระยะเฝ้าระวังหลังคลอด 7 วัน<br>(คาดการณ์)</p>
+          <h2><p align="center">{{alert_after_7D  | date : "dd/MM/yyyy"}}</p></h2>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 
+  <ion-card>
+    <ion-row>
+        <ion-col>
+          <p align="center">*ถ้าผสมพันธุ์ไม่ติด ระยะเหนี่ยวนำการกลับสัด(คาดการณ์)</p>
+          <h2><p align="center">{{alert_sync  | date : "dd/MM/yyyy"}}</p></h2>
+      </ion-col>
+    </ion-row>
+  </ion-card>
     <br>
     <button type="submit" ion-button block color="facebook">ยืนยัน</button>
   </form>
-</a>
 </ion-content>
 
 

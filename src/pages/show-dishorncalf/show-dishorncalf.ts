@@ -20,6 +20,10 @@ export class ShowDishorncalfPage {
   user;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+
+
+  }
+  ionViewWillEnter(){
     this.api.getHorndeteringByUser(this.user).subscribe(data=>{
       console.log(data);
       var calf = [];
@@ -37,7 +41,6 @@ export class ShowDishorncalfPage {
     this.calfList = calf;
     this.loadedcalfList = calf;
     });
-
   }
 
   ionViewDidLoad() {

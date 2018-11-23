@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShowdtbreedPage page.
  *
@@ -19,17 +18,41 @@ export class ShowdtbreedPage {
   bmark:boolean=true;
 EPmark:boolean=true;
   user;
-  key;
+  data;
+  sire_id=[];
+  operator=[];
 
-  item$:Observable<any[]>
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase) {
-    this.key=this.navParams.get('key');
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,private api:NodeapiProvider) {
+    this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
- 
-    this.item$=this.db.list('/breed/'+this.user,ref=>ref.orderByKey().equalTo(this.key)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+    this.api.getAllCattle(this.user).subscribe(data=>{
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      value.forEach(snap=>{
+        if(snap.sex == 'BULL'){
+          this.sire_id.push(snap);
+          console.log(this.sire_id);
+        }
+      });
+    }
     });
-    this.item$.subscribe(data=>{console.log(data)});
+
+    this.api.getUser(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      this.operator.push({operator: values[0].fname+' '+values[0].lname});
+      }
+    })
+    this.api.getPersonnel(this.user).subscribe(data=>{
+      if(data!=null){
+      var values = Object.keys(data).map(key=>data[key]);
+      for(let i = 0; i<values.length; i++){
+        this.operator.push({operator: values[i].fname+' '+values[i].lname});
+      }
+    }
+    })
+
   }
 
   ionViewDidLoad() {
@@ -53,6 +76,9 @@ EPmark:boolean=true;
     }
 }
 breed(data:NgForm){
-
+  delete data.value.mEP;
+  delete data.value.markbel;
+  console.log(data.value);
+  this.api.updateBreedByKey(this.user,this.data.key,data.value).subscribe();
 }
 }

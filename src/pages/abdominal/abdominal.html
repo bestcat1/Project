@@ -21,7 +21,7 @@
 
     <ion-item>
       <ion-label>วันที่ตรวจท้อง :</ion-label>
-      <ion-input type="date" ngModel="{{date}}" name="dateabd"></ion-input>
+      <ion-input type="date" ngModel="{{date}}" name="dateabd"  (input)="test($event.target.value)"></ion-input>
     </ion-item>
 
     <ion-item>

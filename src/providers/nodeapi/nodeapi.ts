@@ -313,4 +313,25 @@ export class NodeapiProvider {
   updateMaintainByKey(user,key,data){
     return this.http.post(URL_API.NODE_API+'/maintain/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+  updateSyncByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/synchronize/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updateBreedByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/breed/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updatePregnantByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/pregnant/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updateDeliveryByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/delivery/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updateDishornByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/dishorn/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updateBrandingByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/branding/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  updateWeanByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/wean/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
 }

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
-import firebase from 'firebase';
+
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the ShownurturePage page.
@@ -24,6 +22,9 @@ export class ShownurturePage {
     private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
     console.log(this.user);
+
+  }
+  ionViewWillEnter(){
     this.api.getTreatmentByUser(this.user).subscribe(data=>{
       console.log(data);
       var dam = [];
@@ -43,7 +44,6 @@ export class ShownurturePage {
     });
 
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShownurturePage');
   }

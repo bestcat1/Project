@@ -21,6 +21,9 @@ export class ShowbreedPage {
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
 
+
+  }
+  ionViewWillEnter(){
     this.api.getBreedByUser(this.user).subscribe(data=>{
       var dam = [];
       if(data!=null){
@@ -38,7 +41,6 @@ export class ShowbreedPage {
     this.loadeddamList = dam;
     });
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowbreedPage');
   }

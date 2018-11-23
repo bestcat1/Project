@@ -13,45 +13,43 @@
 </ion-header>
 
 <ion-content padding>
-    <a *ngFor="let a of item$ | async">
+
     <form (ngSubmit)="dv(wikiForm)" #wikiForm="ngForm" >
       <ion-item>
-          <ion-label>ชื่อแม่พันธุ์ :</ion-label>
-          <ion-input  type="text"  name="id" ngModel="{{a.id}}"></ion-input>
+        <ion-label>ชื่อแม่พันธุ์ :</ion-label>
+        <ion-input  type="text"  name="dam_id" ngModel="{{data.dam_id}}" readonly></ion-input>
+    </ion-item>
+      <ion-item>
+          <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
+          <ion-input  type="text"  name="sire_id" ngModel="{{data.sire_id}}" readonly></ion-input>
       </ion-item>
 
-        <ion-item>
-            <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
-            <ion-input  type="text"  name="sire_id" ngModel="{{a.sire_id}}"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
+        <ion-input  type="date"  name="date" ngModel={{data.date}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label >ผู้ปฏิบัติการ: </ion-label>
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+          <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
+        </ion-select>
+    </ion-item>
+      <ion-item>
+        <ion-label>ผู้บันทึก :</ion-label>
+        <ion-input type="text"name="recoder" ngModel="{{data.recoder}}" readonly></ion-input>
+      </ion-item>
 
-        <ion-item>
-          <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
-          <ion-input  type="date"  name="date" ngModel="{{a.date}}"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>สถานะ :</ion-label>
-          <ion-select ngModel="{{a.status}}" name="status" placeholder="สถานะการเกิด" >
-              <ion-option value="ลูกปกติ">ลูกปกติ</ion-option>
-              <ion-option value="ลูกแฝดสอง">ลูกแฝดสอง</ion-option>
-              <ion-option value="ลูกแฝดสาม">ลูกแฝดสาม</ion-option>
-              <ion-option value="ลูกแฝดสี่">ลูกแฝดสี่</ion-option>
-            </ion-select>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>จำนวนลูกโค :</ion-label>
-          <ion-select ngModel="{{a.cout_calf}}" name="cout_calf" placeholder="เลือกจำนวน" >
-            <ion-option value="1">1</ion-option>
-            <ion-option value="2">2</ion-option>
-            <ion-option value="3">3</ion-option>
-            <ion-option value="4">4</ion-option>
+      <ion-item>
+        <ion-label>สถานะ :</ion-label>
+        <ion-select ngModel="{{data.count_calf}}" name="count_calf" placeholder="สถานะการเกิด" >
+            <ion-option value="1">ลูกปกติ</ion-option>
+            <ion-option value="2">ลูกแฝดสอง</ion-option>
+            <ion-option value="3">ลูกแฝดสาม</ion-option>
+            <ion-option value="4">ลูกแฝดสี่</ion-option>
           </ion-select>
-        </ion-item>
+      </ion-item>
 
         <br>
       <button type="submit" ion-button block color="facebook">ยืนยัน</button>
       </form>
-    </a>
   </ion-content>

@@ -22,6 +22,9 @@ export class ShowabdominalPage {
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+
+  }
+  ionViewWillEnter(){
     this.api.getPregnantByUser(this.user).subscribe(data=>{
       var dam = [];
       if(data!=null){

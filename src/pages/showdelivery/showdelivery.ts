@@ -22,6 +22,9 @@ export class ShowdeliveryPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+
+  }
+  ionViewWillEnter(){
     this.api.getDeliveryByUser(this.user).subscribe(data=>{
       var dam = [];
       if(data!=null){
@@ -40,7 +43,6 @@ export class ShowdeliveryPage {
     });
 
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowdeliveryPage');
   }

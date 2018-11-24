@@ -334,4 +334,16 @@ export class NodeapiProvider {
   updateWeanByKey(user,key,data){
     return this.http.post(URL_API.NODE_API+'/wean/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+  getTreatmentById(user,id){
+    return this.http.get(URL_API.NODE_API+'/treatment/show/'+user+'/'+id).pipe(map(res=>res.json()));
+  }
+  getDrugTreatmentByIdAndCount(user,id,count){
+    return this.http.get(URL_API.NODE_API+'/treatment/showDrug/'+user+'/'+id+'/'+count).pipe(map(res=>res.json()));
+  }
+  updateTreatmentByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/treatment/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  deleteDrugTreatmentByKey(user,cattle_id,key){
+    return this.http.delete(URL_API.NODE_API+'/treatment/deleteDrug/'+user+'/'+cattle_id+'/'+key).pipe(map(res=>res.json()));
+  }
 }

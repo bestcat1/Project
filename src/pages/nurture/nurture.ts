@@ -29,12 +29,22 @@ export class NurturePage {
   noti=[];
   id;
   drugs;
+  number_of_treatment;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public alertCtrl:AlertController,public viewCtrl:ViewController,private api: NodeapiProvider) {
 
     this.id=this.navParams.get('id');
     this.user=this.navParams.get('user');
-      console.log(this.id,this.user);
+    this.api.getTreatmentById(this.user,this.id).subscribe(data=>{
+      if(data!=null){
+        var value = Object.keys(data);
+        this.number_of_treatment = value.length;
+      }
+      else{
+        this.number_of_treatment = 0;
+      }
+
+    })
 
     this.api.getDrug(this.user).subscribe(data=>{
       if(data!=null){
@@ -105,7 +115,7 @@ export class NurturePage {
             handler: () => {
               for(let i=0;i<this.use_drug.length;i++){
                 console.log(this.use_drug[i]);
-                this.api.addTreatmentDrug(this.user,this.id,{drug_name:this.use_drug[i]}).subscribe();
+                this.api.addTreatmentDrug(this.user,this.id,{number_of_treatment:this.number_of_treatment,drug_name:this.use_drug[i]}).subscribe();
               }
 
               this.api.addTreatment(this.user,data.value).subscribe();

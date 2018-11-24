@@ -12,70 +12,63 @@
 
 </ion-header>
 <ion-content padding>
-    <a *ngFor="let a of item$ | async">
+
     <form (ngSubmit)="nt(wikiForm)" #wikiForm="ngForm" >
       <ion-item>
         <ion-label>ชื่อโค :</ion-label>
-        <ion-input  type="text"  name="id" ngModel="{{a.id}}"></ion-input>
+        <ion-input  type="text"  name="id" ngModel="{{data.id}}" readonly></ion-input>
       </ion-item>
-  
-  
+      <ion-item>
+        <ion-label>รักษาครั้งที่ :</ion-label>
+        <ion-input  type="number"  name="number_of_treatment" ngModel="{{data.number_of_treatment}}" readonly></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label>วันที่วินิจฉัย :</ion-label>
-        <ion-input  type="date"  name="datediagnose" ngModel="{{a.datediagnose}}"></ion-input>
+        <ion-input  type="date"  name="datediagnose" ngModel="{{data.datediagnose}}"></ion-input>
       </ion-item>
-  
+
       <ion-item>
         <ion-label>เวลาที่วินิจฉัย :</ion-label>
-        <ion-input type="time" name="timediagnose" ngModel="{{a.timediagnose}}"></ion-input>
+        <ion-input type="time" name="timediagnose" ngModel="{{data.timediagnose}}"></ion-input>
       </ion-item>
-  
+
       <ion-item>
         <ion-label>อาการเจ็บป่วย :</ion-label>
-        <ion-input type="text"  name="sickness" ngModel="{{a.sickness}}"></ion-input>
+        <ion-input type="text"  name="sickness" ngModel="{{data.sickness}}"></ion-input>
       </ion-item>
-  
       <ion-item>
-        <ion-label>ประเภทการรักษา :</ion-label>
-        <ion-select ngModel="{{a.type_of_treatment}}" name="type_of_treatment" placeholder="เลือกประเภทยา" >
-          <ion-option value="การรักษาโรค">การรักษาโรค</ion-option>
-          <ion-option value="การรักษาหลังสูญเขา">การรักษาหลังสูญเขา</ion-option>
-          <ion-option value="การรักษาหลังตีเบอร์">การรักษาหลังตีเบอร์</ion-option>
-          <ion-option value="การรักษาหลังโคแท้ง">การรักษาหลังโคแท้ง</ion-option>
-          <ion-option value="การรักษาหลังคลอด">การรักษาหลังคลอด</ion-option>
-          <ion-option value="การเหนี่ยวนำการกลับสัด">การเหนี่ยวนำการกลับสัด</ion-option>
-          <ion-option value="การรักษาหลังผสมพันธุ์">การรักษาหลังผสมพันธุ์</ion-option>
-          <ion-option value="อื่นๆ">อื่นๆ</ion-option>
+        <ion-label >ผู้ปฏิบัติการ: </ion-label>
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+          <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
         </ion-select>
-      </ion-item>
-  
-      <ion-item >
+    </ion-item>
+      <ion-item>
         <ion-label>ผู้บันทึก :</ion-label>
-        <ion-input type="text" name="users" ngModel="{{a.users}}"></ion-input>
+        <ion-input type="text" name="recoder" ngModel="{{data.recoder}}"></ion-input>
       </ion-item>
-  
+
       <ion-item>
         <ion-label>แจ้งเตือนการรักษา :</ion-label>
-        <ion-input type="text"  name="noti_treatment" ngModel="{{a.noti_treatment}}"></ion-input>
+        <ion-input type="number"  name="noti_treatment" ngModel="{{data.noti_treatment}}" readonly></ion-input>
       </ion-item>
-  
       <ion-item>
-        <ion-label>เลือกจำนวนยา :</ion-label>
-        <ion-select ngModel="{{a.drug_treatment}}" name="drug_treatment" placeholder="เลือกจำนวนยา" >
-          <ion-option value="ยาตัวที่ 1">ยาตัวที่ 1</ion-option>
-          <ion-option value="ยาตัวที่ 2">ยาตัวที่ 2</ion-option>
-          <ion-option value="ยาตัวที่ 3">ยาตัวที่ 3</ion-option>
-          <ion-option value="ยาตัวที่ 4">ยาตัวที่ 4</ion-option>
-          <ion-option value="ยาตัวที่ 5">ยาตัวที่ 5</ion-option>
-          <ion-option value="ยาตัวที่ 6">ยาตัวที่ 6</ion-option>
+        <ion-label>ยาที่ใช้ในการรักษา :</ion-label>
+        <ion-select name="drug_nuture" placeholder="เพิ่มยารักษา" (ionChange)="adddrug($event)" multiple="true" >
+          <ion-option *ngFor="let drug of drugs" value="{{drug.drug_name}}" >{{drug.drug_name}}</ion-option>
         </ion-select>
       </ion-item>
-  
-      <ion-label>ยา</ion-label>
-  
+      <ion-label>ยาทีใช้ในการรักษา</ion-label>
+      <ion-card>
+        <ion-list>
+          <ion-item *ngFor="let a of use_drug,let i=index;">
+            <ion-label item-start>ยาตัวที่{{i+1}} : {{a}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
       <br>
       <button type="submit" ion-button block color="facebook">ยืนยัน</button>
     </form>
-  </a>
+
   </ion-content>
-  
+

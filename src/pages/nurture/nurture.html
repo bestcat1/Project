@@ -20,7 +20,10 @@
       <ion-label>ชื่อโค :</ion-label>
       <ion-input  type="text"  name="id" ngModel="{{id}}" readonly></ion-input>
     </ion-item>
-
+    <ion-item>
+      <ion-label>รักษาครั้งที่ :</ion-label>
+      <ion-input  type="number"  name="number_of_treatment" ngModel="{{number_of_treatment}}" readonly></ion-input>
+    </ion-item>
     <ion-item>
       <ion-label>วันที่วินิจฉัย :</ion-label>
       <ion-input  type="date"  name="datediagnose" ngModel="{{date}}"></ion-input>
@@ -43,12 +46,12 @@
   </ion-item>
     <ion-item>
       <ion-label>ผู้บันทึก :</ion-label>
-      <ion-input type="text" name="users" ngModel="{{name}}"></ion-input>
+      <ion-input type="text" name="recoder" ngModel="{{name}}"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>แจ้งเตือนการรักษา :</ion-label>
-      <ion-input type="number"  name="noti_treatment" ngModel="{{noti[0]}}"></ion-input>
+      <ion-input type="number"  name="noti_treatment" ngModel="{{noti[0]}}" readonly></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>ยาที่ใช้ในการรักษา :</ion-label>

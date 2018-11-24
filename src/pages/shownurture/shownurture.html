@@ -15,8 +15,8 @@
     <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
     <ion-list>
       <ion-item *ngFor="let e of damList" >
-      <ion-label>หมายเลขแม่พันธุ์: {{e.id}}<br>{{e.datediagnose}}</ion-label>
-      <button type="button" ion-button round outline color="secondary" item-end (click)="showdtnurture(e.key)">
+      <ion-label>หมายเลขแม่พันธุ์: {{e.id}}<br>{{e.datediagnose}} รักษาครั้งที่ {{e.number_of_treatment}}</ion-label>
+      <button type="button" ion-button round outline color="secondary" item-end (click)="showdtnurture(e)">
         เลือก
     </button>
       </ion-item>

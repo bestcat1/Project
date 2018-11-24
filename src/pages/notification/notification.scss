@@ -1,20 +1,86 @@
 page-notification {
-ion-row{
-  text-align: center;
-  vertical-align: middle;
-}
-ion-row:nth-child(even) {
-    background-color: #dddddd;
-    vertical-align: middle;
-}
-ion-row:nth-child(1){
-  font-weight: bold;
-  background-color: skyblue;
-}
-.button.customBtn{
-  width: 40px;
-  height: 25px;
-}
+// ion-row{
+//   text-align: center;
+//   vertical-align: middle;
+// }
+// ion-row:nth-child(even) {
+//     background-color: #dddddd;
+//     vertical-align: middle;
+// }
+// ion-row:nth-child(1){
+//   font-weight: bold;
+//   background-color: skyblue;
+// }
+// .button.customBtn{
+//   width: 40px;
+//   height: 25px;
+// }
+
+// [col-1] {
+//   -webkit-box-flex: 0;
+//   -webkit-flex: 0 0 8.33333%;
+//   -ms-flex: 0 0 8.33333%;
+//   flex: 0 0 14.285714285714286%;
+//   width: 14.285714285714286%;
+//   max-width: 14.285714285714286%;
+// }
+// .col {
+//   text-align: center;
+//   padding: 5px;
+// }
+// .last-month, .next-month {
+//   color: #999999;
+//   font-size: 90%;
+// }
+// .currentDate, .otherDate {
+//   padding: 5px;
+// }
+// .currentDate {
+//   font-weight: bold;
+//   background-color: red;
+//   color: white;
+//   border-radius: 30px;
+// }
+// .calendar-header {
+//   background-color: #1a732d;
+//   color: #FFFFFF;
+// }
+// .event-bullet {
+//   margin: 2px auto;
+//   height: 5px;
+//   width: 5px;
+//   background-color: green;
+//   border-radius: 30px;
+// }
+// .selected-date {
+//   width: 20px;
+//   height: 2px;
+//   background-color: blue;
+// }
+// .unselected-date {
+//   border: none;
+// }
+// .calendar-body {
+//   .grid {
+//     padding: 0;
+//   }
+//   .col:last-child {
+//     border-right: none;
+//   }
+//   .calendar-weekday, .calendar-date {
+//     text-align: center;
+//     margin: 0;
+//   }
+//   .calendar-weekday {
+//     font-weight: bold;
+//     border-bottom: solid 1px #1a732d;
+//     background-color: #26ab56;
+//   }
+//   .calendar-date {
+//     border-top: solid 1px #1a732d;
+//     border-bottom: solid 1px #1a732d;
+//   }
+// }
 
 [col-1] {
   -webkit-box-flex: 0;
@@ -37,12 +103,13 @@ ion-row:nth-child(1){
 }
 .currentDate {
   font-weight: bold;
-  background-color: red;
+  background-color:	#0080ff;
   color: white;
-  border-radius: 30px;
+  border-radius: 50%;
+
 }
 .calendar-header {
-  background-color: #1a732d;
+  background-color: #000066;
   color: #FFFFFF;
 }
 .event-bullet {
@@ -73,12 +140,13 @@ ion-row:nth-child(1){
   }
   .calendar-weekday {
     font-weight: bold;
-    border-bottom: solid 1px #1a732d;
-    background-color: #26ab56;
+    border-bottom: solid 1px #000066;
+    background-color: #488aff;
   }
   .calendar-date {
-    border-top: solid 1px #1a732d;
-    border-bottom: solid 1px #1a732d;
+    border-top: solid 1px #488aff;
+    border-bottom: solid 1px #000066;
   }
 }
+
 }

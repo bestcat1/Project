@@ -7,6 +7,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { File } from '@ionic-native/file';
+import firebase from 'firebase';
 /**
  * Generated class for the VerifyPage page.
  *
@@ -43,11 +44,13 @@ export class VerifyPage {
   data=[];
   loader;
   pdfimage;
+
+
   //==============
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private db:AngularFireDatabase
     ,private plt: Platform, private file: File
-    , private fileOpener: FileOpener, private loadingCtrl: LoadingController) {
+    , private fileOpener: FileOpener, private loadingCtrl: LoadingController,) {
     this.user=this.navParams.get('user');
     this.mncattle="verify";
     this.indexreport();
@@ -124,27 +127,34 @@ export class VerifyPage {
     });
   }
   createPdf() {
+
     this.presentLoading();
-    async function getBase64ImageFromUrl(imageUrl) {
-      var res = await fetch(imageUrl);
-      var blob = await res.blob();
-
-      return new Promise((resolve, reject) => {
-        var reader  = new FileReader();
-        reader.addEventListener("load", function () {
-            resolve(reader.result);
-        }, false);
-
-        reader.onerror = () => {
-          return reject(this);
+    firebase.storage().ref('Photos/'+this.user+'/Logo').getDownloadURL().then(data=>{
+      console.log(data);
+      function convertToDataURLviaCanvas(url, outputFormat){
+        return new Promise((resolve, reject) => {
+        let img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => {
+          let canvas = <HTMLCanvasElement> document.createElement('CANVAS'),
+            ctx = canvas.getContext('2d'),
+            dataURL;
+          canvas.height = img.height;
+          canvas.width = img.width;
+          ctx.drawImage(img, 0, 0);
+          dataURL = canvas.toDataURL(outputFormat);
+          resolve(dataURL);
+          canvas = null;
         };
-        reader.readAsDataURL(blob);
-      })
+         img.src = url;
+      });
     }
 
-    getBase64ImageFromUrl(this.myPhotoURL[0].logo_base64)
-    .then(result => this.pdfimage = result)
-    .catch(err => console.error(err));
+
+    convertToDataURLviaCanvas(data, "image/png").then(base64 => this.pdfimage=base64)
+
+    })
+
 
 
     setTimeout(() => {

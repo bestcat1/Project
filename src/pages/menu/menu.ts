@@ -77,6 +77,7 @@ myPhotoURL;
   }
 
   ionViewWillEnter(){
+    this.count_notification=0;
     var i=0;
     var user=this.global.getMyGlobalVar();
     var localNotification = this.localNotifications;
@@ -121,6 +122,7 @@ myPhotoURL;
           this.api.showAlertDateDetail(value[0].user,snap).subscribe(element=>{
             if(element!=null){
             this.count_notification+=Object.keys(element).length;
+            console.log('xxx: '+this.count_notification);
             }
           })
 

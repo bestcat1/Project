@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
@@ -27,7 +25,7 @@ export class ShowdtabdominalPage {
   alert_after_7D;
   alert_sync;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');

@@ -3,5 +3,12 @@
   "integrations": {
     "cordova": {}
   },
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/v0",
+      "proxyUrl": "https://firebasestorage.googleapis.com/v0"
+    }
+  ]
+
 }

@@ -92,12 +92,16 @@ import { NodeapiProvider } from '../providers/nodeapi/nodeapi';
 import { HttpModule } from '@angular/http';
 import { Calendar } from '@ionic-native/calendar';
 import { Base64 } from '@ionic-native/base64';
+import { NgCalendarModule  } from 'ionic2-calendar';
+import { HTTP } from '@ionic-native/http';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     FormsModule,
@@ -196,7 +200,8 @@ import { Base64 } from '@ionic-native/base64';
     AuthProvider,
    NodeapiProvider,
    Calendar,
-   Base64
+   Base64,
+   HTTP
   ]
 })
 export class AppModule {}

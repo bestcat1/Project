@@ -346,4 +346,7 @@ export class NodeapiProvider {
   deleteDrugTreatmentByKey(user,cattle_id,key){
     return this.http.delete(URL_API.NODE_API+'/treatment/deleteDrug/'+user+'/'+cattle_id+'/'+key).pipe(map(res=>res.json()));
   }
+  getDateByDate(user,date){
+    return this.http.get(URL_API.NODE_API+'/notification/show/date/'+user+'/'+date).pipe(map(res=>res.json()));
+  }
 }

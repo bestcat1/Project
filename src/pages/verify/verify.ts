@@ -7,7 +7,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { File } from '@ionic-native/file';
-import firebase from 'firebase';
+
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the VerifyPage page.
  *
@@ -50,9 +51,11 @@ export class VerifyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private db:AngularFireDatabase
     ,private plt: Platform, private file: File
-    , private fileOpener: FileOpener, private loadingCtrl: LoadingController,) {
+    , private fileOpener: FileOpener, private loadingCtrl: LoadingController,
+    private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.mncattle="verify";
+
     this.indexreport();
   }
 
@@ -125,12 +128,16 @@ export class VerifyPage {
         this.data_cattle.push(element);
       });
     });
+    console.log(this.data_cattle,this.name);
   }
   createPdf() {
 
     this.presentLoading();
-    firebase.storage().ref('Photos/'+this.user+'/Logo').getDownloadURL().then(data=>{
-      console.log(data);
+    this.api.getPicLogoFromStorage(this.user).subscribe(snap=>{
+      var value = Object.keys(snap).map(key=>snap[key]);
+      var data = value[0].logo_base64;
+
+
       function convertToDataURLviaCanvas(url, outputFormat){
         return new Promise((resolve, reject) => {
         let img = new Image();
@@ -153,9 +160,8 @@ export class VerifyPage {
 
     convertToDataURLviaCanvas(data, "image/png").then(base64 => this.pdfimage=base64)
 
-    })
 
-
+  })
 
     setTimeout(() => {
       var d = new Date();

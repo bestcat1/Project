@@ -22,6 +22,7 @@ color
 user:string;
 id;
 item$ ;
+herd_num
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public viewCtrl:ViewController,public alertCtrl:AlertController,public toastCtrl: ToastController,
     private api:NodeapiProvider) {
@@ -46,7 +47,9 @@ item$ ;
     this.api.getFarm('color',this.user).subscribe(data=>{
       this.color = Object.keys(data).map(key=>data[key]);
     })
-
+    this.api.showHerdNumber(this.user).subscribe(data=>{
+      this.herd_num = Object.keys(data).map(key=>data[key]);
+    })
   }
 
   ionViewDidLoad() {

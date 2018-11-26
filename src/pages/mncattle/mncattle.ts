@@ -32,7 +32,7 @@ currentDate:boolean;
 corral:any;
 public damList:Array<any>;
   public loadedDamList:Array<any>;
-
+herd_num
 item$ : Observable<any[]>;
 corrals;
   item:AngularFireList<any[]>;
@@ -174,7 +174,9 @@ addCattle(){
       this.color = Object.keys(data).map(key => data[key]);
     }
   });
-
+  this.api.showHerdNumber(this.user).subscribe(data=>{
+    this.herd_num = Object.keys(data).map(key=>data[key]);
+  })
 }
 
 addc(data:NgForm){

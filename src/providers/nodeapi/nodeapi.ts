@@ -349,4 +349,25 @@ export class NodeapiProvider {
   getDateByDate(user,date){
     return this.http.get(URL_API.NODE_API+'/notification/show/date/'+user+'/'+date).pipe(map(res=>res.json()));
   }
+
+  getPicLogoFromStorage(user){
+    return this.http.get(URL_API.NODE_API+'/storage/'+user).pipe(map(res=>res.json()));
+  }
+
+  addHerdNumber(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/herd_num/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  showHerdNumber(user){
+    return this.http.get(URL_API.NODE_API+'/setting/farm/herd_num/show/'+user).pipe(map(res=>res.json()));
+  }
+  deleteHerdNumber(user,key){
+    return this.http.delete(URL_API.NODE_API+'/setting/farm/herd_num/delete/'+user+'/'+key).pipe(map(res=>res.json()));
+  }
+  updateHerdNumber(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/herd_num/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+  getCattleByHerdNumber(user,herd_num){
+    return this.http.get(URL_API.NODE_API+'/cattle/showherd/'+user+'/'+herd_num).pipe(map(res=>res.json()));
+  }
 }

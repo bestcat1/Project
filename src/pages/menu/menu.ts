@@ -112,9 +112,11 @@ myPhotoURL;
       if(datas!=null){
       var value = Object.keys(datas).map(key=>datas[key]);
       this.showname = value[0].fname + ' ' + value[0].lname;
-      firebase.storage().ref().child('Photos/'+value[0].user+'/Logo').getDownloadURL().then((url)=>{
-        this.myPhotoURL=url;
-      });
+      this.api.getPicLogoFromStorage(value[0].user).subscribe(data2=>{
+        var value = Object.keys(data2).map(key=>data2[key]);
+        this.myPhotoURL = value[0].logo_base64;
+      })
+
       this.api.showAlertDate(value[0].user).subscribe(data1=>{
         if(data1!=null){
         Object.keys(data1).forEach(snap=>{

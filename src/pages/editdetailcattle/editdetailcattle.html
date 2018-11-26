@@ -50,15 +50,7 @@
           <ion-item>
             <ion-label>ฝูงโค: </ion-label>
             <ion-select name="herd_no" placeholder="เลือกฝูงโค" ngModel="{{e.herd_no}}">
-              <ion-option value="โคพร้อมผสมพันธุ์">โคพร้อมผสมพันธุ์</ion-option>
-              <ion-option value="โคตั้งท้อง">โคตั้งท้อง</ion-option>
-              <ion-option value="โคเลี้ยงลูกแรกคลอด(ยังไม่ได้หย่านม)">โคเลี้ยงลูกแรกคลอด(ยังไม่ได้หย่านม)</ion-option>
-              <ion-option value="โคเลี้ยงลูก2เดือน(เตรียมหย่านม)">โคเลี้ยงลูก2เดือน(เตรียมหย่านม)</ion-option>
-              <ion-option value="โคเลี้ยงลูกโต(หย่านมแล้ว)">โคเลี้ยงลูกโต(หย่านมแล้ว)</ion-option>
-              <ion-option value="ลูกโคโต(หย่านมแล้ว)">ลูกโคโต(หย่านมแล้ว)</ion-option>
-              <ion-option value="ลูกโคโต(ยังไม่ได้หย่านม)">ลูกโคโต(ยังไม่ได้หย่านม)</ion-option>
-              <ion-option value="โครุ่น">โครุ่น</ion-option>
-              <ion-option value="โคเตรียมหย่านม">โคเตรียมหย่านม</ion-option>
+              <ion-option value="{{hn.herd_num}}" *ngFor="let hn of herd_num">{{hn.herd_num}}</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>

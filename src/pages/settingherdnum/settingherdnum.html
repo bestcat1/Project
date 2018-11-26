@@ -1,0 +1,40 @@
+<!--
+  Generated template for the SettingherdnumPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ตั้งค่าฝูงโค</ion-title>
+  </ion-navbar>
+
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="addherd(clForm)" #clForm="ngForm" >
+    เพิ่มรายการฝูงโค<br>
+    <ion-card>
+      <ion-item>
+          <ion-input type="text" name="herd_num" placeholder="กรอกชื่อฝูงโค" ngModel [(ngModel)]="dataherd"></ion-input>
+          <button item-end type="submit" ion-button round color="secondary"><ion-icon name="md-add"></ion-icon></button>
+      </ion-item>
+    </ion-card>
+</form>
+<br>รายการสีฝูงที่มี<br>
+<ion-card>
+
+<ion-item *ngFor="let h of item$">
+  <ion-label>{{h.herd_num}}</ion-label>
+  <button type="button" ion-button color="secondary" item-end (click)="editherd(h.key,h.herd_num)">
+      <ion-icon name="ios-trash"></ion-icon>&nbsp;แก้ไข
+  </button>
+  <button type="button" ion-button color="danger" item-end (click)="removeherd(h.key,h.herd_num)">
+      <ion-icon name="ios-trash"></ion-icon>&nbsp;ลบ
+  </button>
+</ion-item>
+</ion-card>
+</ion-content>

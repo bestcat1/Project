@@ -167,4 +167,7 @@ stprosync(){
 stdrug(){
   this.navCtrl.push("SettingdrugPage",{user:this.user})
 }
+stherdnum(){
+  this.navCtrl.push("SettingherdnumPage",{user:this.user});
+}
 }

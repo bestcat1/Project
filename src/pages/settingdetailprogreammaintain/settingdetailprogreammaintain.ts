@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -20,8 +20,11 @@ export class SettingdetailprogreammaintainPage {
 data_drug;
 user;
 program;
+drug_maintain;
+volumn;
+day_length;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-
+private alertCtrl: AlertController,
   private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.program=this.navParams.get('program');
@@ -29,6 +32,9 @@ program;
 
     }
     ionViewWillEnter(){
+      this.drug_maintain='';
+this.volumn='';
+this.day_length='';
       this.api.getDetailMaintainByType(this.user,this.program).subscribe(data=>{
         if(data!=null){
         var values = Object.keys(data).map(key=> data[key]);
@@ -48,8 +54,24 @@ program;
   }
   addpromain(data:NgForm){
     console.log(data.value);
-    this.api.addDetailMaintain(this.user,data.value).subscribe();
-    this.ionViewWillEnter();
+    if(data.value.drug_maintain!=''&&data.value.volumn!=''&&data.value.day_length!=''){
+      console.log(data.value);
+      this.api.addDetailMaintain(this.user,data.value).subscribe();
+      this.drug_maintain='';
+      this.volumn='';
+      this.day_length='';
+      this.ionViewWillEnter();
+    }else{
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+
+      // let alert = this.alertCtrl.create({
+      //   title: 'ขออภัย!',
+      //   subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+      //   buttons: ['ตกลง']
+      // });
+      // alert.present();
+    }
+
   }
   detail(d){
     this.navCtrl.push("ShowdetailprogrammaintainPage", {detail:d,user:this.user});

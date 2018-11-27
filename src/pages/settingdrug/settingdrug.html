@@ -18,19 +18,19 @@
     <ion-card>
       <ion-item>
         <ion-label stacked>ชื่อยา</ion-label>
-          <ion-input type="text" name="drug_name" placeholder="กรอกชื่อยา" ngModel></ion-input>
+          <ion-input type="text" name="drug_name" placeholder="กรอกชื่อยา" ngModel [(ngModel)]="drug_name"></ion-input>
       </ion-item>
       <ion-row>
       <ion-col col-6>
       <ion-item>
           <ion-label stacked>ชื่อสามัญ</ion-label>
-         <ion-input  type="text" name="common_drug" ngModel placeholder="กรอกชื่อสามัญ"></ion-input>
+         <ion-input  type="text" name="common_drug" ngModel placeholder="กรอกชื่อสามัญ" [(ngModel)]="common_drug"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col col-6>
         <ion-item>
         <ion-label class="myCustomSelect" stacked>ขนาด(cc.)</ion-label>
-        <ion-input type="number" name="dosage" ngModel placeholder="กรอกขนาดยา(cc.)"></ion-input>
+        <ion-input type="number" name="dosage" ngModel placeholder="กรอกขนาดยา(cc.)" [(ngModel)]="dosage"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

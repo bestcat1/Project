@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { GlobalProvider } from '../../providers/global/global';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import firebase from 'firebase';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
@@ -21,9 +18,7 @@ export class MenuPage {
 count_notification=0;
 count_login:any;
 key;
-detail:Observable<any[]>;
-notification:Observable<any[]>;
-test:Observable<any[]>;
+
 detail_user=[];
   user:string;
 email;
@@ -32,42 +27,44 @@ showname;
 myPhotoURL;
   constructor(public localNotifications:LocalNotifications,public navCtrl: NavController
     , public navParams: NavParams,public menu:MenuController,public global: GlobalProvider
-    ,private db:AngularFireDatabase,public alertCtrl:AlertController,
+    ,public alertCtrl:AlertController,
     private auth:AuthProvider,private api: NodeapiProvider,
     private loadingCtrl: LoadingController) {
       console.log('MenuPage');
 
       this.presentLoading();
+      this.api.getUserByEmail(this.auth.getEmail()).subscribe(data=>{
+        console.log(data);
+        var value = Object.keys(data).map(key=>data[key]);
+        console.log(value[0].user);
+        var d = new Date();
+        // var date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
 
+        this.global.setMyGlobalVar(value[0].user);
+        if(value[0].count_login==0){
+        this.loader.dismiss();
+      let noti=[{id_noti:0,list:'ผสมพันธุ์',day_length:18,note:'หลังผสมไม่ติด'},
+          {id_noti:1,list:'ตรวจท้อง',day_length:28,note:'หลังผสมพันธุ์'},
+          {id_noti:2,list:'คลอด',day_length:283,note:'หลังจากตั้งท้อง'},
+          {id_noti:3,list:'เหนี่ยวนำการกลับสัด',day_length:60,note:'หลังจากคลอด'},
+          {id_noti:4,list:'สูญเขา',day_length:60,note:'หลังจากเกิด'},
+          {id_noti:5,list:'หย่านม',day_length:180,note:'หลังจากเกิด'},
+          {id_noti:6,list:'ตีเบอร์',day_length:240,note:'หลังจากเกิด'},
+          {id_noti:7,list:'บันทึกน้ำหนักลูกโค 1 ปี',day_length:365,note:'หลังจากเกิด'},
+          {id_noti:8,list:'การรักษา',day_length:1,note:'การรักษา'},
+          {id_noti:9,list:'เหนี่ยวนำการกลับสัด',day_length:61,note:'หลังจากโคแท้ง'},
+          {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:20,note:'เหนี่ยวนำการกลับสัด'},
+          {id_noti:11,list:'ผสมพันธุ์',day_length:21,note:'หลังจากเหนี่ยวนำการกลับสัด'},];
+          swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
+            this.navCtrl.push("SettingfarmPage",{user: value[0].user});
+            this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe();
+            for(let i = 0 ;i<noti.length;i++){
+              this.api.addSettingNoti(value[0].user,noti[i]).subscribe();
+            }
+          });
+        }
+      });
 
-        firebase.database().ref('/User').orderByChild('email').equalTo(this.auth.getEmail()).once('child_added',datas=>{
-          var d = new Date();
-          var date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
-
-          this.global.setMyGlobalVar(datas.val().user);
-          if(datas.val().count_login==0){
-          this.loader.dismiss();
-        let noti=[{id_noti:0,list:'ผสมพันธุ์',day_length:18,note:'หลังผสมไม่ติด'},
-            {id_noti:1,list:'ตรวจท้อง',day_length:28,note:'หลังผสมพันธุ์'},
-            {id_noti:2,list:'คลอด',day_length:283,note:'หลังจากตั้งท้อง'},
-            {id_noti:3,list:'เหนี่ยวนำการกลับสัด',day_length:60,note:'หลังจากคลอด'},
-            {id_noti:4,list:'สูญเขา',day_length:60,note:'หลังจากเกิด'},
-            {id_noti:5,list:'หย่านม',day_length:180,note:'หลังจากเกิด'},
-            {id_noti:6,list:'ตีเบอร์',day_length:240,note:'หลังจากเกิด'},
-            {id_noti:7,list:'บันทึกน้ำหนักลูกโค 1 ปี',day_length:365,note:'หลังจากเกิด'},
-            {id_noti:8,list:'การรักษา',day_length:1,note:'การรักษา'},
-            {id_noti:9,list:'เหนี่ยวนำการกลับสัด',day_length:61,note:'หลังจากโคแท้ง'},
-            {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:20,note:'เหนี่ยวนำการกลับสัด'},
-            {id_noti:11,list:'ผสมพันธุ์',day_length:21,note:'หลังจากเหนี่ยวนำการกลับสัด'},];
-            swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
-              this.navCtrl.push("SettingfarmPage",{user: datas.val().user});
-              this.db.list('/User').update(datas.key,{count_login:'1'});
-              for(let i = 0 ;i<noti.length;i++){
-                this.db.list('/setting/notification/'+datas.val().user).push(noti[i]);
-              }
-            });
-          }
-        })
 
 
 
@@ -79,34 +76,12 @@ myPhotoURL;
   ionViewWillEnter(){
     this.count_notification=0;
     var i=0;
-    var user=this.global.getMyGlobalVar();
     var localNotification = this.localNotifications;
 
     localNotification.clearAll();
-    firebase.database().ref().child('/notification/'+user).on("child_added",function(snap){
-      var a;
-       firebase.database().ref().child('/notification/'+user+'/'+snap.key).on("value",function(snap){
-         a=snap.numChildren();
-       });
 
-      let day = new Date(snap.key).getDate();
-        let year = new Date(snap.key).getFullYear();
-        let month = new Date(snap.key).getMonth();
-        let time1 = new Date(year, month, day, 7, 0, 0, 0);
-        localNotification.schedule({
-          id: i,
-          title: 'แจ้งเตือน',
-          text: 'วันนี้มีรายการจัดการ '+ a+' รายการ',
-          trigger: { at: new Date(time1) },
-        });
-      i++;
-    });
 
     var d = new Date();
-    var date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
-
-    this.notification=this.db.list('/notification/'+user+'/'+date).valueChanges();
-
 
     this.api.getUserByEmail(this.auth.getEmail()).subscribe(datas=>{
       if(datas!=null){
@@ -124,7 +99,17 @@ myPhotoURL;
           this.api.showAlertDateDetail(value[0].user,snap).subscribe(element=>{
             if(element!=null){
             this.count_notification+=Object.keys(element).length;
-            console.log('xxx: '+this.count_notification);
+            console.log('xxx: '+this.count_notification+'yyy:'+snap);
+            let day = new Date(snap).getDate();
+            let year = new Date(snap).getFullYear();
+            let month = new Date(snap).getMonth();
+            let time1 = new Date(year, month, day, 7, 0, 0, 0);
+            this.localNotifications.schedule({
+          id: i,
+          title: 'แจ้งเตือน',
+          text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
+          trigger: { at: new Date(time1) },
+         });
             }
           })
 

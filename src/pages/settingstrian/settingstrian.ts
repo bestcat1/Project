@@ -27,6 +27,7 @@ datastrian:String;
   }
 
   ionViewWillEnter(){
+    this.datastrian='';
     this.strian = [];
     this.api.getBreed(this.user).subscribe(data=>{
       if(data!=null){
@@ -53,9 +54,15 @@ datastrian:String;
     console.log('ionViewDidLoad SettingstrianPage');
   }
   addstrian(data:NgForm){
-    this.api.addSettingBreed(this.user,data.value).subscribe();
-    this.datastrian='';
-    this.ionViewWillEnter()
+    if(data.value.strain!=null){
+      this.api.addSettingBreed(this.user,data.value).subscribe();
+      this.datastrian='';
+      this.ionViewWillEnter()
+    }
+    else{
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
   }
   removestrian(k,c){
     let check=0;

@@ -19,15 +19,21 @@ export class SettingdetailprogramsyncPage {
 program;
 user;
 data_drug;
+drug_sync;
+day_length;
+time_length;
   constructor(public navCtrl: NavController, public navParams: NavParams
   ,public modalCtrl: ModalController
     ,private api:NodeapiProvider) {
-
+      this.drug_sync='';
+      this.day_length='';
+      this.time_length='';
     this.program=this.navParams.get('program');
     this.user=this.navParams.get('user');
     console.log(this.user,this.program);
   }
   ionViewWillEnter(){
+
     this.api.getDrugProgramSync(this.user,this.program).subscribe(data=>{
       console.log(data);
       if(data!=null){
@@ -43,9 +49,17 @@ data_drug;
     console.log('ionViewDidLoad SettingdetailprogramsyncPage');
   }
   addprosync(data:NgForm){
-    console.log(data.value);
-    this.api.addDetailProgramSync(this.user,data.value).subscribe();
-    this.ionViewWillEnter();
+    if(data.value.pro_sync!=''&&data.value.day_length!=''&&data.value.time_length!=''){
+      this.api.addDetailProgramSync(this.user,data.value).subscribe();
+      this.ionViewWillEnter();
+      this.drug_sync='';
+      this.day_length='';
+      this.time_length='';
+    }else{
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
+
   }
   delete(k){
     this.api.removeDetailProgramSync(this.user,k).subscribe();

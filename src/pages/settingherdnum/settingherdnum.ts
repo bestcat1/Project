@@ -46,14 +46,20 @@ this.api.getAllCattle(this.user).subscribe(data=>{
   }
 
   addherd(data:NgForm){
-    this.dataherd='';
-    console.log(data.value);
-    this.api.addHerdNumber(this.user,data.value).subscribe();
-    this.ionViewWillEnter();
+    if(data.value.herd_num!=''){
+      console.log(data.value);
+      this.api.addHerdNumber(this.user,data.value).subscribe();
+      this.ionViewWillEnter();
+      this.dataherd='';
+    }
+    else
+    {
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
   }
 
   removeherd(key,herd){
-   console.log(this.detail);
    let c=0;
     for(let i=0;i<this.detail.length;i++){
       if(this.detail[i].herd_no == herd){
@@ -70,6 +76,25 @@ this.api.getAllCattle(this.user).subscribe(data=>{
     }
     else{
       console.log(this.detail);
+       this.alertCtrl.create({
+        title: 'คำเตือน',
+        subTitle: 'มีการใช้ข้อมูลคอกโค '+ c +' รายการ<br>กรุณาแก้่ไขข้อมูลโค',
+        buttons: [
+          {
+            text: 'ยกเลิก',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'แก้ไขข้มูล',
+            handler: () => {
+              this.navCtrl.push("MncattlePage",{user:this.user,corral:'ทั้งหมด',type:'editcow'})
+            }
+          }
+        ]
+      }).present();
     }
   }
 

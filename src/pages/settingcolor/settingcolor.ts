@@ -27,6 +27,7 @@ datacolor:String;
 
   }
   ionViewWillEnter(){
+    this.datacolor='';
     this.colors = [];
     this.user=this.navParams.get('user');
     this.api.getColor(this.user).subscribe(data=>{
@@ -54,9 +55,14 @@ datacolor:String;
     console.log('ionViewDidLoad SettingcolorPage');
   }
   addcolor(data:NgForm){
+    if(data.value.color!=''){
     this.api.addColor(this.user,data.value).subscribe();
     this.datacolor='';
     this.ionViewWillEnter()
+    } else {
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
   }
   removecolor(k,c){
     let check=0;

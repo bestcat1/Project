@@ -19,6 +19,8 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 export class SettingprogramsyncPage {
   user;
   item$;
+  pro_sync;
+
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api : NodeapiProvider) {
     this.user=this.navParams.get('user');
@@ -26,6 +28,7 @@ export class SettingprogramsyncPage {
   }
 
   ionViewWillEnter(){
+    this.pro_sync = '';
     this.api.getProgramSync(this.user).subscribe(data=>{
       if(data!=null){
       var value = Object.keys(data).map(key=>data[key]);
@@ -41,8 +44,15 @@ export class SettingprogramsyncPage {
     console.log('ionViewDidLoad SettingprogramsyncPage');
   }
   addpro(data:NgForm){
-    this.api.addProgramSync(this.user,data.value).subscribe();
-    this.ionViewWillEnter()
+    if(data.value.pro_sync!=''){
+this.api.addProgramSync(this.user,data.value).subscribe();
+    this.ionViewWillEnter();
+      this.pro_sync = '';
+    }
+    else{
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
   }
   removepro(k){
     this.api.removeProgramSync(this.user,k).subscribe();

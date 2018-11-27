@@ -26,6 +26,7 @@ data_corral:String;
 
   }
   ionViewWillEnter(){
+    this.data_corral='';
     this.corral = [];
     this.alertPresent=false;
     this.user=this.navParams.get('user');
@@ -57,9 +58,14 @@ data_corral:String;
   }
   addcorral(data:NgForm){
     console.log(data.value);
+    if(data.value.corral!=''){
     this.api.addCorral(this.user,data.value).subscribe();
-    this.data_corral='';
+     this.data_corral='';
     this.ionViewWillEnter();
+    } else {
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+    }
+
   }
   removecorral(n,c){
     let check=0;

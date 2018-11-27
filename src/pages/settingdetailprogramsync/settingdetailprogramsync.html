@@ -18,20 +18,20 @@
   <ion-card>
       <ion-item>
         <ion-label stacked>รายการ</ion-label>
-          <ion-input type="text" name="drug_sync" placeholder="กรอกรายการ" ngModel></ion-input>
+          <ion-input type="text" name="drug_sync" placeholder="กรอกรายการ" ngModel  [(ngModel)]="drug_sync"></ion-input>
       </ion-item>
       <ion-input type="hidden" name="pro_sync" ngModel="{{program}}"></ion-input>
       <ion-row>
       <ion-col col-6>
       <ion-item>
           <ion-label stacked>จำนวนวัน</ion-label>
-         <ion-input  type="text" name="day_length" ngModel placeholder="กรอกจำนวนวัน"></ion-input>
+         <ion-input  type="text" name="day_length" ngModel placeholder="กรอกจำนวนวัน"  [(ngModel)]="day_length"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col col-6>
         <ion-item>
         <ion-label class="myCustomSelect" stacked>เวลา</ion-label>
-        <ion-input class="test" type="time" name="time_length" ngModel placeholder="กรอกเวลา"></ion-input>
+        <ion-input class="test" type="time" name="time_length" ngModel placeholder="กรอกเวลา"  [(ngModel)]="time_length"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

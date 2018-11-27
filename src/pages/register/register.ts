@@ -17,6 +17,8 @@ export class RegisterPage {
   check=true;
   checkEmail=true;
   loader;
+  checkris=true;
+  typeuser;
   constructor(public navCtrl: NavController, public navParams: NavParams,public AlertCtrl:AlertController,public menu:MenuController
   ,public viewCtrl:ViewController,private auth:AuthProvider,private api: NodeapiProvider,
   private loadingCtrl:LoadingController) {
@@ -71,7 +73,7 @@ export class RegisterPage {
               ,logo_base64:URL}).subscribe();
 
             this.auth.doRegister(data.value.email,data.value.pass)
-            .then(res => {
+            .then(() => {
               this.checkEmail=true;
               this.api.addUser(data.value).subscribe();
               this.auth.login(data.value.email,data.value.pass);
@@ -97,6 +99,7 @@ export class RegisterPage {
 
 
 }
+
 error(){
   swal("ข้ออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
 }
@@ -109,5 +112,13 @@ presentLoading() {
   });
   this.loader.present();
 
+}
+prev(n){
+  this.checkris=false;
+  console.log(n);
+  this.typeuser = n;
+}
+back(a){
+  this.checkris=true;
 }
 }

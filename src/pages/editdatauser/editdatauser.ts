@@ -23,7 +23,7 @@ item$:Observable<any[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public global: GlobalProvider,private db:AngularFireDatabase,
     public viewCtrl:ViewController) {
-    this.user=this.global.getMyGlobalVar();
+    this.user=this.navParams.get('user');
     console.log(this.global.getMyGlobalVar());
     this.item$=this.db.list('/User',ref=>ref.orderByChild('user').equalTo(this.user)).snapshotChanges().map(chang =>{
       return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));

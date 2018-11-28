@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 /**
  * Generated class for the StaffinfoPage page.
@@ -18,9 +17,12 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class StaffinfoPage {
 user;
 item:Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db: AngularFireDatabase) {
-    this.user=this.navParams.get('user');
-    this.item = this.db.list('/personnel',ref=>ref.orderByChild('adminfarm').equalTo(this.user)).valueChanges();
+menu;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public menu1:MenuController) {
+    //this.user=this.navParams.get('user');
+    //this.item = this.db.list('/User',ref=>ref.orderByChild('adminfarm').equalTo(this.user)).valueChanges();
+    this.menu=menu1;
+    this.menu.enable(true,'myMenu');
   }
 
   ionViewDidLoad() {

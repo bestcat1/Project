@@ -95,6 +95,7 @@ import { Base64 } from '@ionic-native/base64';
 import { NgCalendarModule  } from 'ionic2-calendar';
 import { HTTP } from '@ionic-native/http';
 import { SettingherdnumPageModule } from '../pages/settingherdnum/settingherdnum.module';
+import { SearchFarmPageModule } from '../pages/search-farm/search-farm.module';
 
 @NgModule({
   declarations: [
@@ -178,7 +179,8 @@ import { SettingherdnumPageModule } from '../pages/settingherdnum/settingherdnum
     RegisterstaffPageModule,
     StaffinfoPageModule,
     HttpModule,
-    SettingherdnumPageModule
+    SettingherdnumPageModule,
+    SearchFarmPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

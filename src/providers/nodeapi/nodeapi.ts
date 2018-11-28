@@ -371,9 +371,17 @@ export class NodeapiProvider {
     return this.http.get(URL_API.NODE_API+'/cattle/showherd/'+user+'/'+herd_num).pipe(map(res=>res.json()));
   }
   updateUser(key,data){
-    return this.http.post(URL_API.NODE_API+'/user/'+key,data).pipe(map(res=>res.json()));
+    return this.http.post(URL_API.NODE_API+'/user/update/'+key,data).pipe(map(res=>res.json()));
   }
   addSettingNoti(user,data){
     return this.http.post(URL_API.NODE_API+'/setting/notification/add/'+user,data).pipe(map(res=>res.json()));
+  }
+
+  getUserByPrivilege(type){
+    return this.http.get(URL_API.NODE_API+'/user/privilege/'+type).pipe(map(res=>res.json()));
+  }
+
+  getUserByAdminfarm(user){
+    return this.http.get(URL_API.NODE_API+'/user/adminfarm/'+user).pipe(map(res=>res.json()));
   }
 }

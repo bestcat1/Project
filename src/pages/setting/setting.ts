@@ -20,6 +20,7 @@ user;
 checktype=0;
 notification = [];
 settingnotification = [];
+setiUser;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider
     , public localNotifications: LocalNotifications
@@ -44,6 +45,7 @@ settingnotification = [];
     }
     if(t == 'จัดการข้อมูลผู้ใช้'){
       this.checktype = 3;
+      this.settingUser();
     }
     if(t == 'ตั้งค่าระบบฟาร์ม'){
       this.checktype = 4;
@@ -170,4 +172,131 @@ stdrug(){
 stherdnum(){
   this.navCtrl.push("SettingherdnumPage",{user:this.user});
 }
+
+ // ------------- setting User ------------
+ settingUser(){
+   this.api.getUserByAdminfarm(this.user).subscribe(data=>{
+     var value = Object.keys(data).map(key=>data[key]);
+     console.log(data);
+     this.setiUser = value;
+     for(let i=0;i<value.length;i++){
+       this.setiUser[i].key = Object.keys(data)[i];
+     }
+   })
+ }
+ selectprivilege(c){
+   console.log(c);
+  let alert = this.alertCtrl.create();
+  alert.setTitle('สิทธิ์ผู้ใช้งาน');
+  if(c.privilege=='ยังไม่ได้อนุมัติ'){
+    alert.addInput({
+      type: 'radio',
+      label: 'ยังไม่ได้อนุมัติ',
+      value: 'ยังไม่ได้อนุมัติ',
+      checked: true
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวแพทย์',
+      value: 'สัตวแพทย์',
+
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวบาล',
+      value: 'สัตวบาล',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'พนักงานฟาร์ม',
+      value: 'พนักงานฟาร์ม',
+    });
+  }
+  if(c.privilege=='สัตวแพทย์'){
+    alert.addInput({
+      type: 'radio',
+      label: 'ยังไม่ได้อนุมัติ',
+      value: 'ยังไม่ได้อนุมัติ',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวแพทย์',
+      value: 'สัตวแพทย์',
+      checked: true
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวบาล',
+      value: 'สัตวบาล',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'พนักงานฟาร์ม',
+      value: 'พนักงานฟาร์ม',
+    })
+  }
+  if(c.privilege=='สัตวบาล'){
+    alert.addInput({
+      type: 'radio',
+      label: 'ยังไม่ได้อนุมัติ',
+      value: 'ยังไม่ได้อนุมัติ',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวแพทย์',
+      value: 'สัตวแพทย์',
+
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวบาล',
+      value: 'สัตวบาล',
+      checked: true
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'พนักงานฟาร์ม',
+      value: 'พนักงานฟาร์ม',
+    })
+  }
+
+  if(c.privilege=='พนักงานฟาร์ม'){
+    alert.addInput({
+      type: 'radio',
+      label: 'ยังไม่ได้อนุมัติ',
+      value: 'ยังไม่ได้อนุมัติ',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวแพทย์',
+      value: 'สัตวแพทย์',
+
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สัตวบาล',
+      value: 'สัตวบาล',
+
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'พนักงานฟาร์ม',
+      value: 'พนักงานฟาร์ม',
+      checked: true
+    })
+  }
+
+
+  alert.addButton('Cancel');
+  alert.addButton({
+    text: 'OK',
+    handler: data => {
+      this.api.updateUser(c.key,{privilege:data}).subscribe();
+      this.settingUser();
+      console.log(data);
+    }
+  });
+  alert.present();
+}
+
 }

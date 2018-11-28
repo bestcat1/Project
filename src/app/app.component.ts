@@ -9,7 +9,7 @@ import { MndamPage } from '../pages/mndam/mndam';
 import { MncalfPage } from '../pages/mncalf/mncalf';
 import { SettingPage } from '../pages/setting/setting';
 import { VerifyPage } from '../pages/verify/verify';
-import { ReportPage } from '../pages/report/report';
+
 import { ProfilePage } from '../pages/profile/profile';
 import { EditdatauserPage } from '../pages/editdatauser/editdatauser';
 import { GlobalProvider } from '../providers/global/global';
@@ -19,6 +19,8 @@ import { MenuPage } from '../pages/menu/menu';
 import firebase from 'firebase';
 import { SelectnurturePage } from '../pages/selectnurture/selectnurture';
 import { NodeapiProvider } from '../providers/nodeapi/nodeapi';
+
+import { SearchFarmPage } from '../pages/search-farm/search-farm';
 @Component({
   templateUrl: 'app.html'
 })
@@ -32,6 +34,8 @@ export class MyApp {
   lname;
   user;
   myPhotoURL;
+
+
   pages: Array<{icon: string,title: string, component: any}>;
   constructor(private platform: Platform
     , statusBar: StatusBar, splashScreen: SplashScreen,public global:GlobalProvider,
@@ -47,21 +51,80 @@ export class MyApp {
          }
          this.auth.isAuthenticated().subscribe((data)=>{
           if(data==true){
-            this.rootPage = MenuPage;
+
             console.log(this.auth.getEmail());
             this.api.getUserByEmail(this.auth.getEmail()).subscribe(data=>{
               var value = Object.keys(data).map(key=>data[key]);
-              this.user = value[0].user;
-                  this.fname = value[0].fname;
-                  this.lname = value[0].lname;
-                  firebase.storage().ref().child('Photos/'+value[0].user+'/Logo').getDownloadURL().then((url)=>{
-                    this.myPhotoURL=url;
-                  })
-            })
-            //   firebase.database().ref('/User').orderByChild('email').equalTo(this.auth.getEmail()).once('child_added',datas=>{
-            //
+                  if(value[0].privilege =='เจ้าของฟาร์ม'){
+                    this.pages = [
+                      { icon: 'ios-arrow-forward', title: 'จัดการใบพันธุ์ประวัติโค', component: MncattlePage },
+                      { icon: 'ios-arrow-forward', title: 'บันทึกระบบสืบพันธุ์แม่โค', component: MndamPage },
+                      { icon: 'ios-arrow-forward', title: 'บันทึกการจัดการลูกโค', component: MncalfPage },
+                      { icon: 'md-settings', title: 'บันทึกการรักษา', component: SelectnurturePage },
+                      { icon: 'md-search', title: 'เรียกดูและแก้ไขข้อมูลโค/ออกรายงาน', component: VerifyPage },
 
-            // });
+                       { icon: 'md-settings', title: 'ตั้งค่าและแจ้งเตือน', component: SettingPage },
+                      { icon: 'md-folder-open', title: 'ตั้งค่าแบรนด์', component: ProfilePage },
+                      { icon: 'md-create', title: 'แก้ไขข้อมูลส่วนตัว', component: EditdatauserPage },
+                      { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
+                    ];
+                    this.rootPage = MenuPage;
+                    this.user = value[0].user;
+                    this.fname = value[0].fname;
+                    this.lname = value[0].lname;
+                    firebase.storage().ref().child('Photos/'+value[0].user+'/Logo').getDownloadURL().then((url)=>{
+                      this.myPhotoURL=url;
+                    })
+                  }
+                  else if(value[0].privilege =='สัตวแพทย์'||value[0].privilege =='สัตวบาล'){
+                    this.pages = [
+                      { icon: 'ios-arrow-forward', title: 'บันทึกระบบสืบพันธุ์แม่โค', component: MndamPage },
+                      { icon: 'ios-arrow-forward', title: 'บันทึกการจัดการลูกโค', component: MncalfPage },
+                      { icon: 'md-settings', title: 'บันทึกการรักษา', component: SelectnurturePage },
+                      { icon: 'md-search', title: 'เรียกดูและแก้ไขข้อมูลโค/ออกรายงาน', component: VerifyPage },
+
+                      { icon: 'md-create', title: 'แก้ไขข้อมูลส่วนตัว', component: EditdatauserPage },
+                      { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
+                    ];
+                    this.rootPage = MenuPage;
+                    this.user = value[0].adminfarm;
+                    this.fname = value[0].fname;
+                    this.lname = value[0].lname;
+                    firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{
+                      this.myPhotoURL=url;
+                    })
+                  }
+                  else if(value[0].privilege =='พนักงานฟาร์ม'){
+                    this.pages = [
+                      { icon: 'md-search', title: 'เรียกดูและแก้ไขข้อมูลโค/ออกรายงาน', component: VerifyPage },
+
+                      { icon: 'md-create', title: 'แก้ไขข้อมูลส่วนตัว', component: EditdatauserPage },
+                      { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
+                    ];
+                    this.rootPage = MenuPage;
+                    this.user = value[0].adminfarm;
+                    this.fname = value[0].fname;
+                    this.lname = value[0].lname;
+                    firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{
+                      this.myPhotoURL=url;
+                    })
+
+                  }
+                  else{
+                    this.pages = [
+                      { icon: 'md-create', title: 'แก้ไขข้อมูลส่วนตัว', component: EditdatauserPage },
+                      { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
+                    ];
+                    this.fname = value[0].fname;
+                    this.lname = value[0].lname;
+                    this.user = value[0].user;
+                    this.myPhotoURL = 'assets/menu1/3.png'
+                    this.rootPage = SearchFarmPage;
+
+                  }
+
+            })
+
           }
           else{
             this.rootPage = HomePage;
@@ -85,18 +148,7 @@ export class MyApp {
         }
       });
     });
-    this.pages = [
-      { icon: 'ios-arrow-forward', title: 'จัดการใบพันธุ์ประวัติโค', component: MncattlePage },
-      { icon: 'ios-arrow-forward', title: 'บันทึกระบบสืบพันธุ์แม่โค', component: MndamPage },
-      { icon: 'ios-arrow-forward', title: 'บันทึกการจัดการลูกโค', component: MncalfPage },
-      { icon: 'md-settings', title: 'บันทึกการรักษา', component: SelectnurturePage },
-      { icon: 'md-search', title: 'ตรวจสอบข้อมูลโค', component: VerifyPage },
-      { icon: 'md-print', title: 'ออกรายงานข้อมูลโค', component: ReportPage },
-       { icon: 'md-settings', title: 'ตั้งค่าและแจ้งเตือน', component: SettingPage },
-      { icon: 'md-folder-open', title: 'ตั้งค่าแบรนด์', component: ProfilePage },
-      { icon: 'md-create', title: 'แก้ไขข้อมูลส่วนตัว', component: EditdatauserPage },
-      { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
-    ];
+
 
   }
 

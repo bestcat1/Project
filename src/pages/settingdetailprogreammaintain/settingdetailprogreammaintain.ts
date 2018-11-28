@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams} from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -24,7 +24,7 @@ drug_maintain;
 volumn;
 day_length;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-private alertCtrl: AlertController,
+
   private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.program=this.navParams.get('program');

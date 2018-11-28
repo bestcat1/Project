@@ -25,6 +25,14 @@ email;
 loader;
 showname;
 myPhotoURL;
+privilege;
+
+m1=false;
+m2=false;
+m3=false;
+m4=false;
+m5=false;
+m6=false;
   constructor(public localNotifications:LocalNotifications,public navCtrl: NavController
     , public navParams: NavParams,public menu:MenuController,public global: GlobalProvider
     ,public alertCtrl:AlertController,
@@ -36,8 +44,18 @@ myPhotoURL;
       this.api.getUserByEmail(this.auth.getEmail()).subscribe(data=>{
         console.log(data);
         var value = Object.keys(data).map(key=>data[key]);
+        if(value[0].privilege=='เจ้าของฟาร์ม'){
+          this.m1=true;
+          this.m2=true;
+          this.m3=true;
+          this.m4=true;
+          this.m5=true;
+          this.m6=true;
+
+          this.privilege = value[0].privilege;
+
         console.log(value[0].user);
-        var d = new Date();
+        // var d = new Date();
         // var date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
 
         this.global.setMyGlobalVar(value[0].user);
@@ -63,9 +81,29 @@ myPhotoURL;
             }
           });
         }
+      }
+      else{
+        console.log(value[0].adminfarm);
+        this.global.setMyGlobalVar(value[0].adminfarm);
+        this.privilege = value[0].privilege;
+        if(value[0].privilege=='พนักงานฟาร์ม'){
+          this.m1=false;
+          this.m2=false;
+          this.m3=false;
+          this.m4=false;
+          this.m5=false;
+          this.m6=true;
+        }
+        else{
+          this.m1=false;
+          this.m2=true;
+          this.m3=true;
+          this.m4=true;
+          this.m5=false;
+          this.m6=true;
+        }
+      }
       });
-
-
 
 
     this.menu=menu;
@@ -81,11 +119,13 @@ myPhotoURL;
     localNotification.clearAll();
 
 
-    var d = new Date();
+    // var d = new Date();
 
     this.api.getUserByEmail(this.auth.getEmail()).subscribe(datas=>{
       if(datas!=null){
       var value = Object.keys(datas).map(key=>datas[key]);
+      if(value[0].privilege=='เจ้าของฟาร์ม')
+      {
       this.showname = value[0].fname + ' ' + value[0].lname;
       this.api.getPicLogoFromStorage(value[0].user).subscribe(data2=>{
         var value = Object.keys(data2).map(key=>data2[key]);
@@ -112,11 +152,23 @@ myPhotoURL;
          });
             }
           })
-
         })
       }
       })
     }
+    else{
+      this.api.getUser(value[0].adminfarm).subscribe(data=>{
+        console.log(data);
+        var value = Object.keys(data).map(key=>data[key]);
+        this.showname = value[0].fname + ' ' + value[0].lname;
+        this.api.getPicLogoFromStorage(value[0].user).subscribe(data2=>{
+          var value = Object.keys(data2).map(key=>data2[key]);
+          this.myPhotoURL = value[0].logo_base64;
+        })
+      })
+
+    }
+  }
     });
   }
 

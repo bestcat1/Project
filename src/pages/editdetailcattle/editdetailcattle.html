@@ -18,7 +18,7 @@
         <form (ngSubmit)="editc(edit_cattle,e.key)" #edit_cattle="ngForm">
           <ion-item>
             <ion-label>ชื่อโค: </ion-label>
-            <ion-input type="text" name="cattle_id" ngModel="cattle_id"></ion-input>
+            <ion-input type="text" name="cattle_id" ngModel="{{id}}"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>สายพันธุ์: </ion-label>

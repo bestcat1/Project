@@ -81,7 +81,8 @@
 <p align="center"><b>ผู้ใช้งานในฟาร์ม</b></p>
 <ion-item *ngFor="let a of setiUser">
   <ion-label>คุณ{{a.fname}} {{a.lname}}<br>สิทธิ์ผู้ใช้งาน: {{a.privilege}}</ion-label>
-  <button ion-button item-end type="button" (click)="selectprivilege(a)">แก้ไขสิทธิ์ผู้ใช้</button>
+  <button ion-button item-end type="button" (click)="selectprivilege(a)" color="primary">ข้อมูล</button>
+  <button ion-button item-end type="button" (click)="selectprivilege(a)" color="secondary">สิทธิ์ผู้ใช้</button>
 </ion-item>
 </ion-list>
 

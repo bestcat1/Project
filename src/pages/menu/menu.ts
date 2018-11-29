@@ -126,10 +126,11 @@ m6=false;
       var value = Object.keys(datas).map(key=>datas[key]);
       if(value[0].privilege=='เจ้าของฟาร์ม')
       {
-      this.showname = value[0].fname + ' ' + value[0].lname;
+
       this.api.getPicLogoFromStorage(value[0].user).subscribe(data2=>{
-        var value = Object.keys(data2).map(key=>data2[key]);
-        this.myPhotoURL = value[0].logo_base64;
+        var values = Object.keys(data2).map(key=>data2[key]);
+        this.myPhotoURL = values[0].logo_base64;
+        this.showname = values[0].farm_name_TH;
       })
 
       this.api.showAlertDate(value[0].user).subscribe(data1=>{
@@ -160,10 +161,11 @@ m6=false;
       this.api.getUser(value[0].adminfarm).subscribe(data=>{
         console.log(data);
         var value = Object.keys(data).map(key=>data[key]);
-        this.showname = value[0].fname + ' ' + value[0].lname;
+        // this.showname = value[0].fname + ' ' + value[0].lname;
         this.api.getPicLogoFromStorage(value[0].user).subscribe(data2=>{
           var value = Object.keys(data2).map(key=>data2[key]);
           this.myPhotoURL = value[0].logo_base64;
+          this.showname = value[0].farm_name_TH;
         })
       })
 

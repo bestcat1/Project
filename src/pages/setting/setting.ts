@@ -287,9 +287,9 @@ stherdnum(){
   }
 
 
-  alert.addButton('Cancel');
+  alert.addButton('ยกเลิก');
   alert.addButton({
-    text: 'OK',
+    text: 'บันทึก',
     handler: data => {
       this.api.updateUser(c.key,{privilege:data}).subscribe();
       this.settingUser();

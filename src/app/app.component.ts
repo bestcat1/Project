@@ -87,7 +87,7 @@ export class MyApp {
                       { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
                     ];
                     this.rootPage = MenuPage;
-                    this.user = value[0].adminfarm;
+                    this.user = value[0].user;
                     this.fname = value[0].fname;
                     this.lname = value[0].lname;
                     firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{
@@ -102,7 +102,7 @@ export class MyApp {
                       { icon: 'ios-log-out-outline', title: 'ออกจากระบบ', component: HomePage }
                     ];
                     this.rootPage = MenuPage;
-                    this.user = value[0].adminfarm;
+                    this.user = value[0].user;
                     this.fname = value[0].fname;
                     this.lname = value[0].lname;
                     firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{

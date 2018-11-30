@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+import { IonicPage, NavController, NavParams, MenuController, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the StaffinfoPage page.
@@ -16,17 +15,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class StaffinfoPage {
 user;
-item:Observable<any[]>;
-menu;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public menu1:MenuController) {
-    //this.user=this.navParams.get('user');
-    //this.item = this.db.list('/User',ref=>ref.orderByChild('adminfarm').equalTo(this.user)).valueChanges();
-    this.menu=menu1;
-    this.menu.enable(true,'myMenu');
+  constructor(public navCtrl: NavController, public navParams: NavParams,public menu1:MenuController,
+    private viewCtrl:ViewController) {
+    this.user = this.navParams.get('detail');
+    console.log(this.user);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad StaffinfoPage');
   }
-
+  back(){
+    this.viewCtrl.dismiss();
+  }
 }

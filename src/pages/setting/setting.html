@@ -20,7 +20,7 @@
   <ion-item>
     <ion-label floating>เลือกตั้งค่า แจ้งเตือน</ion-label>
     <ion-select interface="action-sheet" cancelText="ยกเลิก" (ionChange)="selectType($event)">
-      <ion-option value="การแจ้งเตือน">การแจ้งเตือน</ion-option>
+      <!-- <ion-option value="การแจ้งเตือน">การแจ้งเตือน</ion-option> -->
       <ion-option value="ตั้งค่าการแจ้งเตือน">ตั้งค่าการแจ้งเตือน</ion-option>
       <ion-option value="จัดการข้อมูลผู้ใช้">จัดการข้อมูลผู้ใช้</ion-option>
       <ion-option value="ตั้งค่าระบบฟาร์ม">ตั้งค่าระบบฟาร์ม</ion-option>
@@ -29,7 +29,7 @@
 
 
 <!-- ==================== setting ======================= -->
-
+<!--
 <ion-list [hidden]="checktype!=1">
   <div class="center">
 <ion-label><b>รายการแจ้งเตือน</b></ion-label>
@@ -58,7 +58,7 @@
 </ion-col>
 </ion-row>
 </ion-grid>
-</ion-list>
+</ion-list> -->
 
 <!-- =============== setting Notification =============-->
 <ion-list [hidden]="checktype!=2">
@@ -80,8 +80,9 @@
 <ion-list [hidden]="checktype!=3">
 <p align="center"><b>ผู้ใช้งานในฟาร์ม</b></p>
 <ion-item *ngFor="let a of setiUser">
-  <ion-label>คุณ{{a.fname}} {{a.lname}}<br>สิทธิ์ผู้ใช้งาน: {{a.privilege}}</ion-label>
-  <button ion-button item-end type="button" (click)="selectprivilege(a)" color="primary">ข้อมูล</button>
+  <ion-label [hidden]="a.privilege!='ยังไม่ได้อนุมัติ'">คุณ{{a.fname}} {{a.lname}}<br>สิทธิ์ผู้ใช้งาน: {{a.vacancy}}({{a.privilege}})</ion-label>
+  <ion-label [hidden]="a.privilege=='ยังไม่ได้อนุมัติ'">คุณ{{a.fname}} {{a.lname}}<br>สิทธิ์ผู้ใช้งาน: {{a.privilege}}</ion-label>
+  <button ion-button item-end type="button" (click)="showdetail(a)" color="primary">ข้อมูล</button>
   <button ion-button item-end type="button" (click)="selectprivilege(a)" color="secondary">สิทธิ์ผู้ใช้</button>
 </ion-item>
 </ion-list>

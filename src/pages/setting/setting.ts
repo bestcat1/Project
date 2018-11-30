@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -25,7 +25,8 @@ setiUser;
     ,private api:NodeapiProvider
     , public localNotifications: LocalNotifications
     ,private toastCtrl: ToastController
-    ,public alertCtrl: AlertController) {
+    ,public alertCtrl: AlertController,
+    public modalCtrl: ModalController) {
     this.user=this.navParams.get('user');
     console.log(this.user);
 
@@ -298,5 +299,11 @@ stherdnum(){
   });
   alert.present();
 }
+showdetail(d){
+  console.log(d);
 
+  // let profileModal = this.modalCtrl.create("StaffinfoPage", { detail: d });
+  // profileModal.present();
+
+}
 }

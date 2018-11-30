@@ -17,8 +17,15 @@
 
 
 <ion-content padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content   pullingIcon="arrow-dropdown"
+    pullingText="ลากลง.."
+    refreshingSpinner="circles"
+    refreshingText="รอสักครู่...">></ion-refresher-content>
+      </ion-refresher>
     <ion-card [hidden]="adminfarm=='ยังไม่มี'">
-        <p align="center"><b>ฟาร์ม{{namefarm}}</b><br>
+        <p align="center"><b>คุณสมัครเข้าฟาร์ม{{namefarm}}</b><br>
+          <b>ในตำแหน่ง: {{vacancy}}</b><br>
           <ion-icon name="md-bicycle" large></ion-icon><br>
           <b>กำลังอยู่ในระหว่างการยืนยันการสมัครจากเจ้าของฟาร์ม..</b><br>
           <ion-item>
@@ -41,4 +48,5 @@
 
       </ion-item>
     </ion-list>
+
 </ion-content>

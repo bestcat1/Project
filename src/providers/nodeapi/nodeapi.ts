@@ -384,4 +384,10 @@ export class NodeapiProvider {
   getUserByAdminfarm(user){
     return this.http.get(URL_API.NODE_API+'/user/adminfarm/'+user).pipe(map(res=>res.json()));
   }
+  getAbortionByUser(user){
+    return this.http.get(URL_API.NODE_API+'/abortion/show/'+user).pipe(map(res=>res.json()));
+  }
+  updateAbortionByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/abortion/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
 }

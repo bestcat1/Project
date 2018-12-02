@@ -1,0 +1,26 @@
+<!--
+  Generated template for the ShowabortionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>ข้อมูลโคแท้ง</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let e of damList">
+    <ion-label>ชื่อแม่พันธุ์: {{e.dam_id}}</ion-label>
+    <button type="button" ion-button round outline color="secondary" item-end  (click)="showdtabortion(e)">
+      เลือก
+  </button>
+    </ion-item>
+</ion-list>
+</ion-content>

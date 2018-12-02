@@ -62,11 +62,16 @@
           </button>
         </ion-col>
         <ion-col>
-        <button type="submit" ion-button block color="light" (click)="shownt()">
-            ข้อมูลการรักษา
+        <button type="submit" ion-button block color="light" (click)="showabortion()">
+           ข้อมูลโคแท้ง
           </button>
         </ion-col>
     </ion-row>
+    <ion-row>
+      <button type="submit" ion-button block color="light" (click)="shownt()">
+        ข้อมูลการรักษา
+        </button>
+  </ion-row>
     <br>ข้อมูลการจัดการลูกโค
     <ion-row>
         <button type="submit" ion-button block color="light" (click)="showdhc()">
@@ -93,18 +98,19 @@
                   <h4><p align="center">เลือกประเภทรายงาน</p></h4>
                   <ion-item>
                     <ion-label><ion-icon name="md-archive"></ion-icon>&nbsp;รายงาน</ion-label>
-                    <ion-select ngModel name="typereport" (ionChange)="typereport($event)">
+                    <ion-select ngModel name="typereport" (ionChange)="typereport($event)" interface="action-sheet" cancelText="ยกเลิก">
                       <ion-option value="cattle">ข้อมูลโคทั้งหมด</ion-option>
                       <ion-option value="maintain">ข้อมูลการบำรุง</ion-option>
                       <ion-option value="synchronize">ข้อมูลการเหนี่ยวนำ</ion-option>
                       <ion-option value="breed">ข้อมูลการผสมพันธุ์</ion-option>
                       <ion-option value="abdominal">ข้อมูลการตรวจท้อง</ion-option>
                       <ion-option value="delivery">ข้อมูลการคลอด</ion-option>
+                      <ion-option value="abortion">ข้อมูลโคแท้ง</ion-option>
                       <ion-option value="nurture">ข้อมูลการรักษา</ion-option>
                       <ion-option value="dishorn">ข้อมูลการสูญเขา</ion-option>
                       <ion-option value="branding">ข้อมูลการตีเบอร์</ion-option>
                       <ion-option value="wean">ข้อมูลการหย่านม</ion-option>
-                      <ion-option value="abortion">ข้อมูลโคแท้ง</ion-option>
+
                     </ion-select>
                   </ion-item>
                 </ion-list>

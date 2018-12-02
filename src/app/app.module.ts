@@ -96,6 +96,8 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import { HTTP } from '@ionic-native/http';
 import { SettingherdnumPageModule } from '../pages/settingherdnum/settingherdnum.module';
 import { SearchFarmPageModule } from '../pages/search-farm/search-farm.module';
+import { ShowabortionPageModule } from '../pages/showabortion/showabortion.module';
+import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion.module';
 
 @NgModule({
   declarations: [
@@ -180,7 +182,9 @@ import { SearchFarmPageModule } from '../pages/search-farm/search-farm.module';
     StaffinfoPageModule,
     HttpModule,
     SettingherdnumPageModule,
-    SearchFarmPageModule
+    SearchFarmPageModule,
+    ShowabortionPageModule,
+    ShowdtabortionPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

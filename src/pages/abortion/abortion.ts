@@ -23,7 +23,7 @@ export class AbortionPage {
   noti=[];
   id_noti:Observable<any[]>;
   item;
-
+  key;
   operator=[];
   day = [];
   name;
@@ -38,12 +38,12 @@ export class AbortionPage {
       var value = Object.keys(data).map(key=>data[key]);
       this.item = value;
       console.log(value[0]);
+      this.key = Object.keys(data)[0];
       this.api.getDataBreedById(this.user,this.id).subscribe(datas=>{
         var values = Object.keys(datas).map(key => datas[key]);
         values.forEach(element => {
           if(value[0].number_of_breeding == element.number_of_breeding){
             this.day.push(element.date_breeding);
-
           }
         });
       })
@@ -82,6 +82,7 @@ export class AbortionPage {
   abortion(data: NgForm) {
     console.log(data.value);
     this.api.addAbortion(this.user,data.value).subscribe();
+    this.api.updateType('cattle',this.user,this.key,{status:'โคแท้ง'}).subscribe();
     this.sucess();
     this.viewCtrl.dismiss();
   }

@@ -15,8 +15,6 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
   templateUrl: 'showdtabdominal.html',
 })
 export class ShowdtabdominalPage {
-  bmark: boolean = true;
-  EPmark: boolean = true;
   user;
   data;
   operator=[];
@@ -59,23 +57,7 @@ export class ShowdtabdominalPage {
     console.log(data.value);
     this.api.updatePregnantByKey(this.user,this.data.key,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe();
   }
-  markb(a) {
-    console.log(a);
-    if (a == true) {
-      this.bmark = false;
-    }
-    else {
-      this.bmark = true;
-    }
-  }
-  markep(b) {
-    if (b == true) {
-      this.EPmark = false;
-    }
-    else {
-      this.EPmark = true;
-    }
-  }
+
   test(a:string){
     console.log(a);
     var day = a;

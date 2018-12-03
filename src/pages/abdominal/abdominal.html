@@ -50,16 +50,16 @@
 
     <ion-item>
       <ion-label>ท้อง แจ้งเตือนคลอด(วัน) :</ion-label>
-      <ion-input type="text"  name="pregnant_noti" ngModel="{{noti_pregnant}}"></ion-input>
+      <ion-input type="text"  name="pregnant_noti" ngModel="{{noti_pregnant}}" readonly="{{bmark}}"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>กำหนดเอง</ion-label>
-      <ion-checkbox ngModel="bmark" name="markbel" (click)="markep(bmark)"></ion-checkbox>
+      <ion-checkbox ngModel="bmark" name="markbel" (click)="markb(bmark)"></ion-checkbox>
   </ion-item>
 
     <ion-item>
       <ion-label>ไม่ท้อง แจ้งเตือนการผสม(วัน) :</ion-label>
-      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{noti_oestrus}}"></ion-input>
+      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{noti_oestrus}}" readonly="{{EPmark}}"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>กำหนดเอง</ion-label>

@@ -191,6 +191,33 @@ export class VerifyPage {
        }
        console.log(this.data_cattle)
       })
+    } else if(a == 'dishorn') {
+      this.api.getHorndeteringByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+       } else {
+         this.data_cattle = [];
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(a == 'branding') {
+      this.api.getBrandingByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+       } else {
+         this.data_cattle = [];
+       }
+       console.log(this.data_cattle)
+      })
+    }  else if(a == 'wean') {
+      this.api.getWeanByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+       } else {
+         this.data_cattle = [];
+       }
+       console.log(this.data_cattle)
+      })
     }
 
   }
@@ -200,6 +227,7 @@ export class VerifyPage {
     this.api.getPicLogoFromStorage(this.user).subscribe(snap => {
       var value = Object.keys(snap).map(key => snap[key]);
       var data = value[0].logo_base64;
+
       function convertToDataURLviaCanvas(url, outputFormat) {
         return new Promise((resolve, reject) => {
           let img = new Image();
@@ -693,8 +721,182 @@ export class VerifyPage {
  }
 }
  // -----------------------------------------------------------------------------
+ else if(this.name == 'dishorn'){
+  docDefinition = {
+   content: [
+     {
+       columns: [
+         {
+           image: this.pdfimage,
+           width: 50,
+           height: 50,
+         },
+         {
+           text: [
+             { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
+             { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
+             { text: 'รายงานข้อมูลการสูญเขา', style: 'subheader', alignment: 'center' }
+           ],
+         },
+         {
+           text: d.toDateString(), alignment: 'right', width: 50
+         }
+       ]
+     }, {
+       text: '\n\n',
+     },
+     this.table(this.data_cattle, ['birth_id', 'dam_id','datedishorn', 'method', 'operator', 'recoder']),          {
+       text: '\n\n\n'
+     },
+     {
+       columns: [
+         { text: '' },
+         {
+           text: [
+             { text: '...............................\n', alignment: 'center' },
+             { text: '(' + this.data[0].fname + ' ' + this.data[0].lname + ')\n', alignment: 'center' },
+             { text: 'ผู้ดูแลระบบ', alignment: 'center' }
+           ], width: 200, style: 'story'
+         },
+       ]
+     }
+   ],
+   styles: {
+     header: {
+       fontSize: 20,
+       bold: true,
+     },
+     subheader: {
+       fontSize: 18,
+       bold: true,
+     },
+     story: {
+       fontSize: 16,
+     }
+   },
+   defaultStyle: {
+     font: 'TH Niramit AS'
+   }
+ }
+}
  // -----------------------------------------------------------------------------
+ else if(this.name == 'branding'){
+  docDefinition = {
+   content: [
+     {
+       columns: [
+         {
+           image: this.pdfimage,
+           width: 50,
+           height: 50,
+         },
+         {
+           text: [
+             { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
+             { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
+             { text: 'รายงานข้อมูลการตีเบอร์', style: 'subheader', alignment: 'center' }
+           ],
+         },
+         {
+           text: d.toDateString(), alignment: 'right', width: 50
+         }
+       ]
+     }, {
+       text: '\n\n',
+     },
+     this.table(this.data_cattle, ['birth_id', 'dam_id','wid', 'datebran', 'operator', 'recoder']),          {
+       text: '\n\n\n'
+     },
+     {
+       columns: [
+         { text: '' },
+         {
+           text: [
+             { text: '...............................\n', alignment: 'center' },
+             { text: '(' + this.data[0].fname + ' ' + this.data[0].lname + ')\n', alignment: 'center' },
+             { text: 'ผู้ดูแลระบบ', alignment: 'center' }
+           ], width: 200, style: 'story'
+         },
+       ]
+     }
+   ],
+   styles: {
+     header: {
+       fontSize: 20,
+       bold: true,
+     },
+     subheader: {
+       fontSize: 18,
+       bold: true,
+     },
+     story: {
+       fontSize: 16,
+     }
+   },
+   defaultStyle: {
+     font: 'TH Niramit AS'
+   }
+ }
+}
 // -----------------------------------------------------------------------------
+else if(this.name == 'wean'){
+  docDefinition = {
+   content: [
+     {
+       columns: [
+         {
+           image: this.pdfimage,
+           width: 50,
+           height: 50,
+         },
+         {
+           text: [
+             { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
+             { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
+             { text: 'รายงานข้อมูลการตีเบอร์', style: 'subheader', alignment: 'center' }
+           ],
+         },
+         {
+           text: d.toDateString(), alignment: 'right', width: 50
+         }
+       ]
+     }, {
+       text: '\n\n',
+     },
+     this.table(this.data_cattle, ['birth_id', 'dam_id','weanweight', 'datewean', 'operator', 'recoder']),          {
+       text: '\n\n\n'
+     },
+     {
+       columns: [
+         { text: '' },
+         {
+           text: [
+             { text: '...............................\n', alignment: 'center' },
+             { text: '(' + this.data[0].fname + ' ' + this.data[0].lname + ')\n', alignment: 'center' },
+             { text: 'ผู้ดูแลระบบ', alignment: 'center' }
+           ], width: 200, style: 'story'
+         },
+       ]
+     }
+   ],
+   styles: {
+     header: {
+       fontSize: 20,
+       bold: true,
+     },
+     subheader: {
+       fontSize: 18,
+       bold: true,
+     },
+     story: {
+       fontSize: 16,
+     }
+   },
+   defaultStyle: {
+     font: 'TH Niramit AS'
+   }
+ }
+}
  // -----------------------------------------------------------------------------
       this.pdfObj = pdfMake.createPdf(docDefinition);
       this.downloadPdf();
@@ -738,6 +940,13 @@ export class VerifyPage {
       body.push(['รหัสแม่พันธุ์', 'วันที่ผสมพันธุ์', 'ผู้ปฏิบัติการ','ผู้บันทึก','หมายเหตุ']);
     } else if(this.name == 'nurture'){
       body.push(['รหัสโค','ครั้งที่', 'วัน/เดือน/ปี','เวลา','อาการ', 'ผู้ปฏิบัติการ','ผู้บันทึก']);
+    } else if(this.name == 'dishorn'){
+      body.push(['เบอร์แรกเกิด','รหัสแม่พันธุ์', 'วัน/เดือน/ปี','วิธีการ', 'ผู้ปฏิบัติการ','ผู้บันทึก']);
+    } else if(this.name == 'branding'){
+      body.push(['เบอร์แรกเกิด','รหัสแม่พันธุ์','เบอร์ที่ต้องการตี', 'วัน/เดือน/ปี', 'ผู้ปฏิบัติการ','ผู้บันทึก']);
+    }
+    else if(this.name == 'wean'){
+      body.push(['เบอร์แรกเกิด','รหัสแม่พันธุ์','น้ำหนักแรกเกิด(กก.)', 'วัน/เดือน/ปี', 'ผู้ปฏิบัติการ','ผู้บันทึก']);
     }
     data.forEach(function (row) {
       var dataRow = [];
@@ -812,6 +1021,30 @@ export class VerifyPage {
         table: {
           headerRows: 1,
           widths: ['auto','auto','auto', 'auto', '*', '*', '*'],
+          body: this.buildTableBody(data, columns),
+        }, style: 'story', alignment: 'center'
+      };
+    } else if(this.name == 'dishorn'){
+      return {
+        table: {
+          headerRows: 1,
+          widths: ['auto','auto','auto', '*', '*', '*'],
+          body: this.buildTableBody(data, columns),
+        }, style: 'story', alignment: 'center'
+      };
+    } else if(this.name == 'branding'){
+      return {
+        table: {
+          headerRows: 1,
+          widths: ['auto','auto','auto', '*', '*', '*'],
+          body: this.buildTableBody(data, columns),
+        }, style: 'story', alignment: 'center'
+      };
+    } else if(this.name == 'wean'){
+      return {
+        table: {
+          headerRows: 1,
+          widths: ['auto','auto','auto', '*', '*', '*'],
           body: this.buildTableBody(data, columns),
         }, style: 'story', alignment: 'center'
       };

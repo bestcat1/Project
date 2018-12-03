@@ -35,13 +35,17 @@ export class AbdominalPage {
 noti_oestrus;
 noti_pregnant;
   number_breed = [];
+  AlertDate
   items: Observable<any[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public alertCtrl: AlertController, public viewCtrl: ViewController,private api:NodeapiProvider) {
     var d = new Date();
     this.id = this.navParams.get('id');
     this.user = this.navParams.get('user');
-
+    this.api.getNotiById(this.user,0).subscribe(data=>{
+      var value = Object.keys(data).map(key=>data[key]);
+      this.AlertDate = value[0];
+    })
   this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
     if(data!=null){
     var number;
@@ -131,15 +135,17 @@ noti_pregnant;
     console.log('ionViewDidLoad AbdominalPage');
   }
   markb(a) {
-    console.log(a);
+    console.log(this.AlertDate);
     if (a == true) {
       this.bmark = false;
     }
     else {
       this.bmark = true;
     }
+    console.log(this.bmark);
   }
   markep(b) {
+    console.log(b);
     if (b == true) {
       this.EPmark = false;
     }
@@ -176,6 +182,11 @@ noti_pregnant;
               }
               else{
                 this.api.updateType('cattle',this.user,k,{status: "โคแท้ง" }).subscribe();
+// ฟหกฟหกฟหกฟหก
+                var test = new Date(data.value.dateabd);
+                test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe();
               }
 
               this.success();

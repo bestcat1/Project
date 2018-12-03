@@ -147,6 +147,7 @@ noti_pregnant;
             handler: () => {
               this.api.addBreed(this.user,{dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,sire_id:data.value.sire_id,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator}).subscribe();
               this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe();
+
               this.success();
               this.viewCtrl.dismiss();
             }

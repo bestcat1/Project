@@ -4,6 +4,7 @@ import { GlobalProvider } from '../../providers/global/global';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 
 
@@ -37,7 +38,7 @@ m6=false;
     , public navParams: NavParams,public menu:MenuController,public global: GlobalProvider
     ,public alertCtrl:AlertController,
     private auth:AuthProvider,private api: NodeapiProvider,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,private db:AngularFireDatabase) {
       console.log('MenuPage');
 
       this.presentLoading();
@@ -62,8 +63,8 @@ m6=false;
         if(value[0].count_login==0){
         this.loader.dismiss();
       let noti=[{id_noti:0,list:'ผสมพันธุ์',day_length:18,note:'หลังผสมไม่ติด'},
-          {id_noti:1,list:'ตรวจท้อง',day_length:28,note:'หลังผสมพันธุ์'},
-          {id_noti:2,list:'คลอด',day_length:283,note:'หลังจากตั้งท้อง'},
+          {id_noti:1,list:'ตรวจท้อง',day_length:90,note:'หลังผสมพันธุ์'},
+          {id_noti:2,list:'คลอด',day_length:193,note:'หลังจากตั้งท้อง'},
           {id_noti:3,list:'เหนี่ยวนำการกลับสัด',day_length:60,note:'หลังจากคลอด'},
           {id_noti:4,list:'สูญเขา',day_length:60,note:'หลังจากเกิด'},
           {id_noti:5,list:'หย่านม',day_length:180,note:'หลังจากเกิด'},
@@ -71,13 +72,14 @@ m6=false;
           {id_noti:7,list:'บันทึกน้ำหนักลูกโค 1 ปี',day_length:365,note:'หลังจากเกิด'},
           {id_noti:8,list:'การรักษา',day_length:1,note:'การรักษา'},
           {id_noti:9,list:'เหนี่ยวนำการกลับสัด',day_length:61,note:'หลังจากโคแท้ง'},
-          {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:20,note:'เหนี่ยวนำการกลับสัด'},
+          {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:18,note:'บำรุงแม่พันธุ์'},
           {id_noti:11,list:'ผสมพันธุ์',day_length:21,note:'หลังจากเหนี่ยวนำการกลับสัด'},];
           swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
             this.navCtrl.push("SettingfarmPage",{user: value[0].user});
             this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe();
             for(let i = 0 ;i<noti.length;i++){
-              this.api.addSettingNoti(value[0].user,noti[i]).subscribe();
+              this.db.list('setting/notification/'+value[0].user).push(noti[i]);
+              // this.api.addSettingNoti(value[0].user,noti[i]).subscribe();
             }
           });
         }

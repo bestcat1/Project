@@ -14,11 +14,11 @@
 
 
 <ion-content padding>
-  <a *ngFor="let u of item$ | async">
+  <a *ngFor="let u of item$">
   <form (ngSubmit)="update(uform)" #uform="ngForm" >
       <ion-item>
           <ion-label floating>Username: </ion-label>
-          <ion-input type="text"class="mFont" name="users" ngModel={{u.user}} [disabled]="true"></ion-input>
+          <ion-input type="text"class="mFont" name="user" ngModel={{u.user}} [disabled]="true"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Password: </ion-label>
@@ -36,7 +36,7 @@
       <ion-label floating>ชื่อ: </ion-label>
       <ion-input type="text" class="mFont" name="fname" ngModel="{{u.fname}}"></ion-input>
     </ion-item>
-    <ion-input type="hidden" class="mFont" name="key" ngModel="{{u.key}}"></ion-input>
+    <!-- <ion-input type="hidden" class="mFont" name="key" ngModel="{{u.key}}"></ion-input> -->
     <ion-item>
       <ion-label floating>นามสกุล: </ion-label>
       <ion-input type="text" class="mFont" name="lname" ngModel="{{u.lname}}"></ion-input>

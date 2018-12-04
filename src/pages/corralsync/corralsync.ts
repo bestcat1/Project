@@ -31,6 +31,7 @@ export class CorralsyncPage {
   idcheck = [];
   syncs;
   checkpro=true;
+  AlertDate;
   constructor(public navCtrl: NavController, public navParams: NavParams
   , public alertCtrl: AlertController
     , public viewCtrl: ViewController, public modalCtrl: ModalController,
@@ -41,6 +42,11 @@ export class CorralsyncPage {
       this.syncs = Object.keys(data).map(key=>data[key]);
       }
     });
+
+    this.api.getNotiById(this.user,11).subscribe(data=>{
+      var value = Object.keys(data).map(key=>data[key]);
+      this.AlertDate = value[0];
+    })
 
     this.api.getCorral(this.user).subscribe(data=>{
       if(data!=null){
@@ -110,6 +116,10 @@ export class CorralsyncPage {
                       console.log(this.idcheck[j]);
                       this.api.addDataType('synchronize', this.user, { dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder }).subscribe();
                       this.api.updateType('cattle',this.user,this.idcheck[j],{status:'เหนี่ยวนำแล้ว'}).subscribe();
+                      var test = new Date(data.value.datepro);
+                      test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                      this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
                   }
               this.success();
               this.viewCtrl.dismiss();

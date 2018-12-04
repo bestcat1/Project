@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { GlobalProvider } from '../../providers/global/global';
-import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import swal from 'sweetalert';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
  * Generated class for the EditdatauserPage page.
  *
@@ -18,24 +17,27 @@ import swal from 'sweetalert';
   templateUrl: 'editdatauser.html',
 })
 export class EditdatauserPage {
-user;
-item$:Observable<any[]>;
+  user;
+  item$: any;
+  key;
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public global: GlobalProvider,private db:AngularFireDatabase,
-    public viewCtrl:ViewController) {
-    this.user=this.navParams.get('user');
+    , public global: GlobalProvider,
+    public viewCtrl: ViewController, private api: NodeapiProvider) {
+    this.user = this.navParams.get('user');
     console.log(this.global.getMyGlobalVar());
-    this.item$=this.db.list('/User',ref=>ref.orderByChild('user').equalTo(this.user)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
+    this.api.getUser(this.user).subscribe(data => {
+      var value = Object.keys(data).map(key => data[key]);
+      this.item$ = value;
+      this.key = Object.keys(data)[0];
     });
+    console.log(this.item$);
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditdatauserPage');
   }
-  update(data:NgForm){
+  update(data: NgForm) {
     console.log(data.value);
-    this.db.list('/User').update(data.value.key,data.value)
+    this.api.updateUser(this.key, data.value).subscribe();
     swal("บันทึกเสร็จสิ้น!", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
     this.viewCtrl.dismiss();
   }

@@ -24,7 +24,7 @@
   </p>
 
 
-<form  *ngFor="let d of detail_user | async" (ngSubmit)="edit_bran_farm(data,d.key)" #data="ngForm">
+<form  *ngFor="let d of detail_user" (ngSubmit)="edit_bran_farm(data,d.key)" #data="ngForm">
   <ion-card>
     <ion-card-content>
         <ion-item>

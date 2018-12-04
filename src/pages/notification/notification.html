@@ -42,7 +42,7 @@
 </ion-content> -->
 
 
-<ion-content padding>
+<ion-content >
   <div class="calendar-header">
     <ion-row class="calendar-month">
       <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
@@ -70,10 +70,11 @@
           </ng-template>
         </ion-col> -->
         <ion-col col-1 *ngFor="let day of daysInThisMonth" (click)="test(day)">
-            <span class="currentDate" *ngIf="currentDate == day && b == y && c == x; else otherDate">{{day}}</span>
+            <span class="currentDate" *ngIf="currentDate == day && b == y && c == x ; else otherDate">{{day}}</span>
             <ng-template #otherDate class="otherDate">
               {{day}}<br>
-              <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+              <!-- <div class="event-bullet" *ngIf="checkEvent(day)"></div> -->
+              <ion-icon name="alarm" *ngIf="checkEvent(day)"></ion-icon>
             </ng-template>
           </ion-col>
         <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>

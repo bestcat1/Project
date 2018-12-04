@@ -30,6 +30,7 @@ export class CorralmaintainPage {
   maintain;
   operator=[];
   program;
+  AlertDate;
   constructor(public navCtrl: NavController, public navParams: NavParams
    , public alertCtrl: AlertController, public viewCtrl: ViewController,
     private api: NodeapiProvider) {
@@ -40,6 +41,11 @@ export class CorralmaintainPage {
       console.log(this.maintain);
       }
     });
+
+    this.api.getNotiById(this.user,10).subscribe(data=>{
+      var value = Object.keys(data).map(key=>data[key]);
+      this.AlertDate = value[0];
+    })
 
     this.api.getCorral(this.user).subscribe(data=>{
       if(data!=null){
@@ -112,6 +118,10 @@ export class CorralmaintainPage {
 
                 this.api.addDataType('maintain', this.user, detail).subscribe();
                 this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:"บำรุงแล้ว"}).subscribe();
+                var test = new Date(data.value.date);
+                test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
               }
               this.success();
               this.viewCtrl.dismiss();

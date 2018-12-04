@@ -109,14 +109,17 @@ page-notification {
 
 }
 .calendar-header {
-  background-color: #000066;
-  color: #FFFFFF;
+  background-color: white;
+  color: black;
+  height: 5%;
+  font-weight: bold;
+  font-size: 15%;
 }
 .event-bullet {
   margin: 2px auto;
-  height: 5px;
-  width: 5px;
-  background-color: green;
+  height: 10px;
+  width: 10px;
+ background-color: green;
   border-radius: 30px;
 }
 .selected-date {

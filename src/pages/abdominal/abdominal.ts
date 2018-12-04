@@ -35,7 +35,7 @@ export class AbdominalPage {
 noti_oestrus;
 noti_pregnant;
   number_breed = [];
-  AlertDate
+  AlertDate;
   items: Observable<any[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public alertCtrl: AlertController, public viewCtrl: ViewController,private api:NodeapiProvider) {
@@ -46,6 +46,9 @@ noti_pregnant;
       var value = Object.keys(data).map(key=>data[key]);
       this.AlertDate = value[0];
     })
+
+
+
   this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
     if(data!=null){
     var number;

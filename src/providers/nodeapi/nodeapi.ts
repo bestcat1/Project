@@ -390,4 +390,7 @@ export class NodeapiProvider {
   updateAbortionByKey(user,key,data){
     return this.http.post(URL_API.NODE_API+'/abortion/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+  updateBrandByKey(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/setting/brand/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
 }

@@ -28,6 +28,7 @@ syncs;
 cattle_id;
 checkpro=true;
 key;
+AlertDate;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public alertCtrl:AlertController
   ,public viewCtrl:ViewController,public modalCtrl: ModalController,private api: NodeapiProvider) {
@@ -39,6 +40,10 @@ key;
      this.syncs = Object.keys(data).map(key=>data[key]);
      }
    })
+   this.api.getNotiById(this.user,11).subscribe(data=>{
+    var value = Object.keys(data).map(key=>data[key]);
+    this.AlertDate = value[0];
+  })
 
     this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
       if(data!=null){
@@ -103,6 +108,10 @@ sync(data: NgForm){
           handler: () => {
             this.api.addDataType('synchronize', this.user, data.value).subscribe();
             this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว"}).subscribe();
+            var test = new Date(data.value.datepro);
+                      test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                      this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
             this.success();
             this.viewCtrl.dismiss();
           }

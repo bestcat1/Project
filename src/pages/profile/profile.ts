@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ViewController, LoadingController } from 'ionic-angular';
 import { Camera } from '../../../node_modules/@ionic-native/camera'
-import firebase from 'firebase';
 import { GlobalProvider } from '../../providers/global/global';
 import { NgForm } from '@angular/forms';
-import { AngularFireDatabase } from 'angularfire2/database';
 import swal from 'sweetalert';
-import { Observable } from 'rxjs/Observable';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 
 
@@ -30,29 +28,23 @@ export class ProfilePage {
   public myPhotoURL: any;
   user;
   base64Data;
-  brand_data:Observable<any[]>;
   detail_user;
   loader;
 test=[];
-logo_base64=[];
+  check=0;
   constructor(public navCtrl: NavController, public navParams: NavParams,private camera:Camera,public alertCtrl:AlertController
-    ,public global: GlobalProvider,public viewCtrl :ViewController,private db:AngularFireDatabase,
-    public loadingCtrl:LoadingController) {
+    ,public global: GlobalProvider,public viewCtrl :ViewController,
+    public loadingCtrl:LoadingController,private api:NodeapiProvider) {
       this.presentLoading()
       this.user=this.global.getMyGlobalVar();
-    this.myPhotosRef = firebase.storage().ref().child('/Photos/'+this.user);
-    firebase.storage().ref().child('Photos/'+this.user+'/Logo').getDownloadURL().then((url)=>{
-      this.myPhotoURL=url;
-    })
-    this.detail_user=this.db.list('/setting/farm/brand/'+this.user).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
-    this.detail_user.forEach(element => {
-      element.forEach(data=>{
-        this.logo_base64.push(data.logo_base64);
-      })
-    });
-
+this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
+  var value = Object.keys(data).map(key=>data[key]);
+  this.myPhotoURL = value[0].logo_base64;
+  this.detail_user = value;
+  this.detail_user[0].key = Object.keys(data)[0];
+  console.log(this.detail_user);
+})
+this.check=0;
   }
 
   ionViewDidLoad() {
@@ -69,11 +61,9 @@ logo_base64=[];
       targetHeight:200,
       targetWidth:200,
     }).then(imageData => {
-      this.base64Data=imageData;
-      this.myPhotoURL= "data:image/jpeg;base64,"+this.base64Data;
-      this.logo_base64[0]=imageData;
-
-      this.myPhoto = imageData;
+      this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
+      this.base64Data = imageData;
+      this.check=1;
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
@@ -89,20 +79,38 @@ logo_base64=[];
       targetHeight:200,
       targetWidth:200,
     }).then(imageData => {
-      this.myPhoto = imageData;
-      this.base64Data=imageData;
-      this.myPhotoURL= "data:image/jpeg;base64,"+this.base64Data;
-      this.logo_base64[0]=imageData;
+      this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
+      this.base64Data = imageData;
     }, error => {
+      this.check=1;
       console.log("ERROR -> " + JSON.stringify(error));
     });
   }
-  private uploadPhoto(): void {
-    this.myPhotosRef.child('Logo')
-      .putString(this.logo_base64[0], 'base64', { contentType: 'image/png' })
+ uploadPhoto(data,k) {
+   console.log(data,k);
+   console.log('asdasdasd',this.check);
+    if(this.check==1){
+      this.myPhotosRef.child('Logo')
+      .putString(this.base64Data, 'base64', { contentType: 'image/png' })
       .then((savedPicture) => {
-        this.myPhotoURL = savedPicture.downloadURL;
+        this.api.updateBrandByKey(this.user,k,{
+          farm_name_TH:data.farm_name_TH,
+          farm_name_EN:data.farm_name_EN,
+          farm_initial:data.farm_initial,
+          farm_address:data.farm_address,
+          phone_num:data.phone_num,
+          logo_base64:savedPicture.downloadURL
+        }).subscribe();
       });
+    } else {
+      this.api.updateBrandByKey(this.user,k,{
+        farm_name_TH:data.farm_name_TH,
+        farm_name_EN:data.farm_name_EN,
+        farm_initial:data.farm_initial,
+        farm_address:data.farm_address,
+        phone_num:data.phone_num
+      }).subscribe();
+    }
   }
   edit_bran_farm(data:NgForm,k){
     console.log(data.value);
@@ -123,15 +131,9 @@ logo_base64=[];
           {
             text: 'ตกลง',
             handler: () => {
-              this.db.list('/setting/farm/brand/'+this.user).update(k,{farm_name_TH:data.value.farm_name_TH,
-              farm_name_EN:data.value.farm_name_EN,
-              farm_initial:data.value.farm_initial,
-              farm_address:data.value.farm_address,
-              phone_num:data.value.phone_num,
-              logo_base64:this.logo_base64[0]});
-              this.uploadPhoto();
-              swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
-              this.viewCtrl.dismiss();
+                  this.uploadPhoto(data.value,k);
+                  swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
+                  this.viewCtrl.dismiss();
             }
           }
         ]

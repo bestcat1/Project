@@ -30,12 +30,20 @@ export class MaintainPage {
   id;
   program = [];
   data:any;
-  cattle_key
+  cattle_key;
+  AlertDate;
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController
   ,public toastCtrl: ToastController,public viewCtrl:ViewController,
     private api:NodeapiProvider) {
+
     this.user=this.navParams.get('user');
     this.id=this.navParams.get('id');
+
+    this.api.getNotiById(this.user,10).subscribe(data=>{
+      var value = Object.keys(data).map(key=>data[key]);
+      this.AlertDate = value[0];
+    })
+
     this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
         if(data!=null){
       console.log(data);
@@ -113,6 +121,10 @@ export class MaintainPage {
           handler: () => {
             this.api.addDataType('maintain', this.user, mtData.value).subscribe();
             this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe();
+            var test = new Date(mtData.value.date);
+            test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+            var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+            this.api.addNoti(this.user,setDate,{id_cattle: mtData.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
             this.success();
             this.viewCtrl.dismiss();
           }

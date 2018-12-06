@@ -70,8 +70,15 @@ noti_pregnant;
       var y2k = new Date(day);
       var y3k = new Date(day);
       var y4k = new Date(day);
-      y1k.setDate(y1k.getDate() + 283);
+
+      this.api.getNotiById(this.user,2).subscribe(data=>{
+        var value = Object.keys(data).map(key=>data[key]);
+        console.log(value);
+        y1k.setDate(y1k.getDate() + Number(value[0].day_length));
       this.calve_date = y1k.getFullYear() + "-" + (y1k.getMonth() + 1) + "-" + y1k.getDate();
+      })
+
+
       y2k.setDate(y2k.getDate() + 276);
       this.alert_befor_7D = y2k.getFullYear() + "-" + (y2k.getMonth() + 1) + "-" + y2k.getDate();
       y3k.setDate(y3k.getDate() + 290);

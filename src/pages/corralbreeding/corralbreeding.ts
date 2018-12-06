@@ -116,6 +116,7 @@ console.log(this.sire_id);
   }
   corralbreed(data:NgForm)
   {
+    console.log(data.value);
   if(data.value.corralcattle==""||data.value.sire_id=="")
   {
     const alert12 = this.alertCtrl.create({
@@ -140,14 +141,25 @@ console.log(this.sire_id);
           text: 'ยืนยัน',
           handler: () => {
             let j=0;
+            var dataBreed = [];
+            var key = [];
+            var dataNoti = [];
+            var keyAndNumber =[]
             for(j=0;j<this.idcheck.length;j++){
-              this.api.addBreed(this.user,{dam_id:this.idcheck[j].id,date_breeding:data.value.date_breeding,time_breeding:data.value.time_breeding,noti_oestrus:data.value.noti_oestrus,recoder:data.value.recoder,operator:data.value.operator,noti_pregnant:data.value.noti_pregnant,sire_id:data.value.sire_id,note:data.value.note,number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1}).subscribe();
-
-            this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1}).subscribe();
-
+              // this.api.addBreed(this.user,{dam_id:this.idcheck[j].id,date_breeding:data.value.date_breeding,time_breeding:data.value.time_breeding,noti_oestrus:data.value.noti_oestrus,recoder:data.value.recoder,operator:data.value.operator,noti_pregnant:data.value.noti_pregnant,sire_id:data.value.sire_id,note:data.value.note,number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1}).subscribe();
+              dataBreed.push({dam_id:this.idcheck[j].id,date_breeding:data.value.date_breeding,time_breeding:data.value.time_breeding,noti_oestrus:data.value.noti_oestrus,recoder:data.value.recoder,operator:data.value.operator,noti_pregnant:data.value.noti_pregnant,sire_id:data.value.sire_id,note:data.value.note,number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1});
+            // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1}).subscribe();
+            key.push(this.idcheck[j].key);
+            keyAndNumber.push({key:this.idcheck[j].key,number:Number(this.idcheck[j].number_of_breeding)+1});
+            var test = new Date(data.value.date_breeding);
+            test.setDate(test.getDate() + Number(data.value.noti_pregnant));
+            var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+            dataNoti.push({id_cattle: this.idcheck[j].id, type: 'ตรวจท้อง', date: setDate });
           }
-
-
+            this.api.addBreedCorral(this.user,dataBreed).subscribe();
+            this.api.updateCattleCorral(this.user,key,'ผสมพันธุ์แล้ว').subscribe();
+            this.api.updateNumberOfBreeding(this.user,keyAndNumber).subscribe();
+            this.api.addNotiMultiple(this.user,dataNoti).subscribe();
             this.success();
             this.viewCtrl.dismiss();
           }

@@ -112,15 +112,23 @@ export class CorralsyncPage {
 
               console.log(data.value);
               let j = 0;
+              var dataSync=[];
+              var key = [];
+              var dataNoti=[];
                   for (j = 0; j < this.idcheck.length; j++) {
-                      console.log(this.idcheck[j]);
-                      this.api.addDataType('synchronize', this.user, { dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder }).subscribe();
-                      this.api.updateType('cattle',this.user,this.idcheck[j],{status:'เหนี่ยวนำแล้ว'}).subscribe();
+                      dataSync.push({ dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
+                      // this.api.addDataType('synchronize', this.user, { dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder }).subscribe();
+                      key.push(this.idcheck[j].key);
+                      // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:'เหนี่ยวนำแล้ว'}).subscribe();
                       var test = new Date(data.value.datepro);
                       test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                       var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                      this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
+                      dataNoti.push({id_cattle: this.idcheck[j].id, type: this.AlertDate.list, date: setDate });
+                      // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
                   }
+              this.api.addSyncCorral(this.user,dataSync).subscribe();
+              this.api.updateCattleCorral(this.user,key,'เหนี่ยวนำแล้ว').subscribe();
+              this.api.addNotiMultiple(this.user,dataNoti).subscribe();
               this.success();
               this.viewCtrl.dismiss();
             }

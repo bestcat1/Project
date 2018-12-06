@@ -112,17 +112,25 @@ export class CorralmaintainPage {
             handler: () => {
 
               let j = 0;
-
+              var detail=[];
+              var key = [];
+              var dataNoti=[];
               for (j = 0; j < this.idcheck.length; j++) {
-                var detail = { dam_id: this.idcheck[j].cattle_id, date: data.value.date, time: data.value.time, type_of_maintain: data.value.type_of_maintain,operator:data.value.operator,recoder: data.value.recoder };
+                 detail.push({ dam_id: this.idcheck[j].cattle_id, date: data.value.date, time: data.value.time, type_of_maintain: data.value.type_of_maintain,operator:data.value.operator,recoder: data.value.recoder });
 
-                this.api.addDataType('maintain', this.user, detail).subscribe();
-                this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:"บำรุงแล้ว"}).subscribe();
+                //this.api.addDataType('maintain', this.user, detail).subscribe();
+                key.push(this.idcheck[j].key);
+                // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:"บำรุงแล้ว"}).subscribe();
                 var test = new Date(data.value.date);
                 test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                 var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
+
+                dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: this.AlertDate.list, date: setDate });
+                // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
               }
+              this.api.addMaintainCorral(this.user,detail).subscribe();
+              this.api.updateCattleCorral(this.user,key,"บำรุงแล้ว").subscribe();
+              this.api.addNotiMultiple(this.user,dataNoti).subscribe();
               this.success();
               this.viewCtrl.dismiss();
             }
@@ -144,7 +152,7 @@ export class CorralmaintainPage {
       if(data!=null){
         var values = Object.keys(data).map(key => data[key]);
         for(let i =0; i<values.length; i++){
-          if (values[i].sex == 'MISS' && (values[i].status == ''|| values[i].status == 'คลอดแล้ว')) {
+          if (values[i].sex == 'MISS' && (values[i].status == ''|| values[i].status == 'คลอดแล้ว'|| values[i].status=='โคแท้ง')) {
                   this.dams.push({ cattle_id: values[i].cattle_id, key: Object.keys(data)[i]});
                   console.log(values[i]);
             }

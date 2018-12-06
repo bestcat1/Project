@@ -4,7 +4,6 @@ import { GlobalProvider } from '../../providers/global/global';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 
 
@@ -38,7 +37,7 @@ m6=false;
     , public navParams: NavParams,public menu:MenuController,public global: GlobalProvider
     ,public alertCtrl:AlertController,
     private auth:AuthProvider,private api: NodeapiProvider,
-    private loadingCtrl: LoadingController,private db:AngularFireDatabase) {
+    private loadingCtrl: LoadingController) {
       console.log('MenuPage');
 
       this.presentLoading();
@@ -77,10 +76,7 @@ m6=false;
           swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
             this.navCtrl.push("SettingfarmPage",{user: value[0].user});
             this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe();
-            for(let i = 0 ;i<noti.length;i++){
-              this.db.list('setting/notification/'+value[0].user).push(noti[i]);
-              // this.api.addSettingNoti(value[0].user,noti[i]).subscribe();
-            }
+            this.api.addNotiall(value[0].user,noti).subscribe();
           });
         }
       }

@@ -393,4 +393,25 @@ export class NodeapiProvider {
   updateBrandByKey(user,key,data){
     return this.http.post(URL_API.NODE_API+'/setting/brand/update/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
+  addNotiall(user,data){
+    return this.http.post(URL_API.NODE_API+'/setting/addnoti/'+user,data).pipe(map(res=>res.json()));
+  }
+  addMaintainCorral(user,data){
+    return this.http.post(URL_API.NODE_API+'/maintain/maintaincorral/add/'+user,data).pipe(map(res=>res.json()));
+  }
+  updateCattleCorral(user,data,status){
+    return this.http.post(URL_API.NODE_API+'/cattle/updateCorral/'+user+'/'+status,data).pipe(map(res=>res.json()));
+  }
+  addNotiMultiple(user,data){
+    return this.http.post(URL_API.NODE_API+'/notification/addNotiAll/'+user,data).pipe(map(res=>res.json()));
+  }
+  addSyncCorral(user,data){
+    return this.http.post(URL_API.NODE_API+'/synchronize/addCorral/'+user,data).pipe(map(res=>res.json()));
+  }
+  addBreedCorral(user,data){
+    return this.http.post(URL_API.NODE_API+'/breed/addCorral/'+user,data).pipe(map(res=>res.json()));
+  }
+  updateNumberOfBreeding(user,data){
+    return this.http.post(URL_API.NODE_API+'/cattle/updateNumber/'+user,data).pipe(map(res=>res.json()));
+  }
 }

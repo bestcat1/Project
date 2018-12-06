@@ -71,7 +71,9 @@ export class MaintainPage {
       if(data!=null){
       var values = Object.keys(data).map(key => data[key]);
       for(let i = 0; i<values.length;i++){
+        if(values[i].privilege != 'ยังไม่ได้อนุมัติ'){
         this.operator.push({operator: values[i].fname+' '+values[i].lname});
+        }
       }
     }
     });

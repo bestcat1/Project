@@ -63,10 +63,11 @@ this.check=0;
     }).then(imageData => {
       this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
       this.base64Data = imageData;
-      this.check=1;
+
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
+    this.check=1;
   }
 
   selectPhoto(): void {
@@ -82,9 +83,10 @@ this.check=0;
       this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
       this.base64Data = imageData;
     }, error => {
-      this.check=1;
+
       console.log("ERROR -> " + JSON.stringify(error));
     });
+    this.check=1;
   }
  uploadPhoto(data,k) {
    console.log(data,k);

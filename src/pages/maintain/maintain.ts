@@ -121,14 +121,31 @@ export class MaintainPage {
         {
           text: 'ยืนยัน',
           handler: () => {
-            this.api.addDataType('maintain', this.user, mtData.value).subscribe();
-            this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe();
-            var test = new Date(mtData.value.date);
-            test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-            var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-            this.api.addNoti(this.user,setDate,{id_cattle: mtData.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
-            this.success();
-            this.viewCtrl.dismiss();
+            this.api.addDataType('maintain', this.user, mtData.value).subscribe(d=>{
+              console.log(d);
+              if(d.status == 'OK'){
+
+
+                var test = new Date(mtData.value.date);
+                test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                this.api.addNoti(this.user,setDate,{id_cattle: mtData.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d2=>{
+                  if(d2.status=='OK'){
+                  this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe(d1=>{
+                    console.log(d1);
+                    if(d1.status=='OK'){
+
+                    this.success();
+                    this.viewCtrl.dismiss();
+                    }
+                  });
+                  }
+                })
+
+              }
+            });
+
+
           }
 
         }

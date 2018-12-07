@@ -21,6 +21,7 @@ export class ShowdtnurturePage {
   drugs;
   use_drug=[];
   key_use_drug=[];
+  edit=true;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
@@ -72,7 +73,12 @@ export class ShowdtnurturePage {
     for(let i=0;i<this.use_drug.length;i++){
       this.api.addTreatmentDrug(this.user,this.data.id,{number_of_treatment:Number(this.data.number_of_treatment),drug_name:this.use_drug[i]}).subscribe();
     }
-    this.api.updateTreatmentByKey(this.user,this.data.key,data.value).subscribe();
+    this.api.updateTreatmentByKey(this.user,this.data.key,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+        this.navCtrl.pop();
+      }
+    });
   }
   adddrug(d)
   {
@@ -80,5 +86,8 @@ export class ShowdtnurturePage {
     for(let i =0;i<d.length;i++){
       this.use_drug.push(d[i]);
     }
+  }
+  check(a){
+    this.edit = a;
   }
 }

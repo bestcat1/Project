@@ -106,14 +106,32 @@ sync(data: NgForm){
         {
           text: 'ยืนยัน',
           handler: () => {
-            this.api.addDataType('synchronize', this.user, data.value).subscribe();
-            this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว"}).subscribe();
-            var test = new Date(data.value.datepro);
-                      test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                      this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
-            this.success();
-            this.viewCtrl.dismiss();
+            this.api.addDataType('synchronize', this.user, data.value).subscribe(d=>{
+              if(d.status=='OK'){
+                console.log(d);
+
+
+                var test = new Date(data.value.datepro);
+                test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d2=>{
+                  if(d2.status=='OK'){
+                    console.log(d2);
+                    this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว"}).subscribe(d1=>{
+                      console.log(d1);
+                      if(d1.status=='OK'){
+
+                        this.success();
+                        this.viewCtrl.dismiss();
+                      }
+                    });
+
+                  }
+                })
+              }
+            });
+
+
           }
 
         }

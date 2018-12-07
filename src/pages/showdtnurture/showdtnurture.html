@@ -16,44 +16,44 @@
     <form (ngSubmit)="nt(wikiForm)" #wikiForm="ngForm" >
       <ion-item>
         <ion-label>ชื่อโค :</ion-label>
-        <ion-input  type="text"  name="id" ngModel="{{data.id}}" readonly></ion-input>
+        <ion-input  type="text"  name="id" ngModel="{{data.id}}" readonly [disabled]="edit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>รักษาครั้งที่ :</ion-label>
-        <ion-input  type="number"  name="number_of_treatment" ngModel="{{data.number_of_treatment}}" readonly></ion-input>
+        <ion-input  type="number"  name="number_of_treatment" ngModel="{{data.number_of_treatment}}" readonly [disabled]="edit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>วันที่วินิจฉัย :</ion-label>
-        <ion-input  type="date"  name="datediagnose" ngModel="{{data.datediagnose}}"></ion-input>
+        <ion-input  type="date"  name="datediagnose" ngModel="{{data.datediagnose}}" [disabled]="edit"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>เวลาที่วินิจฉัย :</ion-label>
-        <ion-input type="time" name="timediagnose" ngModel="{{data.timediagnose}}"></ion-input>
+        <ion-input type="time" name="timediagnose" ngModel="{{data.timediagnose}}" [disabled]="edit"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>อาการเจ็บป่วย :</ion-label>
-        <ion-input type="text"  name="sickness" ngModel="{{data.sickness}}"></ion-input>
+        <ion-input type="text"  name="sickness" ngModel="{{data.sickness}}" [disabled]="edit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>
-        <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" [disabled]="edit">
           <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
         </ion-select>
     </ion-item>
       <ion-item>
         <ion-label>ผู้บันทึก :</ion-label>
-        <ion-input type="text" name="recoder" ngModel="{{data.recoder}}"></ion-input>
+        <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" [disabled]="edit"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>แจ้งเตือนการรักษา :</ion-label>
-        <ion-input type="number"  name="noti_treatment" ngModel="{{data.noti_treatment}}" readonly></ion-input>
+        <ion-input type="number"  name="noti_treatment" ngModel="{{data.noti_treatment}}" readonly [disabled]="edit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>ยาที่ใช้ในการรักษา :</ion-label>
-        <ion-select name="drug_nuture" placeholder="เพิ่มยารักษา" (ionChange)="adddrug($event)" multiple="true" >
+        <ion-select name="drug_nuture" placeholder="เพิ่มยารักษา" (ionChange)="adddrug($event)" multiple="true" [disabled]="edit" >
           <ion-option *ngFor="let drug of drugs" value="{{drug.drug_name}}" >{{drug.drug_name}}</ion-option>
         </ion-select>
       </ion-item>
@@ -65,9 +65,14 @@
           </ion-item>
         </ion-list>
       </ion-card>
+      <p align="center" [hidden]="!edit">
+        <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
+      </p>
+      <p align="center" [hidden]="edit">
 
-      <br>
-      <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+        <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
+        <button type="submit" ion-button color="facebook" round><i class="fa fa-floppy-o"></i>&nbsp;บันทึก</button>
+      </p>
     </form>
 
   </ion-content>

@@ -58,9 +58,13 @@ herd_num
 editc(data:NgForm,k){
   console.log(data.value);
 
-  this.api.updateType('cattle',this.user,k,data.value).subscribe();
-  this.presentToast();
-  this.viewCtrl.dismiss();
+  this.api.updateType('cattle',this.user,k,data.value).subscribe(d=>{
+    if(d.status=='OK'){
+      this.presentToast();
+      this.viewCtrl.dismiss();
+    }
+  });
+
 }
 exit(){
   let alert27 = this.alertCtrl.create({

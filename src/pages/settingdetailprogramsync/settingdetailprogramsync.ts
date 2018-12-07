@@ -50,11 +50,14 @@ time_length;
   }
   addprosync(data:NgForm){
     if(data.value.pro_sync!=''&&data.value.day_length!=''&&data.value.time_length!=''){
-      this.api.addDetailProgramSync(this.user,data.value).subscribe();
-      this.ionViewWillEnter();
-      this.drug_sync='';
-      this.day_length='';
-      this.time_length='';
+      this.api.addDetailProgramSync(this.user,data.value).subscribe(d=>{
+        if(d.status=='OK'){
+          this.drug_sync='';
+          this.day_length='';
+          this.time_length='';
+          this.ionViewWillEnter();
+        }
+      });
     }else{
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
     }
@@ -62,8 +65,12 @@ time_length;
 
   }
   delete(k){
-    this.api.removeDetailProgramSync(this.user,k).subscribe();
-    this.ionViewWillEnter();
+    this.api.removeDetailProgramSync(this.user,k).subscribe(d=>{
+      if(d.status == 'OK'){
+        this.ionViewWillEnter();
+      }
+    });
+
   }
   detail(k,d,t,ds){
     this.navCtrl.push("ShowdetailprogramsyncPage", {user:this.user,key:k,day_length:d,time_length:t,drug_sync:ds });

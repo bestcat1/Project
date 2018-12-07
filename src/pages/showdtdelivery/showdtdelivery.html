@@ -17,31 +17,31 @@
     <form (ngSubmit)="dv(wikiForm)" #wikiForm="ngForm" >
       <ion-item>
         <ion-label>ชื่อแม่พันธุ์ :</ion-label>
-        <ion-input  type="text"  name="dam_id" ngModel="{{data.dam_id}}" readonly></ion-input>
+        <ion-input  type="text"  name="dam_id" ngModel="{{data.dam_id}}" readonly [disabled]="edit"></ion-input>
     </ion-item>
       <ion-item>
           <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
-          <ion-input  type="text"  name="sire_id" ngModel="{{data.sire_id}}" readonly></ion-input>
+          <ion-input  type="text"  name="sire_id" ngModel="{{data.sire_id}}" readonly [disabled]="edit"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
-        <ion-input  type="date"  name="date" ngModel={{data.date}}></ion-input>
+        <ion-input  type="date"  name="date" ngModel={{data.date}} [disabled]="edit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>
-        <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+        <ion-select type="text" name="operator" ngModel="{{data.operator}}" [disabled]="edit">
           <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
         </ion-select>
     </ion-item>
       <ion-item>
         <ion-label>ผู้บันทึก :</ion-label>
-        <ion-input type="text"name="recoder" ngModel="{{data.recoder}}" readonly></ion-input>
+        <ion-input type="text"name="recoder" ngModel="{{data.recoder}}" readonly [disabled]="edit"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>สถานะ :</ion-label>
-        <ion-select ngModel="{{data.count_calf}}" name="count_calf" placeholder="สถานะการเกิด" >
+        <ion-select ngModel="{{data.count_calf}}" name="count_calf" placeholder="สถานะการเกิด" [disabled]="edit">
             <ion-option value="1">ลูกปกติ</ion-option>
             <ion-option value="2">ลูกแฝดสอง</ion-option>
             <ion-option value="3">ลูกแฝดสาม</ion-option>
@@ -49,7 +49,13 @@
           </ion-select>
       </ion-item>
 
-        <br>
-      <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+      <p align="center" [hidden]="!edit">
+        <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
+    </p>
+      <p align="center" [hidden]="edit">
+
+        <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
+        <button type="submit" ion-button color="facebook" round><i class="fa fa-floppy-o"></i>&nbsp;บันทึก</button>
+      </p>
       </form>
   </ion-content>

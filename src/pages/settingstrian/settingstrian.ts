@@ -54,10 +54,13 @@ datastrian:String;
     console.log('ionViewDidLoad SettingstrianPage');
   }
   addstrian(data:NgForm){
-    if(data.value.strain!=null){
-      this.api.addSettingBreed(this.user,data.value).subscribe();
-      this.datastrian='';
-      this.ionViewWillEnter()
+    if(data.value.strain!=''){
+      this.api.addSettingBreed(this.user,data.value).subscribe(d=>{
+        if(d.status=='OK'){
+           this.datastrian='';
+           this.ionViewWillEnter()
+        }
+      });
     }
     else{
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
@@ -75,7 +78,11 @@ datastrian:String;
       }
     }
       if(check==0){
-        this.api.removeBreed(this.user,k).subscribe();
+        this.api.removeBreed(this.user,k).subscribe(d=>{
+          if(d.status=='OK'){
+            this.ionViewWillEnter()
+          }
+        });
       }
       else{
         let alert41 = this.alertCtrl.create({
@@ -99,7 +106,6 @@ datastrian:String;
         });
         alert41.present();
       }
-      this.ionViewWillEnter()
   }
   editstrian(k,c){
 
@@ -124,17 +130,19 @@ datastrian:String;
         {
           text: 'ยืนยัน',
           handler: data => {
-            this.api.updateBreed(this.user,k,{strian:data.spi}).subscribe();
-
-            this.api.getCattleByBreed(this.user,c).subscribe(data=>{
-              if(data!=null){
-              var value = Object.keys(data);
-              value.forEach(snap=>{
-                this.api.updateType('cattle',this.user,snap,{breed:data.spi}).subscribe();
-              })
-            }
-            })
-            this.ionViewWillEnter();
+            this.api.updateBreed(this.user,k,{strian:data.spi}).subscribe(d1=>{
+              if(d1.status=='OK'){
+                this.api.getCattleByBreed(this.user,c).subscribe(data=>{
+                  if(data!=null){
+                  var value = Object.keys(data);
+                  value.forEach(snap=>{
+                    this.api.updateType('cattle',this.user,snap,{breed:data.spi}).subscribe();
+                  })
+                }
+                })
+                this.ionViewWillEnter();
+              }
+            });
           }
         }
       ]

@@ -203,9 +203,13 @@ addc(data:NgForm){
         {
           text: 'บันทึก',
           handler: () => {
-            this.api.addCattle(this.user,data.value).subscribe();
-             this.success();
-             this.viewCtrl.dismiss();
+            this.api.addCattle(this.user,data.value).subscribe(d=>{
+              if(d.status=='OK'){
+                this.success();
+                this.viewCtrl.dismiss();
+              }
+            });
+
           }
         }
       ]

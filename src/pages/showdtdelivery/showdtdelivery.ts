@@ -18,7 +18,7 @@ export class ShowdtdeliveryPage {
   user;
   data;
   operator=[];
-
+edit = true;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
@@ -47,6 +47,14 @@ export class ShowdtdeliveryPage {
   }
 dv(data:NgForm){
   console.log(data.value);
-  this.api.updateDeliveryByKey(this.user,this.data.key,data.value).subscribe();
+  this.api.updateDeliveryByKey(this.user,this.data.key,data.value).subscribe(d=>{
+    if(d.status=='OK'){
+      swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+        this.navCtrl.pop();
+    }
+  });
+}
+check(a){
+  this.edit = a;
 }
 }

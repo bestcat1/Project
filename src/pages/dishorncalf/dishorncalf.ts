@@ -94,10 +94,16 @@ this.api.getPersonnel(this.user).subscribe(data=>{
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addDishorn(this.user,data.value).subscribe();
-              this.api.editCalf(this.user,this.key,{horndetering:true}).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+              this.api.addDishorn(this.user,data.value).subscribe(d=>{
+                if(d.status=='OK'){
+                  this.api.editCalf(this.user,this.key,{horndetering:true}).subscribe(d1=>{
+                    if(d1.status=='OK'){
+                      this.success();
+                      this.viewCtrl.dismiss();
+                    }
+                  });
+                }
+              });
             }
 
           }
@@ -105,7 +111,6 @@ this.api.getPersonnel(this.user).subscribe(data=>{
       });
       alert25.present();
     }
-    console.log(data.value);
 
   }
   success(){

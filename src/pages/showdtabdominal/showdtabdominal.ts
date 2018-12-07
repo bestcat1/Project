@@ -22,7 +22,7 @@ export class ShowdtabdominalPage {
   alert_befor_7D;
   alert_after_7D;
   alert_sync;
-
+edit=true;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
@@ -55,7 +55,12 @@ export class ShowdtabdominalPage {
 
   abd(data:NgForm){
     console.log(data.value);
-    this.api.updatePregnantByKey(this.user,this.data.key,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe();
+    this.api.updatePregnantByKey(this.user,this.data.key,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe(d=>{
+      if(d.status=='OK'){
+        swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+        this.navCtrl.pop();
+      }
+    });
   }
 
   test(a:string){
@@ -74,5 +79,8 @@ export class ShowdtabdominalPage {
     y4k.setDate(y4k.getDate() + 18);
     this.alert_sync = y4k.getFullYear() + "-" + (y4k.getMonth() + 1) + "-" + y4k.getDate();
 
+  }
+  check(a){
+    this.edit = a;
   }
 }

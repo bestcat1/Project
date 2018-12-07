@@ -56,9 +56,12 @@ datacolor:String;
   }
   addcolor(data:NgForm){
     if(data.value.color!=''){
-    this.api.addColor(this.user,data.value).subscribe();
-    this.datacolor='';
-    this.ionViewWillEnter()
+    this.api.addColor(this.user,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        this.datacolor='';
+        this.ionViewWillEnter()
+      }
+    });
     } else {
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
     }
@@ -77,7 +80,11 @@ datacolor:String;
     }
 
       if(check==0){
-        this.api.removeColor(this.user,k).subscribe();
+        this.api.removeColor(this.user,k).subscribe(d=>{
+          if(d.status=='OK'){
+            this.ionViewWillEnter()
+          }
+        });
 
       }
       else{
@@ -103,7 +110,7 @@ datacolor:String;
         });
         alert37.present();
       }
-      this.ionViewWillEnter()
+
   }
 editcolor(k,c){
 console.log(c);
@@ -125,19 +132,17 @@ console.log(c);
         {
           text: 'ยืนยัน',
           handler: data => {
-
-            this.api.updateColor(this.user,k,{color:data.color}).subscribe();
-
-            this.api.getCattleByColor(this.user,c).subscribe(data=>{
-              if(data!=null){
-              var values = Object.keys(data);
-              values.forEach(snap=>{
-                this.api.updateType('cattle',this.user,snap,{color:data.color}).subscribe();
-              })
-            }
+            this.api.updateColor(this.user,k,{color:data.color}).subscribe(d=>{
+              this.api.getCattleByColor(this.user,c).subscribe(data=>{
+                if(data!=null){
+                var values = Object.keys(data);
+                values.forEach(snap=>{
+                  this.api.updateType('cattle',this.user,snap,{color:data.color}).subscribe();
+                })
+              }
+              });
+              this.ionViewWillEnter()
             });
-
-            this.ionViewWillEnter()
           }
         }
       ]

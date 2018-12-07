@@ -44,9 +44,13 @@ export class SettingprogrammaintainPage {
   }
   addpro(data:NgForm){
     if(data.value.pro_maintain!=''){
-    this.api.addProgram_maintain(this.user,data.value).subscribe();
-    this.pro_maintain='';
-    this.ionViewWillEnter();
+    this.api.addProgram_maintain(this.user,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        this.pro_maintain='';
+        this.ionViewWillEnter();
+      }
+    });
+
     }
     else {
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
@@ -54,8 +58,12 @@ export class SettingprogrammaintainPage {
 
   }
   removepro(k){
-    this.api.removeProgram_maintain(this.user,k).subscribe();
-    this.ionViewWillEnter();
+    this.api.removeProgram_maintain(this.user,k).subscribe(d=>{
+      if(d.status=='OK'){
+        this.ionViewWillEnter();
+      }
+    });
+
   }
   setpromaintain(p){
     console.log(p);

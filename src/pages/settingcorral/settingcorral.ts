@@ -59,9 +59,13 @@ data_corral:String;
   addcorral(data:NgForm){
     console.log(data.value);
     if(data.value.corral!=''){
-    this.api.addCorral(this.user,data.value).subscribe();
-     this.data_corral='';
-    this.ionViewWillEnter();
+    this.api.addCorral(this.user,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        this.data_corral='';
+        this.ionViewWillEnter();
+      }
+    });
+
     } else {
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
     }
@@ -80,8 +84,12 @@ data_corral:String;
         }
       }
       if(check==0){
-         this.api.removeCorral(this.user,n).subscribe();
-         this.ionViewWillEnter();
+         this.api.removeCorral(this.user,n).subscribe(d=>{
+           if(d.status=='OK'){
+            this.ionViewWillEnter();
+           }
+         });
+
       }
       else{
         let alert39 = this;
@@ -138,14 +146,15 @@ data_corral:String;
               text: 'ยืนยัน',
               handler: data => {
                 console.log(c,data.e_corral);
-                this.api.updateCorral(this.user,k,{corral:data.e_corral}).subscribe();
-                for(let j=0;j<t.length;j++){
-                  this.api.updateType('cattle',this.user,t[j],{corralcattle:data.e_corral}).subscribe();
-
-                }
-                t=[];
-                this.ionViewWillEnter();
-
+                this.api.updateCorral(this.user,k,{corral:data.e_corral}).subscribe(d=>{
+                  if(d.status=='OK'){
+                    for(let j=0;j<t.length;j++){
+                      this.api.updateType('cattle',this.user,t[j],{corralcattle:data.e_corral}).subscribe();
+                    }
+                    t=[];
+                    this.ionViewWillEnter();
+                  }
+                });
               }
             }
           ]

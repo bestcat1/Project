@@ -21,7 +21,7 @@ EPmark:boolean=true;
   data;
   sire_id=[];
   operator=[];
-
+edit=true;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
@@ -78,7 +78,14 @@ EPmark:boolean=true;
 breed(data:NgForm){
   delete data.value.mEP;
   delete data.value.markbel;
-  console.log(data.value);
-  this.api.updateBreedByKey(this.user,this.data.key,data.value).subscribe();
+  this.api.updateBreedByKey(this.user,this.data.key,data.value).subscribe(d=>{
+    if(d.status == 'OK'){
+      swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+      this.navCtrl.pop();
+    }
+  });
+}
+check(a){
+  this.edit = a;
 }
 }

@@ -15,33 +15,40 @@
   <form (ngSubmit)="mt(mtForm)" #mtForm="ngForm">
     <ion-item>
       <ion-label >ชื่อแม่พันธุ์: </ion-label>
-      <ion-input type="text"  name="dam_id" ngModel="{{d.dam_id}}" readonly></ion-input>
+      <ion-input type="text"  name="dam_id" ngModel="{{d.dam_id}}" readonly [disabled]="edit"></ion-input>
   </ion-item>
   <ion-item>
       <ion-label >วันที่:</ion-label>
-      <ion-input type="date" name="date" ngModel="{{d.date}}"></ion-input>
+      <ion-input type="date" name="date" ngModel="{{d.date}}" [disabled]="edit"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label >เวลา:</ion-label>
-    <ion-input type="time" name="time" ngModel="{{d.time}}"></ion-input>
+    <ion-input type="time" name="time" ngModel="{{d.time}}" [disabled]="edit"></ion-input>
 </ion-item>
 <ion-item>
   <ion-label >รายการบำรุง: </ion-label>
-  <ion-select ngModel="{{d.type_of_maintain}}" name="type_of_maintain" placeholder="เลือกรายการบำรุง" (ionChange)="select($event)">
+  <ion-select ngModel="{{d.type_of_maintain}}" name="type_of_maintain" placeholder="เลือกรายการบำรุง" (ionChange)="select($event)" [disabled]="edit">
       <ion-option *ngFor="let m of maintain" value="{{m.pro_maintain}}">{{m.pro_maintain}}</ion-option>
     </ion-select>
 </ion-item>
 <ion-item>
   <ion-label >ผู้ปฏิบัติการ: </ion-label>
-  <ion-select type="text" name="operator" ngModel="{{d.operator}}" >
-    <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
+  <ion-select type="text" name="operator" ngModel="{{d.operator}}" [disabled]="edit">
+    <ion-option *ngFor="let op of operator" value="{{op.operator}}" >{{op.operator}}</ion-option>
   </ion-select>
 </ion-item>
   <ion-item>
       <ion-label >ผู้บันทึก: </ion-label>
-      <ion-input type="text"name="recoder" ngModel="{{d.recoder}}" readonly></ion-input>
+      <ion-input type="text"name="recoder" ngModel="{{d.recoder}}" readonly [disabled]="edit"></ion-input>
   </ion-item>
-<button ion-button block color="facebook">บันทึก</button>
+  <p align="center" [hidden]="!edit">
+    <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
+</p>
+  <p align="center" [hidden]="edit">
+
+    <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
+    <button type="submit" ion-button color="facebook" round><i class="fa fa-floppy-o"></i>&nbsp;บันทึก</button>
+  </p>
 
 <ion-label>รายการบำรุง</ion-label>
 

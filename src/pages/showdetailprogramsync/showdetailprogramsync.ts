@@ -44,14 +44,18 @@ edit=true;
   }
   edits(data:NgForm){
     console.log(data.value);
-    this.api.updateDetailProgramSync(this.user,this.key,data.value).subscribe();
-    let alert = this.alertCtrl.create({
-      title: 'แก้ไขข้อมูล',
-      subTitle: 'แก้ไขข้อมูเสร็จสิ้น',
-      buttons: ['ตกลง']
+    this.api.updateDetailProgramSync(this.user,this.key,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        let alert = this.alertCtrl.create({
+          title: 'แก้ไขข้อมูล',
+          subTitle: 'แก้ไขข้อมูเสร็จสิ้น',
+          buttons: ['ตกลง']
+        });
+        alert.present();
+        this.viewCtrl.dismiss()
+      }
     });
-    alert.present();
-    this.viewCtrl.dismiss()
+
   }
 
 }

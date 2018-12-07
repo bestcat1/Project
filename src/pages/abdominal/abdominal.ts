@@ -186,21 +186,37 @@ noti_pregnant;
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addPregnant(this.user,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe();
-              if(data.value.result=='ท้อง'){
-                this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" }).subscribe();
-              }
-              else{
-                this.api.updateType('cattle',this.user,k,{status: "โคแท้ง" }).subscribe();
-// ฟหกฟหกฟหกฟหก
-                var test = new Date(data.value.dateabd);
-                test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe();
-              }
+              this.api.addPregnant(this.user,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe(d2=>{
+                if(d2.status=='OK'){
+                  if(data.value.result=='ท้อง'){
+                    this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" }).subscribe(d=>{
+                      if(d.status=='OK'){
+                        this.success();
+                        this.viewCtrl.dismiss();
+                      }
+                    });
+                  }
+                  else{
+                    this.api.updateType('cattle',this.user,k,{status: "โคแท้ง" }).subscribe(d=>{
+                      if(d.status=='OK'){
+                        var test = new Date(data.value.dateabd);
+                        test.setDate(test.getDate() + Number(this.AlertDate.day_length));
+                        var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                        this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d1=>{
+                          if(d1.status=='OK'){
+                            this.success();
+                            this.viewCtrl.dismiss();
+                          }
+                        });
+                      }
+                    })
 
-              this.success();
-              this.viewCtrl.dismiss();
+                  }
+                }
+              });
+
+
+
             }
 
           }

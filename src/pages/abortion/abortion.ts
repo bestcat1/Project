@@ -81,10 +81,17 @@ export class AbortionPage {
   }
   abortion(data: NgForm) {
     console.log(data.value);
-    this.api.addAbortion(this.user,data.value).subscribe();
-    this.api.updateType('cattle',this.user,this.key,{status:'โคแท้ง'}).subscribe();
-    this.sucess();
-    this.viewCtrl.dismiss();
+    this.api.addAbortion(this.user,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        this.api.updateType('cattle',this.user,this.key,{status:'โคแท้ง'}).subscribe(d1=>{
+          if(d1.status=='OK'){
+            this.sucess();
+            this.viewCtrl.dismiss();
+          }
+        });
+      }
+    });
+
   }
   sucess(){
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");

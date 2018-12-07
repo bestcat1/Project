@@ -33,8 +33,8 @@ day_length;
     }
     ionViewWillEnter(){
       this.drug_maintain='';
-this.volumn='';
-this.day_length='';
+      this.volumn='';
+      this.day_length='';
       this.api.getDetailMaintainByType(this.user,this.program).subscribe(data=>{
         if(data!=null){
         var values = Object.keys(data).map(key=> data[key]);
@@ -56,11 +56,16 @@ this.day_length='';
     console.log(data.value);
     if(data.value.drug_maintain!=''&&data.value.volumn!=''&&data.value.day_length!=''){
       console.log(data.value);
-      this.api.addDetailMaintain(this.user,data.value).subscribe();
-      this.drug_maintain='';
-      this.volumn='';
-      this.day_length='';
-      this.ionViewWillEnter();
+      this.api.addDetailMaintain(this.user,data.value).subscribe(d=>{
+        if(d.status=='Ok'){
+          this.drug_maintain='';
+          this.volumn='';
+          this.day_length='';
+          this.ionViewWillEnter();
+        }
+
+      });
+
     }else{
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
 
@@ -77,7 +82,11 @@ this.day_length='';
     this.navCtrl.push("ShowdetailprogrammaintainPage", {detail:d,user:this.user});
   }
   delete(k){
-    this.api.removeDetailMaintain(this.user,k).subscribe();
-    this.ionViewWillEnter();
+    this.api.removeDetailMaintain(this.user,k).subscribe(d=>{
+      if(d.status=='OK'){
+          this.ionViewWillEnter();
+      }
+    });
+
   }
 }

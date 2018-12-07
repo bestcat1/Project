@@ -91,10 +91,18 @@ export class BrandingcalfPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-             this.api.addBranding(this.user,data.value).subscribe();
-             this.api.editCalf(this.user,this.key,{branding:true}).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+             this.api.addBranding(this.user,data.value).subscribe(d=>{
+               if(d.status=='OK'){
+                this.api.editCalf(this.user,this.key,{branding:true}).subscribe(d1=>{
+                  if(d.status=='OK'){
+                    this.success();
+                    this.viewCtrl.dismiss();
+                  }
+                });
+
+               }
+             });
+
             }
 
           }

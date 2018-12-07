@@ -18,31 +18,38 @@
     <ion-list>
    <ion-item >
         <ion-label>หมายเลขแม่พันธุ์ :</ion-label>
-        <ion-input type="text"name="dam_id" ngModel="{{detail.dam_id}}" readonly></ion-input>
+        <ion-input type="text"name="dam_id" ngModel="{{detail.dam_id}}" readonly [disabled]="edit"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>วันที่ผสมพันธุ์ :</ion-label>
-        <ion-input type="date" name="date_breeding" ngModel="{{detail.date_breeding}}" readonly></ion-input>
+        <ion-input type="date" name="date_breeding" ngModel="{{detail.date_breeding}}" readonly [disabled]="edit"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
-      <ion-select type="text" name="operator" ngModel="{{detail.operator}}" >
+      <ion-select type="text" name="operator" ngModel="{{detail.operator}}" [disabled]="edit">
         <ion-option *ngFor="let op of operator" value="{{op}}">{{op}}</ion-option>
       </ion-select>
   </ion-item>
     <ion-item >
         <ion-label>ผู้บันทึก :</ion-label>
-        <ion-input type="text"name="recoder" ngModel="{{detail.recoder}}" readonly></ion-input>
+        <ion-input type="text"name="recoder" ngModel="{{detail.recoder}}" readonly [disabled]="edit"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>แจ้งเตือนเหนี่ยวนำการกลับสัด :</ion-label>
-        <ion-input type="number" name="alert_sync" ngModel="{{detail.alert_sync}}"></ion-input>
+        <ion-input type="number" name="alert_sync" ngModel="{{detail.alert_sync}}" [disabled]="edit"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>หมายเหตุ :</ion-label>
-        <ion-input type="text"name="note" ngModel="{{detail.note}}"></ion-input>
+        <ion-input type="text"name="note" ngModel="{{detail.note}}" [disabled]="edit"></ion-input>
     </ion-item>
 </ion-list>
-<p align="center"><button ion-button round type="submit">บันทึก</button></p>
+<p align="center" [hidden]="!edit">
+  <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
+</p>
+<p align="center" [hidden]="edit">
+
+  <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
+  <button type="submit" ion-button color="facebook" round><i class="fa fa-floppy-o"></i>&nbsp;บันทึก</button>
+</p>
 </form>
 </ion-content>

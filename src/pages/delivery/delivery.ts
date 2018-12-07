@@ -158,43 +158,84 @@ export class DeliveryPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-            this.api.addDelivery(this.user,{ dam_id: data.value.dam_id, date: data.value.date, count_calf: data.value.count_calf, sire_id: data.value.sire_id, recoder: data.value.recoder, operator: data.value.operator }).subscribe();
-            this.api.updateType('cattle',this.user,k,{ status: "คลอดแล้ว" }).subscribe();
-              if (this.count_calf == 1) {
-                this.calf = [];
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0 ,horndetering:false,branding:false,wean:false}).subscribe();
-                this.calf = [data.value.bid0];
-                this.calclate(data.value.date);
-              }
-              else if (this.count_calf == 2) {
-                this.calf = []
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe();
-                this.calf = [data.value.bid0, data.value.bid1];
-                this.calclate(data.value.date);
-              }
-              else if (this.count_calf == 3) {
-                this.calf = [];
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid2, name_cattle: data.value.name_cattle2, breed: data.value.spi2, color: data.value.colorcattle2, sex: data.value.sexct2, birth_weight: data.value.birth_weight2,horndetering:false,branding:false,wean:false }).subscribe();
-                this.calf = [data.value.bid0, data.value.bid1, data.value.bid2];
-                this.calclate(data.value.date);
-              }
-              else if (this.count_calf == 4) {
-                this.calf = [];
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid2, name_cattle: data.value.name_cattle2, breed: data.value.spi2, color: data.value.colorcattle2, sex: data.value.sexct2, birth_weight: data.value.birth_weight2,horndetering:false,branding:false,wean:false }).subscribe();
-                this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid3, name_cattle: data.value.name_cattle3, breed: data.value.spi3, color: data.value.colorcattle3, sex: data.value.sexct3, birth_weight: data.value.birth_weight3,horndetering:false,branding:false,wean:false }).subscribe();
-                this.calf = [data.value.bid0, data.value.bid1, data.value.bid2, data.value.bid3];
-                this.calclate(data.value.date);
-              }
+            this.api.addDelivery(this.user,{ dam_id: data.value.dam_id, date: data.value.date, count_calf: data.value.count_calf, sire_id: data.value.sire_id, recoder: data.value.recoder, operator: data.value.operator }).subscribe(d=>{
+              if(d.status=='OK'){
+                this.api.updateType('cattle',this.user,k,{ status: "คลอดแล้ว" }).subscribe(d1=>{
+                  if(d1.status=='OK'){
+                    if (this.count_calf == 1) {
+                      this.calf = [];
+                      this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0 ,horndetering:false,branding:false,wean:false}).subscribe(c1=>{
+                        if(c1.status == 'OK'){
+                          this.calf = [data.value.bid0];
+                          this.calclate(data.value.date);
+                          this.SweetAlert();
+                          this.viewCtrl.dismiss();
+                        }
+                      });
+                    }
+                    else if (this.count_calf == 2) {
+                      this.calf = []
+                      this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe(c1=>{
+                        if(c1.status == 'OK'){
+                          this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe(c2=>{
+                            if(c2.status== 'OK'){
+                              this.calf = [data.value.bid0, data.value.bid1];
+                              this.calclate(data.value.date);
+                              this.SweetAlert();
+                              this.viewCtrl.dismiss();
+                            }
+                          });
+                        }
+                      });
 
-              this.SweetAlert();
-              this.viewCtrl.dismiss();
+                    }
+                    else if (this.count_calf == 3) {
+                      this.calf = [];
+                      this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe(c1=>{
+                        if(c1.status=='OK'){
+                          this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe(c2=>{
+                            if(c2.status=='OK'){
+                              this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid2, name_cattle: data.value.name_cattle2, breed: data.value.spi2, color: data.value.colorcattle2, sex: data.value.sexct2, birth_weight: data.value.birth_weight2,horndetering:false,branding:false,wean:false }).subscribe(c3=>{
+                                if(c3.status=='OK'){
+                                  this.calf = [data.value.bid0, data.value.bid1, data.value.bid2];
+                                  this.calclate(data.value.date);
+                                  this.SweetAlert();
+                                  this.viewCtrl.dismiss();
+                                }
+                              });
+                            }
+                          });
+                        }
+                      });
+                    }
+                    else if (this.count_calf == 4) {
+                      this.calf = [];
+                      this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid0, name_cattle: data.value.name_cattle0, breed: data.value.spi0, color: data.value.colorcattle0, sex: data.value.sexct0, birth_weight: data.value.birth_weight0,horndetering:false,branding:false,wean:false }).subscribe(c1=>{
+                        if(c1.status=='OK'){
+                          this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid1, name_cattle: data.value.name_cattle1, breed: data.value.spi1, color: data.value.colorcattle1, sex: data.value.sexct1, birth_weight: data.value.birth_weight1,horndetering:false,branding:false,wean:false }).subscribe(c2=>{
+                            if(c2.status=='OK'){
+                              this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid2, name_cattle: data.value.name_cattle2, breed: data.value.spi2, color: data.value.colorcattle2, sex: data.value.sexct2, birth_weight: data.value.birth_weight2,horndetering:false,branding:false,wean:false }).subscribe(c3=>{
+                                if(c3.status=='OK'){
+                                  this.api.addCalf(this.user,{ dam_id: data.value.dam_id,sire_id:this.sire_id, birth_id: data.value.bid3, name_cattle: data.value.name_cattle3, breed: data.value.spi3, color: data.value.colorcattle3, sex: data.value.sexct3, birth_weight: data.value.birth_weight3,horndetering:false,branding:false,wean:false }).subscribe(c4=>{
+                                    if(c4.status == 'OK'){
+                                      this.calf = [data.value.bid0, data.value.bid1, data.value.bid2, data.value.bid3];
+                                      this.calclate(data.value.date);
+                                      this.SweetAlert();
+                                      this.viewCtrl.dismiss();
+                                    }
+                                  });
+                                }
+                              });
+                            }
+                          });
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            });
             }
-
           }
         ]
       });

@@ -91,10 +91,18 @@ export class WeancalfPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addWean(this.user,data.value).subscribe();
-              this.api.editCalf(this.user,this.key,{wean:true}).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+              this.api.addWean(this.user,data.value).subscribe(d=>{
+                if(d.status=='OK'){
+                this.api.editCalf(this.user,this.key,{wean:true}).subscribe(d1=>{
+                  if(d1.status=='OK'){
+                    this.success();
+                    this.viewCtrl.dismiss();
+                  }
+                });
+              }
+              });
+
+
             }
 
           }

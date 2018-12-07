@@ -45,9 +45,13 @@ export class SettingprogramsyncPage {
   }
   addpro(data:NgForm){
     if(data.value.pro_sync!=''){
-this.api.addProgramSync(this.user,data.value).subscribe();
+this.api.addProgramSync(this.user,data.value).subscribe(d=>{
+  if(d.status=='OK'){
+    this.pro_sync = '';
     this.ionViewWillEnter();
-      this.pro_sync = '';
+  }
+});
+
     }
     else{
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
@@ -55,8 +59,12 @@ this.api.addProgramSync(this.user,data.value).subscribe();
 
   }
   removepro(k){
-    this.api.removeProgramSync(this.user,k).subscribe();
-    this.ionViewWillEnter();
+    this.api.removeProgramSync(this.user,k).subscribe(d=>{
+      if(d.status=='OK'){
+        this.ionViewWillEnter();
+      }
+    });
+
   }
   stdetailsync(p){
     console.log(p);

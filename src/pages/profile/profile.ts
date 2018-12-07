@@ -44,7 +44,6 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
   this.detail_user[0].key = Object.keys(data)[0];
   console.log(this.detail_user);
 })
-this.check=0;
   }
 
   ionViewDidLoad() {
@@ -89,8 +88,6 @@ this.check=0;
     this.check=1;
   }
  uploadPhoto(data,k) {
-   console.log(data,k);
-   console.log('asdasdasd',this.check);
     if(this.check==1){
       this.myPhotosRef.child('Logo')
       .putString(this.base64Data, 'base64', { contentType: 'image/png' })
@@ -102,7 +99,12 @@ this.check=0;
           farm_address:data.farm_address,
           phone_num:data.phone_num,
           logo_base64:savedPicture.downloadURL
-        }).subscribe();
+        }).subscribe(d=>{
+          if(d.status=='OK'){
+            this.viewCtrl.dismiss();
+            swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
+          }
+        });
       });
     } else {
       this.api.updateBrandByKey(this.user,k,{
@@ -111,7 +113,12 @@ this.check=0;
         farm_initial:data.farm_initial,
         farm_address:data.farm_address,
         phone_num:data.phone_num
-      }).subscribe();
+      }).subscribe(d=>{
+        if(d.status=='OK'){
+          this.viewCtrl.dismiss();
+          swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
+        }
+      });
     }
   }
   edit_bran_farm(data:NgForm,k){
@@ -134,8 +141,7 @@ this.check=0;
             text: 'ตกลง',
             handler: () => {
                   this.uploadPhoto(data.value,k);
-                  swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
-                  this.viewCtrl.dismiss();
+
             }
           }
         ]

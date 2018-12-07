@@ -23,6 +23,7 @@ syncs;
 pro_sync=[];
 pro;
 operator = [];
+edit=true;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public modalCtrl:ModalController,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
@@ -62,7 +63,12 @@ operator = [];
   }
   sync(data:NgForm){
     console.log(data.value);
-    this.api.updateSyncByKey(this.user,this.data.key,data.value).subscribe();
+    this.api.updateSyncByKey(this.user,this.data.key,data.value).subscribe(d=>{
+      if(d.status == 'OK'){
+        swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+      this.navCtrl.pop();
+      }
+    });
 
   }
   promain(p){
@@ -71,5 +77,8 @@ operator = [];
   verifypro(){
     const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program:this.pro});
     modal.present();
+  }
+  check(a){
+    this.edit = a;
   }
 }

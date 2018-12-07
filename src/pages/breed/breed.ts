@@ -145,15 +145,33 @@ noti_pregnant;
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addBreed(this.user,{dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,sire_id:data.value.sire_id,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator}).subscribe();
-              this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe();
+              this.api.addBreed(this.user,{dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,sire_id:data.value.sire_id,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator}).subscribe(d=>{
+                if(d.status == 'OK'){
 
-              var test = new Date(data.value.date_breeding);
-              test.setDate(test.getDate() + Number(data.value.noti_pregnant));
-              var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-              this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'ตรวจท้อง', date: setDate });
-              this.success();
-              this.viewCtrl.dismiss();
+
+                      var test = new Date(data.value.date_breeding);
+                      test.setDate(test.getDate() + Number(data.value.noti_pregnant));
+                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                      this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'ตรวจท้อง', date: setDate }).subscribe(d2=>{
+                        if(d2.status == 'OK'){
+                          this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe(d1=>{
+                            console.log(d1);
+                            if(d1.status=='OK'){
+                              this.success();
+                              this.viewCtrl.dismiss();
+                            }
+                          });
+
+                        }
+                      });
+
+
+
+              }
+              });
+
+
+
             }
 
           }

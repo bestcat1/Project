@@ -46,8 +46,13 @@ operator=[];
   updatedishornc(data:NgForm){
     console.log(data.value);
 
-    this.api.updateDishornByKey(this.user,this.data.key,data.value).subscribe();
-      this.viewCtrl.dismiss();
+    this.api.updateDishornByKey(this.user,this.data.key,data.value).subscribe(d=>{
+      if(d.status == 'OK'){
+        swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+        this.navCtrl.pop();
+      }
+    });
+
 
   }
   check(n){

@@ -49,11 +49,15 @@ else{
   adddrug(data:NgForm){
     console.log(data.value);
     if(data.value.drug_name!=''&&data.value.common_drug!=''&&data.value.dosage!=''){
-      this.api.addDrug(this.user,data.value).subscribe();
-      this.drug_name='';
-      this.common_drug='';
-      this.dosage='';
-      this.ionViewWillEnter();
+      this.api.addDrug(this.user,data.value).subscribe(d=>{
+        if(d.status == 'OK'){
+          this.drug_name='';
+          this.common_drug='';
+          this.dosage='';
+          this.ionViewWillEnter();
+        }
+      });
+
     } else {
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
     }
@@ -61,7 +65,11 @@ else{
 
   }
   delete(k){
-    this.api.removeDrug(this.user,k).subscribe();
-    this.ionViewWillEnter();
+    this.api.removeDrug(this.user,k).subscribe(d=>{
+      if(d.status=='OK'){
+        this.ionViewWillEnter();
+      }
+    });
+
   }
 }

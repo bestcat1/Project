@@ -20,6 +20,7 @@ export class ShowdtmaintainPage {
  program;
  maintain;
 d:any;
+edit=true;
 operator=[];
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
@@ -69,7 +70,9 @@ operator=[];
 
   }
 
-
+  check(a){
+    this.edit = a;
+  }
 
 
   ionViewDidLoad() {
@@ -77,7 +80,12 @@ operator=[];
   }
 mt(data:NgForm){
   console.log(data.value);
-  this.api.updateMaintainByKey(this.user,this.d.key,data.value).subscribe();
+  this.api.updateMaintainByKey(this.user,this.d.key,data.value).subscribe(d=>{
+    if(d.status=='OK'){
+      swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+      this.navCtrl.pop();
+    }
+  });
 }
 select(a)
 {

@@ -120,14 +120,11 @@ type:any;
 
   showmaintain(){
     this.api.getAllCattle(this.user).subscribe(data=>{
-      console.log(data);
       let dam = [];
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
       for(let i = 0; i<values.length; i++){
-        console.log(values[i].status);
         if(values[i].sex=="MISS"&&values[i].status==""||values[i].status=="คลอดแล้ว"||values[i].status=="โคแท้ง"){
-          console.log(values[i]);
           dam.push(values[i]);
         }
       }

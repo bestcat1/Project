@@ -16,32 +16,32 @@
   <form (ngSubmit)="abd(wikiForm)" #wikiForm="ngForm" >
     <ion-item>
       <ion-label>ชื่อแม่พันธุ์ :</ion-label>
-      <ion-input type="text" ngModel={{data.dam_id}} name="dam_id" readonly></ion-input>
+      <ion-input type="text" ngModel={{data.dam_id}} name="dam_id" readonly [disabled]="edit"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>วันที่ตรวจท้อง :</ion-label>
-      <ion-input type="date" ngModel="{{data.dateabd}}" name="dateabd"  (input)="test($event.target.value)"></ion-input>
+      <ion-input type="date" ngModel="{{data.dateabd}}" name="dateabd"  (input)="test($event.target.value)" [disabled]="edit"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>เวลาที่ตรวจท้อง :</ion-label>
-      <ion-input type="time" ngModel="{{data.timeabd}}" name="timeabd" ></ion-input>
+      <ion-input type="time" ngModel="{{data.timeabd}}" name="timeabd" [disabled]="edit"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
-      <ion-select type="text" name="operator" ngModel="{{data.operator}}" >
+      <ion-select type="text" name="operator" ngModel="{{data.operator}}"  [disabled]="edit">
         <ion-option *ngFor="let op of operator" value="{{op.operator}}">{{op.operator}}</ion-option>
       </ion-select>
   </ion-item>
     <ion-item>
       <ion-label>ผู้บันทึก :</ion-label>
-      <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" readonly></ion-input>
+      <ion-input type="text" name="recoder" ngModel="{{data.recoder}}" readonly [disabled]="edit"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>ผลการตรวจ :</ion-label>
-      <ion-select ngModel="{{data.result}}" name="result" placeholder="เลือกผลการตรวจท้อง" >
+      <ion-select ngModel="{{data.result}}" name="result" placeholder="เลือกผลการตรวจท้อง" [disabled]="edit">
         <ion-option value="ท้อง">ท้อง</ion-option>
         <ion-option value="ไม่ท้อง">ไม่ท้อง</ion-option>
       </ion-select>
@@ -50,19 +50,19 @@
 
     <ion-item>
       <ion-label>ท้อง แจ้งเตือนคลอด(วัน) :</ion-label>
-      <ion-input type="text"  name="pregnant_noti" ngModel="{{data.pregnant_noti}}"></ion-input>
+      <ion-input type="text"  name="pregnant_noti" ngModel="{{data.pregnant_noti}}" [disabled]="edit"></ion-input>
     </ion-item>
 
 
     <ion-item>
       <ion-label>ไม่ท้อง แจ้งเตือนการผสม(วัน) :</ion-label>
-      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{data.not_pregnant_noti}}"></ion-input>
+      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{data.not_pregnant_noti}}" [disabled]="edit"></ion-input>
     </ion-item>
 
 
     <ion-item>
       <ion-label>หมายเหตุ :</ion-label>
-      <ion-input type="text"  name="note" ngModel></ion-input>
+      <ion-input type="text"  name="note" ngModel [disabled]="edit"></ion-input>
     </ion-item>
 
     <ion-card>
@@ -99,8 +99,15 @@
       </ion-col>
     </ion-row>
   </ion-card>
-    <br>
-    <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+
+  <p align="center" [hidden]="!edit">
+    <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
+</p>
+  <p align="center" [hidden]="edit">
+
+    <button type="button" ion-button color="danger" round (click)="check(true)"><ion-icon name="md-close-circle"></ion-icon>&nbsp;ยกเลิก</button>
+    <button type="submit" ion-button color="facebook" round><i class="fa fa-floppy-o"></i>&nbsp;บันทึก</button>
+  </p>
   </form>
 </ion-content>
 

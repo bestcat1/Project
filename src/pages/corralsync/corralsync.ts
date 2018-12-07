@@ -126,7 +126,9 @@ export class CorralsyncPage {
                       dataNoti.push({id_cattle: this.idcheck[j].id, type: this.AlertDate.list, date: setDate });
                       // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
                   }
-              this.api.addSyncCorral(this.user,dataSync).subscribe();
+              this.api.addSyncCorral(this.user,dataSync).subscribe(data=>{
+                console.log(data);
+              });
               this.api.updateCattleCorral(this.user,key,'เหนี่ยวนำแล้ว').subscribe();
               this.api.addNotiMultiple(this.user,dataNoti).subscribe();
               this.success();

@@ -48,9 +48,13 @@ this.api.getAllCattle(this.user).subscribe(data=>{
   addherd(data:NgForm){
     if(data.value.herd_num!=''){
       console.log(data.value);
-      this.api.addHerdNumber(this.user,data.value).subscribe();
-      this.ionViewWillEnter();
-      this.dataherd='';
+      this.api.addHerdNumber(this.user,data.value).subscribe(d=>{
+        if(d.status=='OK'){
+          this.ionViewWillEnter();
+          this.dataherd='';
+        }
+      });
+
     }
     else
     {
@@ -71,8 +75,12 @@ this.api.getAllCattle(this.user).subscribe(data=>{
     }
     if(c == 0){
 
-      this.api.deleteHerdNumber(this.user,key).subscribe();
-     this.ionViewWillEnter();
+      this.api.deleteHerdNumber(this.user,key).subscribe(d=>{
+        if(d.status=='OK'){
+            this.ionViewWillEnter();
+        }
+      });
+
     }
     else{
       console.log(this.detail);
@@ -121,16 +129,18 @@ this.api.getAllCattle(this.user).subscribe(data=>{
 
             console.log(data.herd_num);
 
-            this.api.updateHerdNumber(this.user,key,{herd_num:data.herd_num}).subscribe();
-            this.api.getCattleByHerdNumber(this.user,herd).subscribe(data1=>{
-              if(data!=null){
-              var value = Object.keys(data1);
-              for(let i = 0; i<value.length;i++){
-                this.api.updateType('cattle',this.user,value[i],{herd_no:data.herd_num}).subscribe();
+            this.api.updateHerdNumber(this.user,key,{herd_num:data.herd_num}).subscribe(d=>{
+              this.api.getCattleByHerdNumber(this.user,herd).subscribe(data1=>{
+                if(data!=null){
+                var value = Object.keys(data1);
+                for(let i = 0; i<value.length;i++){
+                  this.api.updateType('cattle',this.user,value[i],{herd_no:data.herd_num}).subscribe();
+                }
               }
-            }
-            })
-            this.ionViewWillEnter()
+              })
+              this.ionViewWillEnter()
+            });
+
           }
         }
       ]

@@ -36,11 +36,21 @@ herd_num
 item$ : Observable<any[]>;
 corrals;
   item:AngularFireList<any[]>;
+  checkcattle:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl: AlertController
   ,private api: NodeapiProvider,public viewCtrl: ViewController ) {
     this.user=this.navParams.get('user');
     this.checkcorral=this.navParams.get('corral');
     this.mncattle = this.navParams.get('type');
+    this.api.getAllCattle(this.user).subscribe(data=>{
+      if(data!=null){
+        this.checkcattle = Object.keys(data).map(key=>data[key]);
+      }
+      else {
+        this.checkcattle = [];
+      }
+
+    })
   }
 
   ionViewWillEnter(){
@@ -180,14 +190,24 @@ addCattle(){
 }
 
 addc(data:NgForm){
+  console.log(this.checkcattle);
+  let c =0;
+  if(this.checkcattle.length!=0){
+    for(let i = 0; i<this.checkcattle.length;i++){
+      if(data.value.cattle_id == this.checkcattle[i].cattle_id){
+        c ++ ;
+      }
+      else {
+        c = c;
+      }
+    }
+  }
+  if(c==0||this.checkcattle.length==0){
   console.log(data.value);
-  if(data.value.bweight==""||data.value.corralcattle==""||data.value.farmname==""||data.value.fid==""||data.value.id==""||data.value.massescattle==""||data.value.mid==""||data.value.ncattle==""||data.value.onyearweight==""||data.value.sexct==""||data.value.spcattle==""||data.value.spi==""||data.value.waenweight=="")
+  if(data.value.birth_chest_head_ratio==""||data.value.birth_date==""||data.value.birth_weight==""||data.value.breed==""||data.value.breed_method==""||data.value.breeder==""||data.value.cattle_id==""||data.value.color==""||data.value.corral==""||data.value.dam_id==""||data.value.herd_no==""||data.value.sex==""||data.value.sire_id==""
+  ||data.value.waen_weight==""||data.value.wean_chest_head_ratio==""||data.value.year_hip_hight==""||data.value.year_weight=="")
   {
-    const alert4 = this.alertCtrl.create({
-      subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-      buttons: ['ตกลง']
-    });
-    alert4.present();
+    swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
   }
   else{
     const confirm1 = this.alertCtrl.create({
@@ -216,9 +236,51 @@ addc(data:NgForm){
     });
     confirm1.present();
   }
-
+}else {
+  swal("ผิดพลาด!", "มีรหัสโคนี้อยู่แล้ว", "error");
+}
 }
 success(){
-  swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
+  swal("เสร็จสิ้น!", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
 }
+filterType(){
+  let alert = this.alertCtrl.create();
+    alert.setTitle('Lightsaber color');
+
+    alert.addInput({
+      type: 'radio',
+      label: 'รหัสโค',
+      value: '0',
+      checked: true
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'คอก',
+      value: '1',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'เพศ',
+      value: '2',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สายพันธุ์',
+      value: '3',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'ฝูง',
+      value: '4',
+    });
+
+    alert.addButton('ยกเลิก');
+    alert.addButton({
+      text: 'ตกลง',
+      handler: data => {
+       console.log(data);
+      }
+    });
+    alert.present();
+  }
 }

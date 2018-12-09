@@ -6,8 +6,10 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { File } from '@ionic-native/file';
-
+import * as papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+
 /**
  * Generated class for the VerifyPage page.
  *
@@ -25,11 +27,7 @@ export class VerifyPage {
   user;
   downloadedImg;
   //==============
-  externalDataRetrievedFromServer = [
-    { name: 'Bartek', age: 34 },
-    { name: 'John', age: 27 },
-    { name: 'Elizabeth', age: 30 },
-  ]
+
   data_cattle = [];
   letterObj = {
     to: '',
@@ -42,9 +40,11 @@ export class VerifyPage {
   brand_user: Observable<any[]>;
   myPhotoURL = [];
   data = [];
+  a = [];
   loader;
   pdfimage;
-
+  csvData: any[] = [];
+  headerRow: any[] = [];
 
   //==============
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -53,9 +53,135 @@ export class VerifyPage {
     private api: NodeapiProvider) {
     this.user = this.navParams.get('user');
     this.mncattle = "verify";
-
     this.indexreport();
   }
+
+    OnExport = function ()
+    {
+      this.presentLoading()
+      if (this.plt.is('cordova')) {
+        let sheet = XLSX.utils.json_to_sheet(this.data_cattle);
+        let wb = {
+            SheetNames: ["export"],
+            Sheets: {
+                "export": sheet
+            }
+        };
+
+        let wbout = XLSX.write(wb, {
+            bookType: 'xlsx',
+            bookSST: false,
+            type: 'binary'
+        });
+        let blob = new Blob([this.s2ab(wbout)], {type: 'application/octet-stream'});
+            this.file.writeFile(this.file.dataDirectory, 'export.xlsx', blob, { replace: true }).then(() => {
+                this.fileOpener.open(this.file.dataDirectory + 'export.xlsx', 'application/octet-stream').then(() =>{
+                  this.loader.dismiss();
+                });
+              });
+        }
+        else{
+          this.downloadCSV();
+          this.loader.dismiss();
+        }
+    }
+
+   s2ab(s) {
+      let buf = new ArrayBuffer(s.length);
+      let view = new Uint8Array(buf);
+      for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+  }
+    // downloadPdf() {
+    //   if (this.plt.is('cordova')) {
+    //     this.pdfObj.getBuffer((buffer) => {
+    //       var blob = new Blob([buffer], { type: 'application/pdf' });
+
+    //       // Save the PDF to the data Directory of our App
+    //       this.file.writeFile(this.file.dataDirectory, 'myletter.pdf', blob, { replace: true }).then(fileEntry => {
+    //         // Open the PDf with the correct OS tools
+    //         this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+    //       })
+    //     });
+    //   } else {
+    //     // On a browser simply use download!
+    //     this.pdfObj.download();
+    //   }
+    //   this.loader.dismiss();
+    // }
+
+
+  downloadCSV() {
+    console.log(this.data_cattle);
+    console.log('export excel');
+    let csv
+    if(this.name == 'cattle'){
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['cattle_id', 'sex', 'birth_date', 'breed', 'color', 'dam_id', 'sire_id']),
+      });
+    } else if(this.name == 'maintain') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['dam_id', 'type_of_maintain', 'date', 'time', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'synchronize') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['dam_id', 'sire_id','number_of_breeding', 'date_breeding', 'time_breeding', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'breed') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['dam_id', 'sire_id','number_of_breeding', 'date_breeding', 'time_breeding', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'abdominal') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle,  ['dam_id', 'dateabd', 'timeabd','result', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'delivery') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['dam_id', 'sire_id', 'date','count_calf', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'abortion') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['dam_id', 'date_breeding', 'operator','recoder', 'note']),
+      });
+    } else if(this.name == 'nurture') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['id', 'number_of_treatment','datediagnose', 'timediagnose', 'sickness', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'dishorn') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['birth_id', 'dam_id','datedishorn', 'method', 'operator', 'recoder']),
+      });
+    } else if(this.name == 'branding') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['birth_id', 'dam_id','wid', 'datebran', 'operator', 'recoder']),
+      });
+    }  else if(this.name == 'wean') {
+      csv = papa.unparse({
+        fields: null,
+        data:  this.buildTableBody(this.data_cattle, ['birth_id', 'dam_id','weanweight', 'datewean', 'operator', 'recoder']),
+      });
+    }
+    // Dummy implementation for Desktop download purpose
+    var blob = new Blob(['\uFEFF' + csv], { type: "text/csv;charset=utf-8" });
+    var a = window.document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "newdata.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VerifyPage', { user: this.user });
@@ -122,6 +248,7 @@ export class VerifyPage {
     if(a == 'cattle'){
       this.api.getAllCattle(this.user).subscribe(data=>{
         if(data!=null){
+          a=Object.keys(data);
        this.data_cattle = Object.keys(data).map(key=>data[key]);
     } else {
       this.data_cattle = [];
@@ -131,7 +258,6 @@ export class VerifyPage {
       this.api.getMaintainByUser(this.user).subscribe(data=>{
         if(data!=null){
           this.data_cattle = Object.keys(data).map(key=>data[key]);
-
        } else {
          this.data_cattle = [];
        }

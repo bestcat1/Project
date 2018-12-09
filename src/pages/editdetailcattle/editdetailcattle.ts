@@ -57,14 +57,19 @@ herd_num
   }
 editc(data:NgForm,k){
   console.log(data.value);
+  if(data.value.birth_chest_head_ratio==""||data.value.birth_date==""||data.value.birth_weight==""||data.value.breed==""||data.value.breed_method==""||data.value.breeder==""||data.value.cattle_id==""||data.value.color==""||data.value.corral==""||data.value.dam_id==""||data.value.herd_no==""||data.value.sex==""||data.value.sire_id==""
+  ||data.value.waen_weight==""||data.value.wean_chest_head_ratio==""||data.value.year_hip_hight==""||data.value.year_weight=="")
+  {
+    swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+  } else{
 
-  this.api.updateType('cattle',this.user,k,data.value).subscribe(d=>{
-    if(d.status=='OK'){
-      this.presentToast();
-      this.viewCtrl.dismiss();
-    }
-  });
-
+    this.api.updateType('cattle',this.user,k,data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        this.presentToast();
+        this.viewCtrl.dismiss();
+      }
+    });
+  }
 }
 exit(){
   let alert27 = this.alertCtrl.create({

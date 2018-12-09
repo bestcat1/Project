@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController,AlertController, NavParams, MenuController,LoadingController, ToastController } from 'ionic-angular';
-import { AngularFireDatabase  } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { GlobalProvider } from '../../providers/global/global';
 import { Network } from '@ionic-native/network';
 import swal from 'sweetalert';
 import { AuthProvider } from '../../providers/auth/auth';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 
 @Component({
@@ -22,11 +22,12 @@ export class HomePage {
   checkkey=[];
 
   public user$;
-  constructor(public NavCtrl: NavController, private db: AngularFireDatabase,
+  constructor(public NavCtrl: NavController,
      public navParams: NavParams,public AlertCtrl: AlertController
      ,public menu:MenuController,public loadingCtrl: LoadingController
      ,public global:GlobalProvider,private network:Network,public toast:ToastController,
-     private auth:AuthProvider){
+     private auth:AuthProvider,
+     private api:NodeapiProvider){
       this.user$ = this.auth.user;
        console.log('Status: '+this.network.type);
       this.network.onDisconnect().subscribe(()=>{
@@ -35,28 +36,30 @@ export class HomePage {
         )
       });
 
-    this.item=this.db.list('/User').snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
+
     this.check=0;
     this.menu=menu;
     this.menu.enable(false,'myMenu');
-    this.item.forEach(data=>{
-      data.forEach(element=>{
-        this.checkuser.push(element.user);
-        this.checkpass.push(element.pass);
-        this.checkemail.push(element.email);
-        this.count_login.push(element.count_login);
-        this.checkkey.push(element.key);
-        console.log(element);
-      })
-    });
 
+    this.api.getUserAll().subscribe(data=>{
+      if(data!=null){
+        var values = Object.keys(data).map(key=>data[key]);
+        values.forEach(element=>{
+          this.checkuser.push(element.user);
+          this.checkpass.push(element.pass);
+          this.checkemail.push(element.email);
+          this.count_login.push(element.count_login);
+        })
+        for(let i =0 ;i<values.length;i++){
+          this.checkkey.push(Object.keys(data)[i]);
+        }
+      }
+
+    })
   }
 
 
   login(){
-
       let c=0;
       const prompt1 = this.AlertCtrl.create({
         title: 'ลงชื่อเข้าใช้',
@@ -83,7 +86,7 @@ export class HomePage {
             handler: async Data => {
               console.log(Data.user,Data.pass);
               for(let i=0;i<this.checkuser.length;i++){
-                if((this.checkemail[i]==Data.user)||((this.checkuser[i]==Data.user))&&(this.checkpass[i]==Data.pass)){
+                if((this.checkemail[i]==Data.user)||((this.checkuser[i]==Data.user))){
                   this.check=1;
                   c=i;
                   break;
@@ -94,10 +97,10 @@ export class HomePage {
                 }
 
               }
-              console.log(this.check);
+              console.log(this.checkkey[c]);
               if(this.check==1){
                   this.check=0;
-                  this.auth.login(this.checkemail[c], this.checkpass[c]).subscribe();
+                  this.auth.login(this.checkemail[c], Data.pass, this.checkpass[c],this.checkkey[c]).subscribe();
                   this.global.setMyGlobalVar(this.checkuser[c]);
                   // .subscribe(
                   //   (data: any) => {

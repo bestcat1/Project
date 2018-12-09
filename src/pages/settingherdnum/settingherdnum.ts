@@ -37,7 +37,9 @@ export class SettingherdnumPage {
     }
     })
 this.api.getAllCattle(this.user).subscribe(data=>{
+  if(data!=null){
   this.detail = Object.keys(data).map(key=>data[key]);
+  }
 })
   }
 

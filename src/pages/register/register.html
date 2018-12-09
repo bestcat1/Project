@@ -41,7 +41,7 @@
         <small [hidden]="check" class="atext">มีชื่อผู้ใช้นี้แล้ว</small>
         <ion-item>
           <ion-label floating>Password</ion-label>
-          <ion-input type="text" class="mFont" name="pass" ngModel></ion-input>
+          <ion-input type="text" class="mFont" name="pass" placeholder="รหัสผ่านอย่างน้อย 6 ตัว" ngModel></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Confirm Password</ion-label>
@@ -73,7 +73,9 @@
         </ion-item>
         <ion-item>
             <ion-label floating>ว/ด/ป เกิด</ion-label>
-            <ion-input type="date" name="day_of_birth" ngModel></ion-input>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน" [(ngModel)]="date" name="day_of_birth"></ion-datetime>
+            <!-- <ion-input type="date" name="day_of_birth" readonly ngModel="{{date}}"></ion-input> -->
+            <!-- <button ion-button item-end type="button" ><ion-icon name="md-calendar" (click)="changdate()"></ion-icon></button> -->
         </ion-item>
         <ion-item>
             <ion-label floating>เบอร์โทร</ion-label>
@@ -91,7 +93,7 @@
             <ion-label floating>Email</ion-label>
             <ion-input type="text" class="mFont" name="email" ngModel></ion-input>
         </ion-item>
-        <small [hidden]="checkEmail" class="atext">มีผู้ใช้งานอีเมลนี้แล้ว</small>
+        <small [hidden]="checkEmail" class="atext">อีเมลหรือรหัสผ่านไม่ถูกต้อง</small>
         <ion-item>
             <ion-label floating>Fax.</ion-label>
             <ion-input type="text" class="mFont" name="fax" ngModel></ion-input>

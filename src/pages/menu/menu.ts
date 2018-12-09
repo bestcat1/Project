@@ -74,9 +74,31 @@ m6=false;
           {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:18,note:'บำรุงแม่พันธุ์'},
           {id_noti:11,list:'ผสมพันธุ์',day_length:21,note:'หลังจากเหนี่ยวนำการกลับสัด'},];
           swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
-            this.navCtrl.push("SettingfarmPage",{user: value[0].user});
-            this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe();
-            this.api.addNotiall(value[0].user,noti).subscribe();
+            this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe(d=>{
+              if(d.status=='OK'){
+                this.api.addNotiall(value[0].user,noti).subscribe();
+                this.api.addColor(value[0].user,{color:'น้ำตาล'}).subscribe(d1=>{
+                  if(d1.status=='OK'){
+                    this.api.addCorral(value[0].user,{corral:'คอกที่1'}).subscribe(d2=>{
+                      if(d2.status=='OK'){
+                        this.api.addSettingBreed(value[0].user,{strian:'พื้นเมือง'}).subscribe(d3=>{
+                          if(d3.status=='OK'){
+                            this.api.addHerdNumber(value[0].user,{herd_num:'01'}).subscribe(d4=>{
+                              if(d4.status=='OK'){
+                                this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});
+                              }
+                            })
+                          }
+                        })
+                      }
+
+                    })
+                  }
+                })
+
+              }
+            });
+
           });
         }
       }

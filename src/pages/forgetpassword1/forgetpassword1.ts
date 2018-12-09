@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+
 import { NgForm } from '@angular/forms';
-import swal from 'sweetalert';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+import { AuthProvider } from '../../providers/auth/auth';
 /**
  * Generated class for the Forgetpassword1Page page.
  *
@@ -18,53 +18,45 @@ import swal from 'sweetalert';
 })
 export class Forgetpassword1Page {
 user;
-detail=[];
-question=[];
-anwser=[];
-key=[];
+detail;
+question;
+anwser;
+key;
 checkcpass=true;
 checkanwser=true;
-checkhide=true;
-datas:Observable<any[]>;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase,
-  public viewCtrl:ViewController) {
+email;
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+  public viewCtrl:ViewController,private api:NodeapiProvider,
+  private auth:AuthProvider) {
     this.user=this.navParams.get('user');
     console.log(this.user);
-    this.datas=this.db.list('/User',ref=>ref.orderByChild('user').equalTo(this.user)).snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
-    this.datas.forEach(data=>{
-      this.question.push(data[0].question);
-      this.anwser.push(data[0].anwser);
-      this.key.push(data[0].key);
+    this.api.getUser(this.user).subscribe(data=>{
+      var value = Object.keys(data).map(key=>data[key]);
+      this.question = value[0].question;
+      this.anwser = value[0].anwser;
+      this.email = value[0].email;
+      this.key = Object.keys(data)[0];
     })
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Forgetpassword1Page');
   }
   forget(data:NgForm){
-    console.log(data.value.anwser,this.anwser[0])
-    if(data.value.anwser==this.anwser[0]){
-      this.checkhide=false;
+    console.log(this.email)
+    console.log(data.value.anwser,this.anwser)
+    if(data.value.anwser==this.anwser){
+      this.auth.resetPasswordByEmail(this.email).subscribe();
+
       this.checkanwser=true;
       this.checkcpass=true;
+      this.viewCtrl.dismiss();
     }
     else{
-      this.checkhide=true;
+
       this.checkanwser=false;
     }
   }
-  change(d:NgForm){
-    console.log(d.value);
-    if(d.value.cpass==d.value.pass){
-      this.checkcpass=true;
-      this.db.list('/User').update(this.key[0],{pass:d.value.pass})
-      this.viewCtrl.dismiss();
-      swal("บันทึกเสร็จสิ้น!", "เปลี่ยนรหัสผ่านเสร็จสิ้น", "success");
-    }
-    else{
-      this.checkcpass=false;
-    }
-  }
+
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+
 
 /**
  * Generated class for the ForgetpasswordPage page.
@@ -19,35 +19,32 @@ import { Observable } from 'rxjs/Observable';
 export class ForgetpasswordPage {
 j=0;
 checkuser=true;
-username:Observable<any[]>;
+username:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private db:AngularFireDatabase
-  ,public viewCtrl:ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams
+  ,public viewCtrl:ViewController,private api:NodeapiProvider) {
+    this.api.getUserAll().subscribe(data=>{
+      this.username = Object.keys(data).map(key=>data[key]);
+    })
 
-    this.username=this.db.list('/User').snapshotChanges().map(chang =>{
-      return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForgetpasswordPage');
   }
 forget(fg:NgForm){
-this.username.subscribe(data=>{
-  for(let i=0;i<data.length;i++){
-    if(fg.value.user==data[i].user){
+  console.log(this.username)
+  for(let i=0;i<this.username.length;i++){
+    if(fg.value.user==this.username[i].user){
       this.checkuser=true;
-      console.log(fg.value.user,data[i].user)
+      console.log(fg.value.user,this.username[i].user)
       this.viewCtrl.dismiss();
-      this.navCtrl.push("Forgetpassword1Page",{user:data[i].user});
-
+      this.navCtrl.push("Forgetpassword1Page",{user:this.username[i].user});
       break;
     }else{
       this.checkuser=false;
     }
   }
-})
-
 }
 
 }

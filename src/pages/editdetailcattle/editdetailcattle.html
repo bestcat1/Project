@@ -18,7 +18,7 @@
         <form (ngSubmit)="editc(edit_cattle,e.key)" #edit_cattle="ngForm">
           <ion-item>
             <ion-label>ชื่อโค: </ion-label>
-            <ion-input type="text" name="cattle_id" ngModel="{{id}}"></ion-input>
+            <ion-input type="text" name="cattle_id" ngModel="{{id}}" readonly></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>สายพันธุ์: </ion-label>
@@ -28,7 +28,7 @@
           </ion-item>
           <ion-item>
             <ion-label>วัน/เดือน/ปี เกิด: </ion-label>
-            <ion-input type="date" name="birth_date" ngModel="{{e.birth_date}}"></ion-input>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{e.birth_date}}" name="birth_date"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>น้ำหนักแรกเกิด(กก.): </ion-label>
@@ -74,7 +74,7 @@
           </ion-item>
           <ion-item>
             <ion-label>วัน/เดือน/ปี หย่านม: </ion-label>
-            <ion-input type="date" name="wean_date" ngModel="{{e.wean_date}}"></ion-input>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{e.wean_date}}" name="wean_date"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>น้ำหนักหย่านม(กก.): </ion-label>

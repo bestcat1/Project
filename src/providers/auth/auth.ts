@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { NodeapiProvider } from '../nodeapi/nodeapi';
 
 /*
   Generated class for the AuthProvider provider.
@@ -13,7 +14,8 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthProvider {
   public user : Observable<firebase.User>;
-  constructor(public http: HttpClient,private afAuth:AngularFireAuth) {
+  constructor(public http: HttpClient,private afAuth:AngularFireAuth,
+    private api:NodeapiProvider) {
     console.log('Hello AuthProvider Provider');
     this.user = this.afAuth.authState;
   }
@@ -22,9 +24,19 @@ export class AuthProvider {
   //   this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
   // }
 
-  login(email,password): Observable<any>{
+  login(email,password,datapass,key): Observable<any>{
     return Observable.fromPromise(
-    this.afAuth.auth.signInWithEmailAndPassword(email, password)
+
+    this.afAuth.auth.signInWithEmailAndPassword(email, password).then(user=>{
+      console.log(user.massage);
+      if(password!=datapass){
+      this.api.updateUser(key,{pass:password}).subscribe();
+      }
+    }).catch((a)=>{
+      swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
+    }
+
+    )
     );
   }
   isAuthenticated(): Observable<boolean>{
@@ -48,4 +60,14 @@ export class AuthProvider {
   getEmail(){
     return this.afAuth.auth.currentUser.email;
   }
+  resetPasswordByEmail(email): Observable<any>{
+    return Observable.fromPromise(
+      this.afAuth.auth.sendPasswordResetEmail(email).then(()=>{
+        swal("เปลี่ยนรหัสผ่าน!", "กรุณาตรวจสอบข้อความในอีเมล", "success");
+      }
+    ).catch(()=>{
+      swal("ผิดพลาด!", "กรุณาตรวจสอบอีเมล", "error");
+    }))
+  }
+
 }

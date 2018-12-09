@@ -107,7 +107,9 @@ import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion
   imports: [
     NgCalendarModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      monthNames: ['มกราคม', 'กุมภาพันธุ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มีนายน', 'กรกฏาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ],
+    }),
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
@@ -184,8 +186,10 @@ import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion
     SettingherdnumPageModule,
     SearchFarmPageModule,
     ShowabortionPageModule,
-    ShowdtabortionPageModule
+    ShowdtabortionPageModule,
+
   ],
+
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,

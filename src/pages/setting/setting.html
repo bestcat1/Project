@@ -19,7 +19,7 @@
 <ion-content padding class="background">
   <ion-item>
     <ion-label floating>เลือกตั้งค่า แจ้งเตือน</ion-label>
-    <ion-select interface="action-sheet" cancelText="ยกเลิก" (ionChange)="selectType($event)">
+    <ion-select interface="action-sheet" cancelText="ยกเลิก" (ionChange)="selectType($event)" ngModel="{{type}}">
       <!-- <ion-option value="การแจ้งเตือน">การแจ้งเตือน</ion-option> -->
       <ion-option value="ตั้งค่าการแจ้งเตือน">ตั้งค่าการแจ้งเตือน</ion-option>
       <ion-option value="จัดการข้อมูลผู้ใช้">จัดการข้อมูลผู้ใช้</ion-option>

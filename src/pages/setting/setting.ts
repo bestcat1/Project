@@ -20,7 +20,8 @@ user;
 checktype=0;
 notification = [];
 settingnotification = [];
-setiUser;
+setiUser
+type;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider
     , public localNotifications: LocalNotifications
@@ -29,6 +30,11 @@ setiUser;
     public modalCtrl: ModalController) {
     this.user=this.navParams.get('user');
     console.log(this.user);
+    this.type = this.navParams.get('type')
+    if(this.type == 'ตั้งค่าระบบฟาร์ม'){
+      this.checktype=4;
+      console.log(this.type)
+    }
 
   }
 

@@ -40,7 +40,7 @@
           </ion-item>
           <ion-item>
             <ion-label>วัน/เดือน/ปี เกิด: </ion-label>
-            <ion-input type="date" name="birth_date" ngModel="{{test}}"></ion-input>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{test}}" name="birth_date"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>น้ำหนักแรกเกิด(กก.): </ion-label>
@@ -87,7 +87,7 @@
           </ion-item>
           <ion-item>
             <ion-label>วัน/เดือน/ปี หย่านม: </ion-label>
-            <ion-input type="date" name="wean_date" ngModel="{{test}}"></ion-input>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{test}}" name="wean_date"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>น้ำหนักหย่านม(กก.): </ion-label>
@@ -129,7 +129,11 @@
 
   <div [ngSwitch]="mncattle">
     <ion-list *ngSwitchCase="'editcow'">
+        <ion-item-divider>
       <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+        <button ion-button item-end color="secondary" (click)="filterType()"> <ion-icon name="md-funnel"></ion-icon>
+        </button>
+      </ion-item-divider>
       <ion-item>
           <ion-label>คอก:</ion-label>
           <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="{{checkcorral}}" name="corralcattle" (ionChange)="selectcorral($event)">

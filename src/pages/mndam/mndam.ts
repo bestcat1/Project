@@ -19,9 +19,34 @@ export class MndamPage {
   public damList:Array<any>;
   public loadeddamList:Array<any>;
 type:any;
+sub_type = [];
+corral = [];
+breed = [];
+herd_num = [];
+a= 'ทั้งหมด';
+head='คอก';
+head_type;
+datas:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-
+    this.api.getCorral(this.user).subscribe(d=>{
+      Object.keys(d).map(key=>d[key]).forEach(d1=>{
+        this.corral.push(d1.corral);
+      })
+      console.log(d);
+    })
+    this.api.getBreed(this.user).subscribe(d=>{
+      Object.keys(d).map(key=>d[key]).forEach(d1=>{
+        this.breed.push(d1.strian);
+      })
+      console.log(d);
+    })
+    this.api.showHerdNumber(this.user).subscribe(d=>{
+      Object.keys(d).map(key=>d[key]).forEach(d1=>{
+        this.herd_num.push(d1.herd_num);
+      })
+      console.log(d);
+    })
   }
   ionViewWillEnter(){
     this.test(this.type);
@@ -31,6 +56,8 @@ type:any;
     console.log('ionViewDidLoad MndamPage');
   }
   test(t){
+    this.head='0'
+    this.a= 'ทั้งหมด'
     console.log(t);
     if(t == 'บันทึกการบำรุง'){
       this.type = t;
@@ -134,6 +161,7 @@ type:any;
     }
     this.damList = dam;
     this.loadeddamList = dam;
+    this.datas = dam;
     });
 
   }
@@ -153,6 +181,7 @@ type:any;
       }
       this.damList = dam;
       this.loadeddamList = dam;
+      this.datas = dam;
     })
   }
   showbreeding(){
@@ -171,6 +200,7 @@ type:any;
     }
       this.damList = dam;
       this.loadeddamList = dam;
+      this.datas = dam;
     })
   }
   showpregnant(){
@@ -192,6 +222,7 @@ type:any;
     }
       this.damList = dam;
       this.loadeddamList = dam;
+      this.datas = dam;
     })
   }
 
@@ -211,6 +242,7 @@ type:any;
     }
       this.damList = dam;
       this.loadeddamList = dam;
+      this.datas = dam;
     })
   }
   showabortion(){
@@ -229,6 +261,56 @@ type:any;
     }
      this.damList = dam;
      this.loadeddamList = dam;
+     this.datas = dam;
     })
   }
+  headsearch(h){
+    this.head_type = h;
+    this.sub_type = [];
+    console.log(h)
+    if(h == 0){
+      this.sub_type = this.corral;
+    } else if(h == 1) {
+      this.sub_type = this.breed;
+    } else if( h == 2){
+      this.sub_type = this.herd_num;
+    }
+    this.a= 'ทั้งหมด'
+  }
+
+  subsearch(s){
+
+    if(s == 'ทั้งหมด'){
+      this.damList = this.datas;
+      this.loadeddamList = this.datas;
+    }
+    else{
+    this.damList = []
+    this.loadeddamList = [];
+    if(this.head_type == 0){
+      this.datas.forEach(d=>{
+        if(d.corral == s){
+          this.damList.push(d);
+          this.loadeddamList.push(d);
+        }
+      })
+    }
+    else if(this.head_type == 1){
+      this.datas.forEach(d=>{
+        if(d.breed == s){
+          this.damList.push(d);
+          this.loadeddamList.push(d);
+        }
+      })
+    }
+    else if(this.head_type == 2){
+      this.datas.forEach(d=>{
+        if(d.herd_no == s){
+          this.damList.push(d);
+          this.loadeddamList.push(d);
+        }
+      })
+    }
+  }
+}
 }

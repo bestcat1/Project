@@ -130,17 +130,32 @@
   <div [ngSwitch]="mncattle">
     <ion-list *ngSwitchCase="'editcow'">
         <ion-item-divider>
-      <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
+      <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหา{{search_type}}" ></ion-searchbar>
         <button ion-button item-end color="secondary" (click)="filterType()"> <ion-icon name="md-funnel"></ion-icon>
         </button>
       </ion-item-divider>
-      <ion-item>
-          <ion-label>คอก:</ion-label>
-          <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="{{checkcorral}}" name="corralcattle" (ionChange)="selectcorral($event)">
-              <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
-            <ion-option *ngFor="let c of corrals" value="{{c.corral}}">{{c.corral}}</ion-option>
-          </ion-select>
-        </ion-item>
+      <ion-row>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label>คอก:</ion-label>
+            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="{{checkcorral}}" name="corralcattle" (ionChange)="selectcorral($event)">
+                <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
+              <ion-option *ngFor="let c of corrals" value="{{c.corral}}">{{c.corral}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label>เพศ:</ion-label>
+            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="ทั้งหมด" name="sexcattle" (ionChange)="selectsex($event)">
+                <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
+                <ion-option value="BULL">เพศผู้</ion-option>
+                <ion-option value="MISS">เพศเมีย</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
       <ion-list>
         <ion-label color="danger">เลือกหมายเลขโค</ion-label>
         <ion-item  *ngFor="let dam of damList">

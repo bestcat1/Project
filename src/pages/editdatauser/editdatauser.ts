@@ -37,9 +37,13 @@ export class EditdatauserPage {
   }
   update(data: NgForm) {
     console.log(data.value);
-    this.api.updateUser(this.key, data.value).subscribe();
-    swal("บันทึกเสร็จสิ้น!", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
-    this.viewCtrl.dismiss();
+    this.api.updateUser(this.key, data.value).subscribe(d=>{
+      if(d.status=='OK'){
+        swal("บันทึกเสร็จสิ้น!", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+        this.viewCtrl.dismiss();
+      } else {
+        swal("ผิดพลาด!", "แก้ไขข้อมูลไม่สำเร็จ", "error");
+      }
+    });
   }
-
 }

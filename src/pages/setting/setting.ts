@@ -140,8 +140,12 @@ edit(k, d, l, n) {
       {
         text: 'แก้ไข',
         handler: data => {
-          this.api.editNotificationByKey(this.user, k, { day_length: data.day_length })
-          this.presentToast();
+          this.api.editNotificationByKey(this.user, k, { day_length: data.day_length }).subscribe(d=>{
+            if(d.status == 'OK'){
+              this.presentToast();
+            }
+          })
+
         }
       }
     ]
@@ -183,12 +187,16 @@ stherdnum(){
  // ------------- setting User ------------
  settingUser(){
    this.api.getUserByAdminfarm(this.user).subscribe(data=>{
+     if(data!=null){
      var value = Object.keys(data).map(key=>data[key]);
      console.log(data);
      this.setiUser = value;
      for(let i=0;i<value.length;i++){
        this.setiUser[i].key = Object.keys(data)[i];
      }
+    } else {
+      this.setiUser = [] ;
+    }
    })
  }
  selectprivilege(c){

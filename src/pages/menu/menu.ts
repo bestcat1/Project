@@ -85,17 +85,24 @@ m6=false;
                           if(d3.status=='OK'){
                             this.api.addHerdNumber(value[0].user,{herd_num:'01'}).subscribe(d4=>{
                               if(d4.status=='OK'){
-                                this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});
+                                this.api.addProgram_maintain(value[0].user,{pro_maintain:'บำรุงก่อนคลอด'}).subscribe(d=>{
+                                  if(d.status=='OK'){
+                                    this.api.addProgramSync(this.user,{pro_sync:'ProgramA'}).subscribe(d=>{
+                                      if(d.status=='OK'){
+                                        this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});
+                                      }
+                                    });
+                                  }
+                                });
+
                               }
                             })
                           }
                         })
                       }
-
                     })
                   }
                 })
-
               }
             });
 

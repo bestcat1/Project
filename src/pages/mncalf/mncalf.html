@@ -26,8 +26,40 @@
     </ion-select>
 </ion-item>
 
-<ion-searchbar class="test" (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
-<ion-label color="danger"><b>เลือกลูกโค</b></ion-label>
+
+        <ion-row [hidden]="type==null">
+      <ion-col col-10>
+      <ion-searchbar item-start class="test" (ionInput)="getItems($event)" [(ngModel)]="clearText" placeholder="ค้นหาหมายเลข{{headType}}" [hidden]="hiddentype==null"></ion-searchbar>
+</ion-col>
+<ion-col col-2>
+        <button ion-button item-end class="btncustom" outline small color="secondary" (click)="TypeSearch()"> <ion-icon name="md-more"></ion-icon></button>
+</ion-col>
+</ion-row>
+
+
+<ion-row [hidden]="type==null">
+    <ion-col col-6>
+      <ion-item>
+      <ion-label>ประเภท:</ion-label>
+      <ion-select name="Head_type" (ionChange)="headsearch($event)" [(ngModel)]="head" cancelText="ยกเลิก" interface="popover">
+        <ion-option value="0">สายพันธุ์</ion-option>
+        <ion-option value="1">สี</ion-option>
+      </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col col-6>
+      <ion-item>
+          <ion-label>></ion-label>
+      <ion-select name="Sub_type" (ionChange)="subsearch($event)" [(ngModel)]="a" cancelText="ยกเลิก" interface="popover">
+          <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
+         <ion-option *ngFor="let s of sub_type" value="{{s}}">{{s}}</ion-option> -->
+      </ion-select>
+    </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+<ion-label color="danger" [hidden]="hiddentype==null"><b>เลือกลูกโค</b></ion-label>
 <ion-list>
   <ion-item *ngFor="let e of damList" >
   <ion-label>เบอร์แรกเกิด: {{e.birth_id}}</ion-label>

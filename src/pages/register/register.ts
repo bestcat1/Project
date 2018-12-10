@@ -85,11 +85,12 @@ export class RegisterPage {
                     this.checkEmail=true;
                     data.value.privilege = 'เจ้าของฟาร์ม';
                     delete data.value.cpass;
+                    this.success();
                     this.api.addUser(data.value).subscribe(d=>{
                       if(d.status=='OK'){
                         this.loader.dismiss();
                         this.viewCtrl.dismiss();
-                        this.success();
+
                       }
                     });
                   }, err => {
@@ -110,11 +111,11 @@ export class RegisterPage {
               data.value.count_login='1';
               this.checkEmail=true;
               delete data.value.cpass;
+              this.success();
               this.api.addUser(data.value).subscribe(d=>{
                 if(d.status == 'OK'){
                   this.loader.dismiss();
                   this.viewCtrl.dismiss();
-                  this.success();
                 }
               });
               //this.auth.login(data.value.email,data.value.pass);

@@ -37,11 +37,14 @@ item$ : Observable<any[]>;
 corrals;
   item:AngularFireList<any[]>;
   checkcattle:any;
+  search_type;
+  select_sex= 'ทั้งหมด';
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl: AlertController
   ,private api: NodeapiProvider,public viewCtrl: ViewController ) {
     this.user=this.navParams.get('user');
     this.checkcorral=this.navParams.get('corral');
     this.mncattle = this.navParams.get('type');
+    this.search_type = 'หมายเลขโค';
     this.api.getAllCattle(this.user).subscribe(data=>{
       if(data!=null){
         this.checkcattle = Object.keys(data).map(key=>data[key]);
@@ -108,7 +111,7 @@ corrals;
   if (!q) {
     return;
   }
-
+  if(this.search_type == 'หมายเลขโค'){
   this.damList = this.damList.filter((v) => {
     if(v.cattle_id && q) {
       if (v.cattle_id.toLowerCase().indexOf(q.toLowerCase()) > -1) {
@@ -117,32 +120,134 @@ corrals;
       return false;
     }
   });
+} else if(this.search_type == 'สายพันธุ์โค'){
+  this.damList = this.damList.filter((v) => {
+    if(v.breed && q) {
+      if (v.breed.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+        return true;
+      }
+      return false;
+    }
+  });
+} else if(this.search_type == 'ฝูงโค'){
+  this.damList = this.damList.filter((v) => {
+    if(v.herd_no && q) {
+      if (v.herd_no.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+        return true;
+      }
+      return false;
+    }
+  });
+}
   console.log(q, this.damList.length);
 
 }
 
 selectcorral(n){
-  if(n=='ทั้งหมด'){
+  var dam = [];
     this.api.getAllCattle(this.user).subscribe(data=>{
       if(data!=null){
-        var dam = Object.keys(data).map(key => data[key]);
-    this.damList = dam;
-    this.loadedDamList = dam;
+      var values= Object.keys(data).map(key => data[key]);
+      values.forEach(a=>{
+        if(n=='ทั้งหมด'){
+          if(this.select_sex=='ทั้งหมด'){
+          dam = Object.keys(data).map(key => data[key]);
+          } else {
+            if(this.select_sex==a.sex){
+              dam.push(a);
+          }
+          }
+        } else{
+          if(this.select_sex == 'ทั้งหมด'){
+            if(n == a.corral){
+              dam.push(a);
+            }
+          }else {
+            if(n==a.corral && this.select_sex == a.sex){
+              dam.push(a);
+            }
+          }
+        }
+      })
+      this.damList = dam;
+      this.loadedDamList = dam;
       }
-
     })
-  }
-  else{
-  this.api.getCattleByCorral(this.user, n).subscribe(data=>{
+
+}
+
+selectsex(s){
+  this.select_sex = s;
+  var dam = [];
+  this.api.getAllCattle(this.user).subscribe(data=>{
     if(data!=null){
-       var dam = Object.keys(data).map(key => data[key]);
+    var values= Object.keys(data).map(key => data[key]);
+    values.forEach(a=>{
+      if(this.checkcorral=='ทั้งหมด'){
+        if(s=='ทั้งหมด'){
+        dam = Object.keys(data).map(key => data[key]);
+        } else {
+          if(s==a.sex){
+            dam.push(a);
+        }
+        }
+      } else{
+        if(s == 'ทั้งหมด'){
+          if(this.checkcorral == a.corral){
+            dam.push(a);
+          }
+        }else {
+          if(this.checkcorral==a.corral && s == a.sex){
+            dam.push(a);
+          }
+        }
+      }
+    })
     this.damList = dam;
     this.loadedDamList = dam;
     }
+  })
 
-  });
-  }
 }
+
+filterType(){
+  let alert = this.alertCtrl.create();
+    alert.setTitle('ประเภทการค้นหา');
+
+    alert.addInput({
+      type: 'radio',
+      label: 'หมายเลขโค',
+      value: '0',
+      checked: true
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'สายพันธุ์',
+      value: '1',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'ฝูง',
+      value: '2',
+    });
+
+    alert.addButton('ยกเลิก');
+    alert.addButton({
+      text: 'ตกลง',
+      handler: data => {
+       if (data==0){
+        this.search_type = 'หมายเลขโค';
+       } else if(data == 1){
+        this.search_type = 'สายพันธุ์โค';
+       } else if(data == 2){
+        this.search_type = 'ฝูงโค';
+       }
+       console.log(this.search_type);
+      }
+    });
+    alert.present();
+  }
+
 
 //-------------------------------add page------------------
 
@@ -243,44 +348,4 @@ addc(data:NgForm){
 success(){
   swal("เสร็จสิ้น!", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
 }
-filterType(){
-  let alert = this.alertCtrl.create();
-    alert.setTitle('Lightsaber color');
-
-    alert.addInput({
-      type: 'radio',
-      label: 'รหัสโค',
-      value: '0',
-      checked: true
-    });
-    alert.addInput({
-      type: 'radio',
-      label: 'คอก',
-      value: '1',
-    });
-    alert.addInput({
-      type: 'radio',
-      label: 'เพศ',
-      value: '2',
-    });
-    alert.addInput({
-      type: 'radio',
-      label: 'สายพันธุ์',
-      value: '3',
-    });
-    alert.addInput({
-      type: 'radio',
-      label: 'ฝูง',
-      value: '4',
-    });
-
-    alert.addButton('ยกเลิก');
-    alert.addButton({
-      text: 'ตกลง',
-      handler: data => {
-       console.log(data);
-      }
-    });
-    alert.present();
-  }
 }

@@ -134,7 +134,6 @@ export class MaintainPage {
                   this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe(d1=>{
                     console.log(d1);
                     if(d1.status=='OK'){
-
                     this.success();
                     this.viewCtrl.dismiss();
                     }
@@ -169,9 +168,6 @@ export class MaintainPage {
       }
 
     })
-    // console.log(s);
-    // this.program=this.db.list('/setting/farm/program_maintain/drug_pro_maintain/'+this.user,ref=>ref.orderByChild('pro_maintain').equalTo(s)).snapshotChanges().map(chang =>{
-    //   return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-    // });
+    console.log(this.program);
   }
 }

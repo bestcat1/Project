@@ -8,13 +8,39 @@ page-register {
     padding: 20px;
   }
   ion-card{
-    height: 90%;
+    height: 50%;
    vertical-align: middle;
    margin:auto;
    padding: 30% 0;
+
   }
 ion-row{
   height: 50%;
+}
+.background{
+  background-image: url('../assets/4.jpg');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-attachment:fixed;
+  background-size: cover;
+}
+.a1{
+  margin-left: 10%;
+  margin-top: -15%;
+}
+.a2{
+  background-image: url('../assets/v5.png');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size: cover;
+  border-radius: 3%;
+}
+.a3{
+  background-image: url('../assets/v6.png');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size: cover;
+  border-radius: 3%;
 }
 // button{
 //   width: 50%;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ViewController, LoadingController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -31,9 +31,12 @@ export class CorralmaintainPage {
   operator=[];
   program;
   AlertDate;
+  hiddenPro = 0;
+  viewDateSync;
+  loader;
   constructor(public navCtrl: NavController, public navParams: NavParams
    , public alertCtrl: AlertController, public viewCtrl: ViewController,
-    private api: NodeapiProvider) {
+    private api: NodeapiProvider, private loadingCtrl :LoadingController) {
     this.user = this.navParams.get('user');
     this.api.getFarm('program_maintain', this.user).subscribe(data => {
       if(data!=null){
@@ -45,6 +48,9 @@ export class CorralmaintainPage {
     this.api.getNotiById(this.user,10).subscribe(data=>{
       var value = Object.keys(data).map(key=>data[key]);
       this.AlertDate = value[0];
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(value[0].day_length));
+      this.viewDateSync=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
     })
 
     this.api.getCorral(this.user).subscribe(data=>{
@@ -88,12 +94,8 @@ export class CorralmaintainPage {
     console.log('ionViewDidLoad CorralmaintainPage');
   }
   corralmt(data: NgForm) {
-    if (data.value.corralcattle == "" || data.value.maintain == "") {
-      const alert15 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert15.present();
+    if (data.value.corralcattle == "" || data.value.type_of_maintain == "" || this.idcheck.length == 0) {
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else {
       let alert16 = this.alertCtrl.create({
@@ -110,7 +112,7 @@ export class CorralmaintainPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-
+              this.presentLoading();
               let j = 0;
               var detail=[];
               var key = [];
@@ -124,15 +126,32 @@ export class CorralmaintainPage {
                 var test = new Date(data.value.date);
                 test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                 var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-
                 dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: this.AlertDate.list, date: setDate });
+                this.program.forEach(element => {
+                  test = new Date(data.value.date);
+                test.setDate(test.getDate() + Number(element.day_length));
+                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                  dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: element.drug_maintain, date: setDate })
+                });
                 // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
               }
-              this.api.addMaintainCorral(this.user,detail).subscribe();
-              this.api.updateCattleCorral(this.user,key,"บำรุงแล้ว").subscribe();
-              this.api.addNotiMultiple(this.user,dataNoti).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+              this.api.addMaintainCorral(this.user,detail).subscribe(d1=>{
+                if(d1.status=='OK'){
+                this.api.updateCattleCorral(this.user,key,"บำรุงแล้ว").subscribe(d2=>{
+                  if(d2.status=='OK'){
+                    this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
+                      if(d3.status=='OK'){
+                        this.success();
+                        this.navCtrl.pop();
+                        this.loader.dismiss();
+                      }
+                    });
+                  }
+                });
+              }
+              });
+
+
             }
 
           }
@@ -146,15 +165,15 @@ export class CorralmaintainPage {
 
 
   selectcorral(n) {
+    this.hiddenPro = 1;
     this.dams = [];
-    console.log(n);
+
     this.api.getCattleByCorral(this.user, n).subscribe(data=>{
       if(data!=null){
         var values = Object.keys(data).map(key => data[key]);
         for(let i =0; i<values.length; i++){
           if (values[i].sex == 'MISS' && (values[i].status == ''|| values[i].status == 'คลอดแล้ว'|| values[i].status=='โคแท้ง')) {
                   this.dams.push({ cattle_id: values[i].cattle_id, key: Object.keys(data)[i]});
-                  console.log(values[i]);
             }
         }
       }
@@ -168,7 +187,6 @@ export class CorralmaintainPage {
 
   clickSelectBox(itemKey, k) {
     const foundAt = this.selectedQuestions.indexOf(itemKey);
-    console.log(foundAt);
     if (foundAt >= 0) {
       this.idcheck.splice(foundAt, 1);
       this.selectedQuestions.splice(foundAt, 1);
@@ -177,7 +195,6 @@ export class CorralmaintainPage {
       this.idcheck.push({ cattle_id: itemKey, key: k });
       this.selectedQuestions.push(itemKey);
     }
-    console.log(this.idcheck);
   }
   success() {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
@@ -192,5 +209,25 @@ export class CorralmaintainPage {
         this.program = [];
       }
     });
+  }
+  test(){
+    var day = new Date(this.date);
+    day.setDate(day.getDate()+Number(this.AlertDate.day_length));
+    this.viewDateSync=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
+
+ }
+ day_of_the_month(d)
+  {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+ month_of_the_year(d)
+  {
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "กรุณารอสักครู่...",
+    });
+    this.loader.present();
   }
 }

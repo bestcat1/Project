@@ -32,6 +32,8 @@ export class MaintainPage {
   data:any;
   cattle_key;
   AlertDate;
+  viewDateSync;
+  hiddenProgram = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController
   ,public toastCtrl: ToastController,public viewCtrl:ViewController,
     private api:NodeapiProvider) {
@@ -42,6 +44,9 @@ export class MaintainPage {
     this.api.getNotiById(this.user,10).subscribe(data=>{
       var value = Object.keys(data).map(key=>data[key]);
       this.AlertDate = value[0];
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(value[0].day_length));
+      this.viewDateSync=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
     })
 
     this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
@@ -99,11 +104,7 @@ export class MaintainPage {
   mt(mtData : NgForm){
     console.log(this.cattle_key);
     if(mtData.value.type_of_maintain==""){
-      const alert29 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert29.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else{
 
@@ -124,23 +125,29 @@ export class MaintainPage {
             this.api.addDataType('maintain', this.user, mtData.value).subscribe(d=>{
               console.log(d);
               if(d.status == 'OK'){
-
-
+                var datanoti = [];
                 var test = new Date(mtData.value.date);
                 test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-                var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                this.api.addNoti(this.user,setDate,{id_cattle: mtData.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d2=>{
-                  if(d2.status=='OK'){
+                var setDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
+                datanoti.push({id_cattle: mtData.value.dam_id, type: this.AlertDate.list, date: setDate });
+                this.program.forEach(a=>{
+                  var test = new Date(mtData.value.date);
+                  test.setDate(test.getDate() + Number(a.day_length));
+                  var setDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
+                  datanoti.push({id_cattle: mtData.value.dam_id, type: a.drug_maintain, date: setDate });
+                })
                   this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe(d1=>{
                     console.log(d1);
                     if(d1.status=='OK'){
-                    this.success();
-                    this.viewCtrl.dismiss();
+                      this.api.addNotiMultiple(this.user,datanoti).subscribe(d2=>{
+                        if(d2.status=='OK'){
+                          this.success();
+                    this.navCtrl.pop();
+                        }
+                      });
+
                     }
                   });
-                  }
-                })
-
               }
             });
 
@@ -158,6 +165,7 @@ export class MaintainPage {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
   select(s){
+      this.hiddenProgram = 1;
     this.api.getDrugProMain(this.user,s).subscribe(data =>{
       if(data!=null){
         var values = Object.keys(data).map(key => data[key]);
@@ -170,4 +178,20 @@ export class MaintainPage {
     })
     console.log(this.program);
   }
+
+day_of_the_month(d)
+  {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+ month_of_the_year(d)
+  {
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+
+  test(){
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(this.AlertDate.day_length));
+      this.viewDateSync=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
+
+   }
 }

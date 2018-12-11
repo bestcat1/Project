@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ViewController, ModalController, LoadingController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -32,10 +32,13 @@ export class CorralsyncPage {
   syncs;
   checkpro=true;
   AlertDate;
+  DetailPro;
+  viewDate;
+loader;
   constructor(public navCtrl: NavController, public navParams: NavParams
   , public alertCtrl: AlertController
     , public viewCtrl: ViewController, public modalCtrl: ModalController,
-    private api: NodeapiProvider) {
+    private api: NodeapiProvider,private loadingCtrl :LoadingController) {
     this.user = this.navParams.get('user');
     this.api.getProgramSync(this.user).subscribe(data=>{
       if(data!=null){
@@ -46,6 +49,9 @@ export class CorralsyncPage {
     this.api.getNotiById(this.user,11).subscribe(data=>{
       var value = Object.keys(data).map(key=>data[key]);
       this.AlertDate = value[0];
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(value[0].day_length));
+      this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
     })
 
     this.api.getCorral(this.user).subscribe(data=>{
@@ -87,12 +93,8 @@ export class CorralsyncPage {
     console.log('ionViewDidLoad CorralsyncPage');
   }
   corralsync(data: NgForm) {
-    if (data.value.corralcattle == "" || data.value.program_sync == "") {
-      const alert18 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert18.present();
+    if (data.value.corralcattle == "" || data.value.program_sync == "" || this.idcheck.length == 0) {
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else {
       let alert19 = this.alertCtrl.create({
@@ -109,7 +111,7 @@ export class CorralsyncPage {
           {
             text: 'ยืนยัน',
             handler: () => {
-
+              this.presentLoading();
               console.log(data.value);
               let j = 0;
               var dataSync=[];
@@ -117,22 +119,38 @@ export class CorralsyncPage {
               var dataNoti=[];
                   for (j = 0; j < this.idcheck.length; j++) {
                       dataSync.push({ dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
-                      // this.api.addDataType('synchronize', this.user, { dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder }).subscribe();
+
                       key.push(this.idcheck[j].key);
-                      // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:'เหนี่ยวนำแล้ว'}).subscribe();
+
                       var test = new Date(data.value.datepro);
                       test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                       var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
                       dataNoti.push({id_cattle: this.idcheck[j].id, type: this.AlertDate.list, date: setDate });
-                      // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
+                      this.DetailPro.forEach(element => {
+                        test = new Date(data.value.datepro);
+                        test.setDate(test.getDate() + Number(element.day_length));
+                        var setDate = test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
+                        dataNoti.push({id_cattle: data.value.dam_id, type: element.drug_sync, date: setDate,time: element.time_length });
+                      });
                   }
-              this.api.addSyncCorral(this.user,dataSync).subscribe(data=>{
-                console.log(data);
+              this.api.addSyncCorral(this.user,dataSync).subscribe(d=>{
+                if(d.status=='OK'){
+                  this.api.updateCattleCorral(this.user,key,'เหนี่ยวนำแล้ว').subscribe(d2=>{
+                    if(d2.status == 'OK'){
+                      this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
+                        if(d3.status=='OK'){
+                          this.success();
+                          this.navCtrl.pop();
+                          this.loader.dismiss();
+                        }
+                      });
+
+                    }
+                  });
+                }
               });
-              this.api.updateCattleCorral(this.user,key,'เหนี่ยวนำแล้ว').subscribe();
-              this.api.addNotiMultiple(this.user,dataNoti).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+
+
             }
 
           }
@@ -149,12 +167,16 @@ export class CorralsyncPage {
     this.dams = [];
     console.log(n);
     this.api.getCattleByCorral(this.user, n).subscribe(data=>{
+      if(data!=null){
       var values = Object.keys(data).map(key=> data[key]);
       for(let i = 0; i < values.length; i++){
         if (values[i].sex == 'MISS'&&values[i].status=='บำรุงแล้ว') {
           this.dams.push({ id:values[i].cattle_id ,key:Object.keys(data)[i]});
         }
       }
+    } else {
+      this.dam = [];
+    }
 
     })
     this.idcheck = [];
@@ -175,16 +197,44 @@ export class CorralsyncPage {
     }
     console.log(this.idcheck);
   }
-  promain(p) {
-    this.pro = p;
+  promain(p){
+    this.pro=p;
     this.checkpro=false;
+
+    this.api.getDrugProgramSync(this.user,p).subscribe(data=>{
+      console.log(data);
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      this.DetailPro = value;
+      this.checkpro=false;
+    }
+    })
   }
 
-  verifypro() {
-    const modal = this.modalCtrl.create("VerifyProSyncPage", { user: this.user, program: this.pro });
+  verifypro(){
+    const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program:this.pro,detail:this.DetailPro});
     modal.present();
   }
   success() {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
+  day_of_the_month(d)
+  {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+ month_of_the_year(d)
+  {
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+  test(){
+    var day = new Date(this.date);
+    day.setDate(day.getDate()+Number(this.AlertDate.day_length));
+    this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
+ }
+ presentLoading() {
+  this.loader = this.loadingCtrl.create({
+    content: "กรุณารอสักครู่...",
+  });
+  this.loader.present();
+}
 }

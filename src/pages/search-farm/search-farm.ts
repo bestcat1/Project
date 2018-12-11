@@ -63,7 +63,7 @@ export class SearchFarmPage {
   }
 
   registerFarm(e){
-    var a;
+
     let alert = this.alertCtrl.create();
     alert.setTitle('ยืนยันการสมัคร');
 alert.setSubTitle('ยืนยันการสมัครเข้าฟาร์มของคุณ'+e.fname+'<br>กรุณาเลือกตำแหน่ง:');

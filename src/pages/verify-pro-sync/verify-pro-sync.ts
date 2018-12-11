@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 /**
  * Generated class for the VerifyProSyncPage page.
@@ -18,14 +17,14 @@ export class VerifyProSyncPage {
 drug_pro_sync;
 program;
 user;
+DetailPro:any;
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public viewCtrl:ViewController,private db: AngularFireDatabase) {
+    ,public viewCtrl:ViewController) {
       this.user=this.navParams.get('user');
       this.program=this.navParams.get('program');
       console.log(this.program)
-    this.drug_pro_sync=this.db.list('/setting/farm/program_sync/drug_pro_sync/'+this.user,ref=>ref.orderByChild('pro_sync').equalTo(this.program)).snapshotChanges().map(chang =>{
-        return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-     });
+    this.DetailPro = this.navParams.get('detail');
+    console.log(this.DetailPro);
 
   }
 

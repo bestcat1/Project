@@ -21,11 +21,12 @@
     </ion-item>
     <ion-item>
         <ion-label >วันที่:</ion-label>
-        <ion-input type="date" name="date" ngModel="{{date}}"></ion-input>
+        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="date" (ngModelChange)="test()"></ion-datetime>
     </ion-item>
+
     <ion-item>
       <ion-label >เวลา:</ion-label>
-      <ion-input type="time" name="time" ngModel="{{time}}"></ion-input>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{time}}" name="time"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label >รายการบำรุง: </ion-label>
@@ -43,12 +44,24 @@
         <ion-label >ผู้บันทึก: </ion-label>
         <ion-input type="text"name="recoder" ngModel="{{name}}" readonly></ion-input>
     </ion-item>
- <button ion-button block color="facebook">บันทึก</button>
+    <ion-card>
+      <ion-row>
+        <ion-col>
+        <p align="center"><b>วันที่ทำการเหนี่ยวนำ</b></p>
+        <h2><p align="center">{{viewDateSync | date : "dd/MM/yyyy"}}</p></h2>
+      </ion-col>
+      </ion-row>
+    </ion-card>
+    <p align="center">
+ <button ion-button round color="facebook">บันทึก</button>
+</p>
 
-  <ion-label>รายการบำรุง</ion-label>
+
+
 
   </form>
-<ion-card>
+  <ion-label [hidden]="hiddenProgram == 0"><b>รายการบำรุง</b></ion-label>
+<ion-card [hidden]="hiddenProgram == 0">
   <ion-row>
     <ion-col col-2>
       <ion-label><p align="center">ลำดับ</p></ion-label>
@@ -78,4 +91,6 @@
         </ion-col>
   </ion-row>
 </ion-card>
+
+
 </ion-content>

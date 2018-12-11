@@ -205,7 +205,7 @@ noti_pregnant;
                         this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d1=>{
                           if(d1.status=='OK'){
                             this.success();
-                            this.viewCtrl.dismiss();
+                            this.navCtrl.pop();
                           }
                         });
                       }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { NgForm } from '../../../node_modules/@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
@@ -24,7 +24,7 @@ id;
 item$ ;
 herd_num
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public viewCtrl:ViewController,public alertCtrl:AlertController,public toastCtrl: ToastController,
+   ,public alertCtrl:AlertController,public toastCtrl: ToastController,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.id=this.navParams.get('id');
@@ -66,7 +66,7 @@ editc(data:NgForm,k){
     this.api.updateType('cattle',this.user,k,data.value).subscribe(d=>{
       if(d.status=='OK'){
         this.presentToast();
-        this.viewCtrl.dismiss();
+        this.navCtrl.pop();
       }
     });
   }
@@ -86,7 +86,7 @@ exit(){
         {
           text: 'ยืนยัน',
           handler: () => {
-          this.viewCtrl.dismiss();
+          this.navCtrl.pop();
           }
 
         }

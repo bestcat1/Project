@@ -20,23 +20,37 @@
       <ion-label >ชื่อแม่พันธุ์: </ion-label>
       <ion-input type="text" name="id" ngModel={{cattle_id}} readonly></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label >ชื่อพ่อพันธุ์: </ion-label>
-      <ion-select type="text" name="sire_id" ngModel placeholder="เลือกพ่อพันธุ์">
-          <ion-option *ngFor="let sid of sire_id" value="{{sid.sire_id}}">{{sid.sire_id}}</ion-option>
-      </ion-select>
-    </ion-item>
+
+    <ion-row>
+      <ion-col col-10>
+          <ion-item [hidden]="checkType == 1">
+              <ion-label >ชื่อพ่อพันธุ์: </ion-label>
+              <ion-select type="text" name="sire_id" [(ngModel)]="check_sire_id" placeholder="เลือกพ่อพันธุ์">
+                  <ion-option *ngFor="let sid of sire_id" value="{{sid.sire_id}}">{{sid.sire_id}}</ion-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item [hidden]="checkType == 0">
+                <ion-label >น้ำเชื้อ: </ion-label>
+                <ion-input type="text" name="semen" placeholder="กรอกน้ำเชื้อพ่อพันธุ์" [(ngModel)]="semen"></ion-input>
+              </ion-item>
+      </ion-col>
+      <ion-col col-2>
+          <button type="button" ion-button  (click)="selectType()"><ion-icon name="md-more"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+
     <ion-item>
       <ion-label >ครั้งที่ผสม: </ion-label>
       <ion-input type="text" name="number_of_breeding" ngModel="{{number_of_breeding}}" readonly></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>วันที่ผสมพันธุ์: </ion-label>
-      <ion-input type="date" name="date_breeding" ngModel="{{date}}" readonly></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="date_breeding" (ngModelChange)="test()"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>เวลาที่ผสมพันธุ์: </ion-label>
-      <ion-input type="time" name="time_breeding" ngModel="{{time}}" ></ion-input>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{time}}" name="time"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -50,7 +64,7 @@
   </ion-item>
   <ion-item>
     <ion-label >ผสมติด แจ้งเตือนตรวจท้อง(วัน): </ion-label>
-    <ion-input type="text" name="noti_pregnant" ngModel="{{noti_pregnant}}" readonly="{{bmark}}"></ion-input>
+    <ion-input type="number" name="noti_pregnant" ngModel="{{noti_pregnant}}" readonly="{{bmark}}" max="9999"  maxlength="4" (keyup)="updateList($event)"></ion-input>
   </ion-item>
   <ion-item>
       <ion-label>กำหนดเอง</ion-label>
@@ -58,7 +72,7 @@
   </ion-item>
   <ion-item>
     <ion-label>ผสมไม่ติด แจ้งเตือนวันกลับสัด(วัน): </ion-label>
-    <ion-input type="text" name="not_oestrus" ngModel="{{not_oestrus}}" readonly="{{EPmark}}"></ion-input>
+    <ion-input type="number" name="not_oestrus" ngModel="{{not_oestrus}}" readonly="{{EPmark}}"></ion-input>
   </ion-item>
   <ion-item>
       <ion-label>กำหนดเอง</ion-label>
@@ -68,10 +82,18 @@
       <ion-label>หมายเหตุ: </ion-label>
       <ion-input type="text" name="note" ngModel></ion-input>
     </ion-item>
-
+    <ion-card>
+        <ion-row>
+          <ion-col>
+          <p align="center"><b>วันที่ผสมพันธุ์</b></p>
+          <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+        </ion-col>
+        </ion-row>
+      </ion-card>
     <br>
-    <button type="submit" ion-button block color="facebook">ยืนยัน</button>
-
+    <p align="center">
+    <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+  </p>
   </form>
 
 </ion-content>

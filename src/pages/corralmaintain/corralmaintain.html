@@ -25,11 +25,11 @@
   </ion-item>
     <ion-item>
         <ion-label >วันที่:</ion-label>
-        <ion-input type="date" name="date" ngModel="{{date}}"></ion-input>
+        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="date" (ngModelChange)="test()"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label >เวลา:</ion-label>
-      <ion-input type="time" name="time" ngModel="{{time}}"></ion-input>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{time}}" name="time"></ion-datetime>
   </ion-item>
     <ion-item>
       <ion-label >เลือกรายการบำรุง: </ion-label>
@@ -47,16 +47,26 @@
       <ion-label >ผู้บันทึก: </ion-label>
       <ion-input type="text"name="recoder" ngModel="{{name}}" readonly></ion-input>
   </ion-item>
+  <ion-card>
+    <ion-row>
+      <ion-col>
+      <p align="center"><b>วันที่ทำการเหนี่ยวนำ</b></p>
+      <h2><p align="center">{{viewDateSync | date : "dd/MM/yyyy"}}</p></h2>
+    </ion-col>
+    </ion-row>
+  </ion-card>
     <br>
     เลือกโคในคอก
     <ion-item *ngFor="let item of dams">
       <ion-label>{{item.cattle_id}}</ion-label>
         <ion-checkbox (click)="clickSelectBox(item.cattle_id,item.key)" ></ion-checkbox>
    </ion-item>
-   <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+   <p align="center">
+   <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+   </p>
   </form>
-  <ion-label>รายการบำรุง</ion-label>
-  <ion-card>
+  <ion-label [hidden]="hiddenPro == 0"><b>รายการบำรุง</b></ion-label>
+  <ion-card [hidden]="hiddenPro == 0">
       <ion-row>
         <ion-col col-2>
           <ion-label><p align="center">ลำดับ</p></ion-label>

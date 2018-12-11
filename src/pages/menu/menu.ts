@@ -139,6 +139,7 @@ m6=false;
   }
 
   ionViewWillEnter(){
+
     this.count_notification=0;
     var i=0;
     var localNotification = this.localNotifications;
@@ -238,7 +239,6 @@ m6=false;
       content: "กรุณารอสักครู่...",
     });
     this.loader.present();
-
   }
   endPresent(){
     this.loader.dismiss();

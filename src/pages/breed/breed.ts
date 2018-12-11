@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -29,9 +29,15 @@ sire_id=[];
 operator=[];
 not_oestrus;
 noti_pregnant;
+viewDate;
+loader;
+checkType=0;
+semen='';
+check_sire_id='';
   constructor(public ptf:Platform,public navCtrl: NavController
     , public navParams: NavParams,public alertCtrl:AlertController
-    ,public viewCtrl:ViewController,private api : NodeapiProvider) {
+    ,private api : NodeapiProvider,
+    private loadingCtrl : LoadingController) {
 
     let d=new Date();
     this.time=d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit',hour12:false});
@@ -71,6 +77,9 @@ noti_pregnant;
       if(data!=null){
       var value = Object.keys(data).map(key=>data[key]);
       this.noti_pregnant = value[0].day_length;
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(value[0].day_length));
+      this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
       }
     });
 
@@ -122,13 +131,9 @@ noti_pregnant;
   }
   breed(data:NgForm){
     console.log(data.value);
-    if(data.value.sireid=="")
+    if(data.value.sire_id=="" && data.value.semen == "")
     {
-      const alert9 = this.alertCtrl.create({
-      subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-      buttons: ['ตกลง']
-      });
-      alert9.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else{
       let alert10 = this.alertCtrl.create({
@@ -145,20 +150,24 @@ noti_pregnant;
           {
             text: 'ยืนยัน',
             handler: () => {
-              this.api.addBreed(this.user,{dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,sire_id:data.value.sire_id,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator}).subscribe(d=>{
+              var saveData
+              if(this.checkType == 0) {
+              saveData={dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,sire_id:data.value.sire_id,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator};
+              } else {
+               saveData={dam_id:data.value.id,date_breeding:data.value.date_breeding,noti_oestrus:data.value.not_oestrus,note:data.value.note,noti_pregnant:data.value.noti_pregnant,number_of_breeding:Number(data.value.number_of_breeding)+1,time_breeding:data.value.time_breeding,recoder:data.value.recoder,operator:data.value.operator,semen:data.value.semen};
+              }
+              this.api.addBreed(this.user,saveData).subscribe(d=>{
                 if(d.status == 'OK'){
-
-
                       var test = new Date(data.value.date_breeding);
                       test.setDate(test.getDate() + Number(data.value.noti_pregnant));
-                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                      var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
                       this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'ตรวจท้อง', date: setDate }).subscribe(d2=>{
                         if(d2.status == 'OK'){
                           this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe(d1=>{
                             console.log(d1);
                             if(d1.status=='OK'){
                               this.success();
-                              this.viewCtrl.dismiss();
+                             this.navCtrl.pop();
                             }
                           });
 
@@ -183,4 +192,72 @@ noti_pregnant;
   success(){
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
+  day_of_the_month(d)
+  {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+ month_of_the_year(d)
+  {
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+  test(){
+    var day = new Date(this.date);
+    day.setDate(day.getDate()+Number(this.noti_pregnant));
+    this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
+    console.log(this.viewDate);
+ }
+ presentLoading() {
+  this.loader = this.loadingCtrl.create({
+    content: "กรุณารอสักครู่...",
+  });
+  this.loader.present();
+}
+updateList(a){
+  console.log(a.target.value);
+  this.noti_pregnant = a.target.value;
+  this.test();
+}
+selectType(){
+  let alert = this.alertCtrl.create();
+  alert.setTitle('ตัวเลือกการผสมพันธุ์');
+
+  if(this.checkType == 0){
+
+
+    alert.addInput({
+    type: 'radio',
+    label: 'พ่อพันธุ์',
+    value: '0',
+    checked: true
+  });
+  alert.addInput({
+    type: 'radio',
+    label: 'น้ำเชื้อ',
+    value: '1',
+  });
+  } else {
+
+    alert.addInput({
+      type: 'radio',
+      label: 'พ่อพันธุ์',
+      value: '0',
+    });
+    alert.addInput({
+      type: 'radio',
+      label: 'น้ำเชื้อ',
+      value: '1',
+      checked: true
+    });
+  }
+  alert.addButton('ยกเลิก');
+  alert.addButton({
+    text: 'ยืนยัน',
+    handler: data => {
+      this.semen='';
+      this.check_sire_id='';
+      this.checkType = data;
+    }
+  });
+  alert.present();
+}
 }

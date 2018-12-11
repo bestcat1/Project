@@ -12,14 +12,30 @@
 
 </ion-header>
 <ion-content padding>
-    <ion-searchbar class="test" (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" ></ion-searchbar>
-    <ion-item>
-      <ion-label>ปะเภทโค:</ion-label>
-      <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="แม่โค/พ่อโค" name="typecattle" (ionChange)="selecttype($event)">
+    <ion-searchbar class="test" (ionInput)="getItems($event)" placeholder="ค้นหาหมายเลขโค" [(ngModel)]="clearSearch"></ion-searchbar>
+
+    <ion-row [hidden]="type==null">
+      <ion-col col-6>
+        <ion-item>
+        <ion-label>></ion-label>
+        <ion-select name="typecattle" (ionChange)="selecttype($event)" [(ngModel)]="head" okText="ยืนยัน" cancelText="ยกเลิก" interface="popover">
           <ion-option value="แม่โค/พ่อโค">แม่โค/พ่อโค</ion-option>
           <ion-option value="ลูกโค">ลูกโค</ion-option>
-      </ion-select>
-    </ion-item>
+        </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-6>
+        <ion-item>
+            <ion-label>สายพันธุ์</ion-label>
+        <ion-select name="Sub_type" (ionChange)="subsearch($event)" [(ngModel)]="a" cancelText="ยกเลิก" interface="popover">
+            <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
+           <ion-option *ngFor="let s of sub_type" value="{{s}}">{{s}}</ion-option> -->
+        </ion-select>
+      </ion-item>
+      </ion-col>
+    </ion-row>
+
+
     เลือก{{name_type}}
   <ion-list>
     <ion-item *ngFor="let e of damList" [hidden]="type!=0">

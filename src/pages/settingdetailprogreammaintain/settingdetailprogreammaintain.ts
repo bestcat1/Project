@@ -57,17 +57,17 @@ day_length;
     if(data.value.drug_maintain!=''&&data.value.volumn!=''&&data.value.day_length!=''){
       console.log(data.value);
       this.api.addDetailMaintain(this.user,data.value).subscribe(d=>{
-        if(d.status=='Ok'){
+        console.log(d);
+        if(d.status=='OK'){
           this.drug_maintain='';
           this.volumn='';
           this.day_length='';
           this.ionViewWillEnter();
         }
-
       });
 
     }else{
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
 
       // let alert = this.alertCtrl.create({
       //   title: 'ขออภัย!',

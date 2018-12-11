@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
-import { Calendar } from '@ionic-native/calendar';
 /**
  * Generated class for the NotificationPage page.
  *
@@ -36,7 +35,7 @@ x;y;
   currentDate: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams
-    , public localNotifications: LocalNotifications, private api: NodeapiProvider, private calendar: Calendar) {
+    , public localNotifications: LocalNotifications, private api: NodeapiProvider) {
     this.user = this.navParams.get('user');
      this.onInit();
     this.date = new Date();

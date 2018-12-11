@@ -19,6 +19,10 @@ export class SelectnurturePage {
   public loadeddamList:Array<any>;
   name_type='พ่อโค/แม่โค';
   user:string;
+  head = 'แม่โค/พ่อโค';
+  a = 'ทั้งหมด';
+  sub_type = [];
+  clearSearch = '';
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.api.getAllCattle(this.user).subscribe(data=>{
@@ -32,6 +36,13 @@ export class SelectnurturePage {
       this.loadeddamList = dam;
     }
     });
+    this.api.getBreed(this.user).subscribe(data=>{
+      console.log(data);
+      var value = Object.keys(data).map(key=>data[key]);
+      value.forEach(element=>{
+        this.sub_type.push(element.strian);
+      })
+    })
   }
 
   ionViewDidLoad() {
@@ -78,7 +89,9 @@ export class SelectnurturePage {
     this.navCtrl.push('NurturePage',{user:this.user,id:k})
   }
   selecttype(a){
+    this.clearSearch = '';
     console.log(a);
+    this.a = 'ทั้งหมด';
     if(a=='แม่โค/พ่อโค')
     {
       this.name_type='พ่อโค/แม่โค'
@@ -119,5 +132,19 @@ export class SelectnurturePage {
       });
     }
   }
-
+  subsearch(s){
+    this.clearSearch = '';
+    console.log(s);
+    console.log(this.loadeddamList);
+    if(s == 'ทั้งหมด'){
+      this.damList = this.loadeddamList;
+    } else {
+    this.damList = [];
+    this.loadeddamList.forEach(a=>{
+      if(a.breed == s){
+        this.damList.push(a);
+      }
+    })
+  }
+}
 }

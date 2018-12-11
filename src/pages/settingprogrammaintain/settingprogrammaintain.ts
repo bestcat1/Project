@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 

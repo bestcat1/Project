@@ -20,16 +20,19 @@
       <ion-label >ชื่อแม่พันธุ์: </ion-label>
       <ion-input type="text" name="dam_id" ngModel={{cattle_id}} readonly></ion-input>
     </ion-item>
-
+<ion-row>
+  <ion-col col-10>
     <ion-item>
       <ion-label >โปรแกรมที่ใช้: </ion-label>
       <ion-select ngModel name="program_sync" placeholder="เลือกรายการ" (ionChange)="promain($event)" >
         <ion-option *ngFor="let s of syncs" value="{{s.pro_sync}}">{{s.pro_sync}}</ion-option>
       </ion-select>
   </ion-item>
-    <div class="row">
-        <button class="center" type="button" ion-button round color="facebook" [hidden]="checkpro" (click)="verifypro()">ตรวจสอบรายการ</button>
-      </div>
+</ion-col>
+<ion-col col-2>
+  <button ion-button type="button" class="btcustom" outline [disabled]="checkpro" (click)="verifypro()" clear><ion-icon name="md-alert" color="primary"></ion-icon></button>
+</ion-col>
+  </ion-row>
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>
         <ion-select type="text" name="operator" ngModel="{{name}}" readonly>
@@ -42,10 +45,19 @@
     </ion-item>
     <ion-item>
       <ion-label>วันที่เริ่มทำโปรแกรม: </ion-label>
-      <ion-input type="date" name="datepro" ngModel="{{date}}"></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="datepro" (ngModelChange)="test()"></ion-datetime>
     </ion-item>
+    <ion-card>
+        <ion-row>
+          <ion-col>
+          <p align="center"><b>วันที่ผสมพันธุ์</b></p>
+          <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+        </ion-col>
+        </ion-row>
+      </ion-card>
     <br>
-    <button type="submit" ion-button block color="facebook">ยืนยัน</button>
-
+    <p align="center">
+    <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+</p>
   </form>
 </ion-content>

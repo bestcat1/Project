@@ -5,4 +5,27 @@ page-breed {
   ion-label{
     max-width: 100% !important;
   }
+  ::-webkit-input-placeholder {
+
+    text-align: right;
+
+ }
+
+ :-moz-placeholder { /* Firefox 18- */
+
+    text-align: right;
+
+ }
+
+ ::-moz-placeholder {  /* Firefox 19+ */
+
+    text-align: right;
+
+ }
+
+ :-ms-input-placeholder {
+
+    text-align: right;
+
+ }
 }

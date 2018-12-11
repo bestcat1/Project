@@ -45,14 +45,16 @@
 
 <br>รายการเหนี่ยวนำ<br>
 <ion-card>
-  <ion-row>
+  <ion-row class = "header-row">
     <ion-col col-2><p align="center">ลำดับ</p></ion-col>
-    <ion-col col-6><p align="center">รายการ</p></ion-col>
+    <ion-col col-4><p align="center">รายการ</p></ion-col>
+    <ion-col col-2><p align="center">วัน</p></ion-col>
     <ion-col col-4><p align="center">ตั้งค่า</p></ion-col>
   </ion-row>
   <ion-row *ngFor="let d of data_drug; let i = index">
-      <ion-col col-2><p align="center">{{i+1}}</p></ion-col>
-      <ion-col col-6><p align="center">{{d.drug_maintain}}</p></ion-col>
+      <ion-col col-2><p align="center"><ion-label>{{i+1}}</ion-label></p></ion-col>
+      <ion-col col-4><p align="center"><ion-label>{{d.drug_maintain}}</ion-label></p></ion-col>
+      <ion-col col-2><p align="center"><ion-label>{{d.day_length}}</ion-label></p></ion-col>
       <ion-col col-2><p align="center"><button ion-button class="customBtn" (click)="detail(d)" >แก้ไข</button></p></ion-col>
       <ion-col col-2><p align="center"><button ion-button class="customBtn" color="danger" (click)="delete(d.key)">ลบ</button></p></ion-col>
     </ion-row>

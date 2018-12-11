@@ -29,67 +29,109 @@
 
       <div [ngSwitch]="mncattle">
           <ion-list *ngSwitchCase="'verify'">
-           <ion-grid>
-    ข้อมูลการจัดการแม่พันธุ์
-    <ion-row>
-      <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showmt()">
-            ข้อมูลการบำรุง
-          </button>
-        </ion-col>
-        <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showsyc()">
-            ข้อมูลการเหนี่ยวนำ
-          </button>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showbreed()">
-            ข้อมูลการผสมพันธุ์
-          </button>
-        </ion-col>
-        <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showabd()">
-            ข้อมูลการตรวจท้อง
-          </button>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showdrv()">
-            ข้อมูลการคลอด
-          </button>
-        </ion-col>
-        <ion-col>
-        <button type="submit" ion-button block color="light" (click)="showabortion()">
-           ข้อมูลโคแท้ง
-          </button>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-      <button type="submit" ion-button block color="light" (click)="shownt()">
-        ข้อมูลการรักษา
-        </button>
-  </ion-row>
-    <br>ข้อมูลการจัดการลูกโค
-    <ion-row>
-        <button type="submit" ion-button block color="light" (click)="showdhc()">
-            ข้อมูลการสูญเขา
-          </button>
-    </ion-row>
-    <ion-row>
-        <button type="submit" ion-button block color="light" (click)="showbdc()">
-            ข้อมูลการตีเบอร์
-          </button>
-    </ion-row>
-    <ion-row>
-        <button type="submit" ion-button block color="light" (click)="showwc()">
-            ข้อมูลการหย่านม
-          </button>
-    </ion-row>
-  </ion-grid>
-              </ion-list>
+              <ion-grid>
+                ข้อมูลการจัดการแม่พันธุ์
+                <ion-row>
+                  <ion-col>
+                    <ion-card class="c1" (click)="showmt()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+                  <ion-col>
+                    <ion-card class="c2" (click)="showsyc()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+
+
+                <ion-row>
+                  <ion-col>
+                    <ion-card class="c3" (click)="showbreed()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+
+
+
+                  <ion-col>
+                    <ion-card class="c4" (click)="showabd()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col>
+                    <ion-card class="c5" (click)="showdrv()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+
+                  <ion-col>
+                    <ion-card class="c6" (click)="showabortion()">
+                      <p>
+                        <ion-list></ion-list>
+                      </p>
+                    </ion-card>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-card class="c7" (click)="shownt()">
+                    <p>
+                      <ion-list></ion-list>
+                    </p>
+                  </ion-card>
+                </ion-row>
+
+
+
+                <br>ข้อมูลการจัดการลูกโค
+                <ion-row>
+                  <ion-card class="c8" (click)="showdhc()">
+                    <p>
+                      <ion-list></ion-list>
+                    </p>
+                  </ion-card>
+                  <!-- <button type="submit" ion-button block color="light" (click)="showdhc()">
+                    ข้อมูลการสูญเขา
+                  </button> -->
+                </ion-row>
+
+                <ion-row>
+                  <ion-card class="c9" (click)="showbdc()">
+                    <p>
+                      <ion-list></ion-list>
+                    </p>
+                  </ion-card>
+                  <!-- <button type="submit" ion-button block color="light" (click)="showbdc()">
+                    ข้อมูลการตีเบอร์
+                  </button> -->
+                </ion-row>
+
+                <ion-row>
+                  <ion-card class="c10" (click)="showwc()">
+                    <p>
+                      <ion-list></ion-list>
+                    </p>
+                  </ion-card>
+                  <!-- <button type="submit" ion-button block color="light" (click)="showwc()">
+                    ข้อมูลการหย่านม
+                  </button> -->
+                </ion-row>
+              </ion-grid>
+            </ion-list>
       </div>
 
       <div [ngSwitch]="mncattle">

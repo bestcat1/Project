@@ -19,11 +19,11 @@
   </ion-item>
   <ion-item>
       <ion-label >วันที่:</ion-label>
-      <ion-input type="date" name="date" ngModel="{{d.date}}" [disabled]="edit"></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{d.date}}" name="date"  [disabled]="edit"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label >เวลา:</ion-label>
-    <ion-input type="time" name="time" ngModel="{{d.time}}" [disabled]="edit"></ion-input>
+    <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{d.time}}" name="time" [disabled]="edit"></ion-datetime>
 </ion-item>
 <ion-item>
   <ion-label >รายการบำรุง: </ion-label>

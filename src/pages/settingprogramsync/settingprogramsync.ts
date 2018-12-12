@@ -45,16 +45,29 @@ export class SettingprogramsyncPage {
   }
   addpro(data:NgForm){
     if(data.value.pro_sync!=''){
-this.api.addProgramSync(this.user,data.value).subscribe(d=>{
-  if(d.status=='OK'){
-    this.pro_sync = '';
-    this.ionViewWillEnter();
-  }
-});
+      var c=0;
+      for(let i=0;i<this.item$.length;i++){
+        if(this.item$[i].pro_sync == data.value.pro_sync){
+          c=c;
+        } else {
+          c++;
+        }
+      }
+      if(c==this.item$.length){
+        this.api.addProgramSync(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+            this.pro_sync = '';
+            this.ionViewWillEnter();
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อการเหนี่ยวนำนี้อยู่แล้ว", "warning");
+      }
+
 
     }
     else{
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
   }

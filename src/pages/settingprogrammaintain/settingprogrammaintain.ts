@@ -44,16 +44,29 @@ export class SettingprogrammaintainPage {
   }
   addpro(data:NgForm){
     if(data.value.pro_maintain!=''){
-    this.api.addProgram_maintain(this.user,data.value).subscribe(d=>{
-      if(d.status=='OK'){
-        this.pro_maintain='';
-        this.ionViewWillEnter();
+      var c=0;
+      for(let i=0;i<this.item$.length;i++){
+        if(this.item$[i].pro_maintain == data.value.pro_maintain){
+          c=c;
+        }else {
+          c++;
+        }
       }
-    });
+      if(c==this.item$.length){
+        this.api.addProgram_maintain(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+            this.pro_maintain='';
+            this.ionViewWillEnter();
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อการบำรุงนี้อยู่แล้ว", "warning");
+      }
+
 
     }
     else {
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
   }

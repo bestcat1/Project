@@ -50,17 +50,30 @@ this.api.getAllCattle(this.user).subscribe(data=>{
   addherd(data:NgForm){
     if(data.value.herd_num!=''){
       console.log(data.value);
-      this.api.addHerdNumber(this.user,data.value).subscribe(d=>{
-        if(d.status=='OK'){
-          this.ionViewWillEnter();
-          this.dataherd='';
+      var c=0;
+      for(let i=0;i<this.item$.length;i++){
+        if(this.item$[i].herd_num == data.value.herd_num){
+          c=c;
+        }else {
+          c++;
         }
-      });
+      }
+      if(c==this.item$.length){
+        this.api.addHerdNumber(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+            this.ionViewWillEnter();
+            this.dataherd='';
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อฝูงโคนี้อยู่แล้ว", "warning");
+      }
+
 
     }
     else
     {
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
   }

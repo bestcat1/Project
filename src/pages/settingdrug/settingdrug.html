@@ -34,6 +34,20 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row>
+        <ion-col col-6>
+        <ion-item>
+            <ion-label stacked>วันผลิต</ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" placeholder="กรอกวันผลิต" [(ngModel)]="mfd" cancelText="ยกเลิก" doneText="ยืนยัน"  name="mfd_date" (ngModelChange)="test()" ></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+          <ion-label class="myCustomSelect" stacked>วันหมดอายุ</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" placeholder="กรอกวันหมดอายุ" [(ngModel)]="exp" cancelText="ยกเลิก" doneText="ยืนยัน"  name="exp_date" (ngModelChange)="test1()" ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     <p align="center">
       <button type="submit" ion-button round color="secondary"><i class="fa fa-save" style="font-size:24px"></i></button>
     </p>

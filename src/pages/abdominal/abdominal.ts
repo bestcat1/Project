@@ -36,6 +36,7 @@ noti_oestrus;
 noti_pregnant;
   number_breed = [];
   AlertDate;
+  date_breed;
   items: Observable<any[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public alertCtrl: AlertController, public viewCtrl: ViewController,private api:NodeapiProvider) {
@@ -56,35 +57,32 @@ noti_pregnant;
     this.item = Object.keys(data).map(key => data[key]);
     this.item[0].key = Object.keys(data)[0];
     number =Object.keys(data).map(key => data[key])[0].number_of_breeding;
-    console.log('asdasd'+number);
     this.api.getDataBreedById(this.user,this.id).subscribe(snap=>{
-      console.log(snap);
       if(snap!=null){
       var value = Object.keys(snap).map(key=>snap[key]);
       for(let i=0; i<value.length;i++){
         if(number == value[i].number_of_breeding){
-
          day = value[i].date_breeding;
+         this.date_breed = value[i].date_breeding;
          console.log(day);
       var y1k = new Date(day);
       var y2k = new Date(day);
       var y3k = new Date(day);
-      var y4k = new Date(day);
+
 
       this.api.getNotiById(this.user,2).subscribe(data=>{
         var value = Object.keys(data).map(key=>data[key]);
         console.log(value);
         y1k.setDate(y1k.getDate() + Number(value[0].day_length));
-      this.calve_date = y1k.getFullYear() + "-" + (y1k.getMonth() + 1) + "-" + y1k.getDate();
+      this.calve_date = y1k.getFullYear() + "-" + this.month_of_the_year(y1k) + "-" + this.day_of_the_month(y1k);
+
+      y2k.setDate(y2k.getDate() + (Number(value[0].day_length)-7));2
+      this.alert_befor_7D = y2k.getFullYear() + "-" + + this.month_of_the_year(y2k) + "-" + this.day_of_the_month(y2k);
+      y3k.setDate(y3k.getDate() + (Number(value[0].day_length)+7));
+      this.alert_after_7D = y3k.getFullYear() + "-" + this.month_of_the_year(y3k) + "-" + this.day_of_the_month(y3k);
+
       })
 
-
-      y2k.setDate(y2k.getDate() + 276);
-      this.alert_befor_7D = y2k.getFullYear() + "-" + (y2k.getMonth() + 1) + "-" + y2k.getDate();
-      y3k.setDate(y3k.getDate() + 290);
-      this.alert_after_7D = y3k.getFullYear() + "-" + (y3k.getMonth() + 1) + "-" + y3k.getDate();
-      y4k.setDate(y4k.getDate() + 18);
-      this.alert_sync = y4k.getFullYear() + "-" + (y4k.getMonth() + 1) + "-" + y4k.getDate();
         break;
         }
     }
@@ -128,6 +126,10 @@ noti_pregnant;
       if(data!=null){
       var value = Object.keys(data).map(key=>data[key]);
       this.noti_oestrus = value[0].day_length;
+      var y4k = new Date();
+      y4k.setDate(y4k.getDate() + Number(value[0].day_length));
+      this.alert_sync = y4k.getFullYear() + "-" + this.month_of_the_year(y4k) + "-" + this.day_of_the_month(y4k);
+
       }
     })
 
@@ -165,11 +167,7 @@ noti_pregnant;
   }
   abd(data: NgForm, k) {
     if (data.value.result == "") {
-      const alert1 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert1.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else {
       let alert2 = this.alertCtrl.create({
@@ -191,18 +189,20 @@ noti_pregnant;
                   if(data.value.result=='ท้อง'){
                     this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" }).subscribe(d=>{
                       if(d.status=='OK'){
-                        this.success();
-                        this.viewCtrl.dismiss();
+                        this.api.addNoti(this.user,this.calve_date,{id_cattle: data.value.dam_id, type: 'วันคลอด', date: this.calve_date }).subscribe(d3=>{
+                          if(d3.status == 'OK'){
+                            this.success();
+                            this.navCtrl.pop();
+                          }
+                        });
+
                       }
                     });
                   }
                   else{
-                    this.api.updateType('cattle',this.user,k,{status: "โคแท้ง" }).subscribe(d=>{
+                    this.api.updateType('cattle',this.user,k,{status: "ไม่ท้อง" }).subscribe(d=>{
                       if(d.status=='OK'){
-                        var test = new Date(data.value.dateabd);
-                        test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-                        var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                        this.api.addNoti(this.user,setDate,{id_cattle: data.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe(d1=>{
+                        this.api.addNoti(this.user,this.calve_date,{id_cattle: data.value.dam_id, type: 'บำรุงแม่พันธุ์', date: this.calve_date }).subscribe(d1=>{
                           if(d1.status=='OK'){
                             this.success();
                             this.navCtrl.pop();
@@ -214,11 +214,7 @@ noti_pregnant;
                   }
                 }
               });
-
-
-
             }
-
           }
         ]
       });
@@ -229,21 +225,44 @@ noti_pregnant;
   success() {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
-  test(a:string){
-    console.log(a);
-    var day = a;
-    var y1k = new Date(day);
-    var y2k = new Date(day);
-    var y3k = new Date(day);
-    var y4k = new Date(day);
-    y1k.setDate(y1k.getDate() + 283);
-    this.calve_date = y1k.getFullYear() + "-" + (y1k.getMonth() + 1) + "-" + y1k.getDate();
-    y2k.setDate(y2k.getDate() + 276);
-    this.alert_befor_7D = y2k.getFullYear() + "-" + (y2k.getMonth() + 1) + "-" + y2k.getDate();
-    y3k.setDate(y3k.getDate() + 290);
-    this.alert_after_7D = y3k.getFullYear() + "-" + (y3k.getMonth() + 1) + "-" + y3k.getDate();
-    y4k.setDate(y4k.getDate() + 18);
-    this.alert_sync = y4k.getFullYear() + "-" + (y4k.getMonth() + 1) + "-" + y4k.getDate();
+  test(){
+    console.log(this.date);
+    var y1k = new Date(this.date_breed);
+    var y2k = new Date(this.date_breed);
+    var y3k = new Date(this.date_breed);
 
+    y1k.setDate(y1k.getDate() + Number(this.noti_pregnant));
+    this.calve_date = y1k.getFullYear() + "-" + this.month_of_the_year(y1k) + "-" + this.day_of_the_month(y1k);
+
+    y2k.setDate(y2k.getDate() +  (Number(this.noti_pregnant)-7));
+    this.alert_befor_7D = y2k.getFullYear() + "-"  + this.month_of_the_year(y2k) + "-" + this.day_of_the_month(y2k);
+    y3k.setDate(y3k.getDate() +  (Number(this.noti_pregnant)+7));
+    this.alert_after_7D = y3k.getFullYear() + "-"  + this.month_of_the_year(y3k) + "-" + this.day_of_the_month(y3k);
+
+  }
+  updateList(a){
+    console.log(a.target.value);
+    this.noti_pregnant = a.target.value;
+    this.test();
+  }
+  changDate(){
+    console.log(this.date);
+    var y4k = new Date(this.date);
+    y4k.setDate(y4k.getDate() + Number(this.noti_oestrus));
+    this.alert_sync = y4k.getFullYear() + "-"  + this.month_of_the_year(y4k) + "-" + this.day_of_the_month(y4k);
+  }
+  updateList1(a){
+    console.log(a.target.value);
+    this.noti_oestrus = a.target.value;
+    this.changDate();
+  }
+
+  day_of_the_month(d)
+  {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+ month_of_the_year(d)
+  {
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
   }
 }

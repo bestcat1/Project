@@ -36,7 +36,7 @@ this.api.getPersonnel(this.user).subscribe(data=>{
   if(data!=null){
   var values = Object.keys(data).map(key => data[key]);
   for(let i = 0; i<values.length;i++){
-    this.operator.push({operator: values[i].fname+' '+values[i].lname});
+    this.operator.push( values[i].fname+' '+values[i].lname);
   }
 }
 });

@@ -91,12 +91,8 @@ export class NurturePage {
   }
   nt(data:NgForm){
     console.log(data.value);
-    if(data.value.noti_treatment==""||data.value.sickness==""||data.value.type_of_treatment==""){
-      const alert32 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert32.present();
+    if(data.value.noti_treatment==""||data.value.sickness==""||data.value.type_of_treatment==""||this.use_drug.length == 0){
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else{
       let alert33 = this.alertCtrl.create({
@@ -113,14 +109,23 @@ export class NurturePage {
           {
             text: 'ยืนยัน',
             handler: () => {
+              var dataTreatment=[];
               for(let i=0;i<this.use_drug.length;i++){
                 console.log(this.use_drug[i]);
-                this.api.addTreatmentDrug(this.user,this.id,{number_of_treatment:this.number_of_treatment,drug_name:this.use_drug[i]}).subscribe();
+                dataTreatment.push({number_of_treatment:this.number_of_treatment,drug_name:this.use_drug[i]});
               }
+              this.api.addTreatmentDrug(this.user,this.id,dataTreatment).subscribe(d=>{
+                  if(d.status == 'OK'){
+                    this.api.addTreatment(this.user,data.value).subscribe(d1=>{
+                      if(d1.status=='OK'){
+                        this.success();
+                        this.navCtrl.pop();
+                      }
+                    });
 
-              this.api.addTreatment(this.user,data.value).subscribe();
-              this.success();
-              this.viewCtrl.dismiss();
+                  }
+              })
+
             }
 
           }

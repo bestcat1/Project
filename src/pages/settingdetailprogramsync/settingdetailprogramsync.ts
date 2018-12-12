@@ -50,16 +50,29 @@ time_length;
   }
   addprosync(data:NgForm){
     if(data.value.pro_sync!=''&&data.value.day_length!=''&&data.value.time_length!=''){
-      this.api.addDetailProgramSync(this.user,data.value).subscribe(d=>{
-        if(d.status=='OK'){
-          this.drug_sync='';
-          this.day_length='';
-          this.time_length='';
-          this.ionViewWillEnter();
+      var c=0;
+      for(let i=0;i<this.data_drug.length;i++){
+        if(this.data_drug[i].drug_sync == data.value.drug_sync){
+          c=c;
+        } else {
+          c++;
         }
-      });
+      }
+      if(c==this.data_drug.length){
+        this.api.addDetailProgramSync(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+            this.drug_sync='';
+            this.day_length='';
+            this.time_length='';
+            this.ionViewWillEnter();
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อรายการเหนี่ยวนำนี้อยู่แล้ว", "warning");
+      }
+
     }else{
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
 

@@ -18,11 +18,11 @@
     <ion-list>
    <ion-item >
         <ion-label>หมายเลขแม่พันธุ์ :</ion-label>
-        <ion-input type="text"name="dam_id" ngModel="{{detail.dam_id}}" readonly [disabled]="edit"></ion-input>
+        <ion-input type="text"name="dam_id" ngModel="{{detail.dam_id}}"  [disabled]="true"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>วันที่ผสมพันธุ์ :</ion-label>
-        <ion-input type="date" name="date_breeding" ngModel="{{detail.date_breeding}}" readonly [disabled]="edit"></ion-input>
+        <ion-input type="date" name="date_breeding" ngModel="{{detail.date_breeding}}"  [disabled]="true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -36,7 +36,7 @@
     </ion-item>
     <ion-item >
         <ion-label>แจ้งเตือนเหนี่ยวนำการกลับสัด :</ion-label>
-        <ion-input type="number" name="alert_sync" ngModel="{{detail.alert_sync}}" [disabled]="edit"></ion-input>
+        <ion-input type="number" name="alert_sync" ngModel="{{detail.alert_sync}}" [disabled]="true"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>หมายเหตุ :</ion-label>

@@ -21,12 +21,12 @@
 
     <ion-item>
       <ion-label>วันที่ตรวจท้อง :</ion-label>
-      <ion-input type="date" ngModel="{{data.dateabd}}" name="dateabd"  (input)="test($event.target.value)" [disabled]="edit"></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="data.dateabd" name="dateabd" [disabled]="edit"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>เวลาที่ตรวจท้อง :</ion-label>
-      <ion-input type="time" ngModel="{{data.timeabd}}" name="timeabd" [disabled]="edit"></ion-input>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{data.timeabd}}" name="timeabd" [disabled]="edit"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -50,13 +50,13 @@
 
     <ion-item>
       <ion-label>ท้อง แจ้งเตือนคลอด(วัน) :</ion-label>
-      <ion-input type="text"  name="pregnant_noti" ngModel="{{data.pregnant_noti}}" [disabled]="edit"></ion-input>
+      <ion-input type="text"  name="pregnant_noti" ngModel="{{data.pregnant_noti}}" [disabled]="true"></ion-input>
     </ion-item>
 
 
     <ion-item>
       <ion-label>ไม่ท้อง แจ้งเตือนการผสม(วัน) :</ion-label>
-      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{data.not_pregnant_noti}}" [disabled]="edit"></ion-input>
+      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{data.not_pregnant_noti}}" [disabled]="true"></ion-input>
     </ion-item>
 
 

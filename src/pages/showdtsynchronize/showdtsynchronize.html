@@ -18,15 +18,25 @@
       <ion-input type="text" name="dam_id" ngModel={{data.dam_id}} readonly [disabled]="edit"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label >โปรแกรมที่ใช้: </ion-label>
-      <ion-select ngModel="{{data.program_sync}}" name="program_sync" placeholder="เลือกรายการ" (ionChange)="promain($event)" [disabled]="edit">
-        <ion-option *ngFor="let s of syncs" value="{{s.pro_sync}}">{{s.pro_sync}}</ion-option>
-      </ion-select>
-  </ion-item>
-    <div class="row">
-      <button class="center" type="button" ion-button round color="facebook" (click)="verifypro()" [disabled]="edit">ตรวจสอบรายการ</button>
-      </div>
+
+  <ion-row>
+      <ion-col col-10>
+        <ion-item>
+          <ion-label >โปรแกรมที่ใช้: </ion-label>
+          <ion-select ngModel name="program_sync" ngModel="{{data.program_sync}}" (ionChange)="promain($event)" [disabled]="edit">
+            <ion-option *ngFor="let s of syncs" value="{{s.pro_sync}}">{{s.pro_sync}}</ion-option>
+          </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col col-2>
+      <button ion-button type="button" class="btcustom" outline [disabled]="edit" (click)="verifypro()" clear><ion-icon name="md-alert" color="primary"></ion-icon></button>
+    </ion-col>
+      </ion-row>
+
+
+
+
+
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>
         <ion-select type="text" name="operator" ngModel="{{data.operator}}" readonly [disabled]="edit">

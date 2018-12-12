@@ -21,9 +21,15 @@
         <ion-input type="text"name="dam_id" ngModel="{{a.cattle_id}}" readonly></ion-input>
     </ion-item>
     <ion-item >
-        <ion-label>วันที่ผสมพันธุ์ :</ion-label>
-        <ion-input type="date" name="date_breeding" ngModel="{{day[0]}}" readonly></ion-input>
+        <ion-label>จำนวนครั้งที่ผสมพันธุ์ :</ion-label>
+        <ion-input type="number" name="number_of_breeding" ngModel="{{a.number_of_breeding}}" readonly></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label>วันที่โคแท้ง: </ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="date_breeding" (ngModelChange)="test()"></ion-datetime>
+    </ion-item>
+
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
       <ion-select type="text" name="operator" ngModel="{{name}}" >
@@ -36,13 +42,22 @@
     </ion-item>
     <ion-item >
         <ion-label>แจ้งเตือนเหนี่ยวนำการกลับสัด :</ion-label>
-        <ion-input type="number" name="alert_sync" ngModel="{{noti[0]}}"></ion-input>
+        <ion-input type="number" name="alert_sync" ngModel="{{noti}}" (keyup)="updateList($event)"></ion-input>
     </ion-item>
     <ion-item >
         <ion-label>หมายเหตุ :</ion-label>
         <ion-input type="text"name="note" ngModel></ion-input>
     </ion-item>
 </ion-list>
+<ion-card>
+    <ion-row>
+      <ion-col>
+      <p align="center"><b>วันที่ผสมพันธุ์</b></p>
+      <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+    </ion-col>
+    </ion-row>
+  </ion-card>
+
 <p align="center"><button ion-button round type="submit">บันทึก</button></p>
 </form>
 </ion-content>

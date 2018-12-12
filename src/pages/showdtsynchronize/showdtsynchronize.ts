@@ -24,6 +24,7 @@ pro_sync=[];
 pro;
 operator = [];
 edit=true;
+DetailPro;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public modalCtrl:ModalController,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
@@ -49,18 +50,22 @@ edit=true;
       this.syncs = Object.keys(data).map(key=>data[key]);
       }
     })
+
+    this.pro=this.data.program_sync;
+    this.api.getDrugProgramSync(this.user,this.data.program_sync).subscribe(data=>{
+      console.log(data);
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      this.DetailPro = value;
+    }
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShowdtsynchronizePage');
   }
-  verify(a){
-    this.pro_sync[0]=a;
-  }
-  showverify(){
-    const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program: this.pro_sync[0]});
-    modal.present();
-  }
+
+
   sync(data:NgForm){
     console.log(data.value);
     this.api.updateSyncByKey(this.user,this.data.key,data.value).subscribe(d=>{
@@ -73,9 +78,17 @@ edit=true;
   }
   promain(p){
     this.pro=p;
+    this.api.getDrugProgramSync(this.user,p).subscribe(data=>{
+      console.log(data);
+      if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      this.DetailPro = value;
+    }
+    });
   }
   verifypro(){
-    const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program:this.pro});
+    console.log(this.DetailPro);
+    const modal = this.modalCtrl.create("VerifyProSyncPage",{user:this.user,program:this.pro,detail:this.DetailPro});
     modal.present();
   }
   check(a){

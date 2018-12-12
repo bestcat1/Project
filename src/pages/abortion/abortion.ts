@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,  AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
@@ -20,59 +19,66 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 export class AbortionPage {
   user;
   id;
-  noti=[];
-  id_noti:Observable<any[]>;
+  noti;
+
   item;
   key;
-  operator=[];
-  day = [];
+  operator = [];
+ number_of_breeding;
+  date;
   name;
   names = [];
+  viewDate
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public viewCtrl:ViewController,private api: NodeapiProvider) {
+    , private api: NodeapiProvider,
+    private alertCtrl: AlertController) {
     this.user = this.navParams.get('user');
     this.id = this.navParams.get('id');
+      var d = new Date();
+      this.date=d.getFullYear()+"-"+month_of_the_year(d)+"-"+day_of_the_month(d);
+      function day_of_the_month(d)
+      {
+        return (d.getDate() < 10 ? '0' : '') + d.getDate();
+      }
+      function month_of_the_year(d)
+      {
+        return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+      }
+    this.api.getTypeByKey('cattle', this.user, this.id).subscribe(data => {
+      if (data != null) {
+        var value = Object.keys(data).map(key => data[key]);
+        this.item = value;
+        console.log(value[0]);
 
-    this.api.getTypeByKey('cattle',this.user,this.id).subscribe(data=>{
-      if(data!=null){
-      var value = Object.keys(data).map(key=>data[key]);
-      this.item = value;
-      console.log(value[0]);
-      this.key = Object.keys(data)[0];
-      this.api.getDataBreedById(this.user,this.id).subscribe(datas=>{
-        var values = Object.keys(datas).map(key => datas[key]);
-        values.forEach(element => {
-          if(value[0].number_of_breeding == element.number_of_breeding){
-            this.day.push(element.date_breeding);
-          }
-        });
-      })
-    }
-    });
-
-    this.api.getUser(this.user).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data).map(key=>data[key]);
-      this.name = values[0].fname+' '+values[0].lname;
-      this.operator.push(values[0].fname+' '+values[0].lname);
+        this.key = Object.keys(data)[0];
       }
     });
 
-    this.api.getPersonnel(this.user).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data).map(key=>data[key]);
-      values.forEach(snap=>{
-        this.operator.push(snap.fname+' '+snap.lname);
-      });
-    }
+    this.api.getUser(this.user).subscribe(data => {
+      if (data != null) {
+        var values = Object.keys(data).map(key => data[key]);
+        this.name = values[0].fname + ' ' + values[0].lname;
+        this.operator.push(values[0].fname + ' ' + values[0].lname);
+      }
     });
-    this.api.getNotiById(this.user,9).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data).map(key=>data[key]);
-      values.forEach(snap =>{
-        this.noti.push(snap.day_length);
-      });
-    }
+
+    this.api.getPersonnel(this.user).subscribe(data => {
+      if (data != null) {
+        var values = Object.keys(data).map(key => data[key]);
+        values.forEach(snap => {
+          this.operator.push(snap.fname + ' ' + snap.lname);
+        });
+      }
+    });
+    this.api.getNotiById(this.user, 9).subscribe(data => {
+      if (data != null) {
+        var values = Object.keys(data).map(key => data[key]);
+        this.noti = values[0].day_length;
+        var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(values[0].day_length));
+      this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
+
+      }
     });
   }
 
@@ -80,20 +86,71 @@ export class AbortionPage {
     console.log('ionViewDidLoad AbortionPage');
   }
   abortion(data: NgForm) {
-    console.log(data.value);
-    this.api.addAbortion(this.user,data.value).subscribe(d=>{
-      if(d.status=='OK'){
-        this.api.updateType('cattle',this.user,this.key,{status:'โคแท้ง'}).subscribe(d1=>{
-          if(d1.status=='OK'){
-            this.sucess();
-            this.viewCtrl.dismiss();
+
+
+
+
+    let alert19 = this.alertCtrl.create({
+      title: 'การบันทึก',
+      message: 'ยืนยันการบันทึกข้อมูล?',
+      buttons: [
+        {
+          text: 'ยกเลิก',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
           }
-        });
-      }
+        },
+        {
+          text: 'ยืนยัน',
+          handler: () => {
+            console.log(data.value);
+            this.api.addAbortion(this.user, data.value).subscribe(d => {
+              if (d.status == 'OK') {
+                this.api.updateType('cattle', this.user, this.key, { status: 'โคแท้ง' }).subscribe(d1 => {
+                  if (d1.status == 'OK') {
+                    var test = new Date();
+                    test.setDate(test.getDate() + Number(data.value.alert_sync));
+                    var setDate = test.getFullYear() + "-" + this.month_of_the_year(test) + "-" + this.day_of_the_month(test);
+                    this.api.addNoti(this.user, setDate, { id_cattle: data.value.dam_id, type: 'เหนี่ยวนำการกลับสัด', date: setDate }).subscribe(d2 => {
+                      if (d2.status == 'OK') {
+                        this.sucess();
+                        this.navCtrl.pop();
+                      }
+                    });
+
+                  }
+                });
+              }
+            });
+          }
+
+        }
+      ]
     });
+    alert19.present();
 
   }
-  sucess(){
+  sucess() {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
+  day_of_the_month(d) {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+  month_of_the_year(d) {
+    return ((d.getMonth() + 1) < 10 ? '0' : '') + (d.getMonth() + 1);
+  }
+  test(){
+    console.log(this.date);
+    var d = new Date(this.date);
+    d.setDate(d.getDate()+Number(this.noti));
+    this.viewDate = d.getFullYear() + "-" + this.month_of_the_year(d) + "-" + this.day_of_the_month(d);
+  }
+
+  updateList(a){
+    console.log(a.target.value);
+    this.noti = a.target.value;
+    this.test();
+  }
 }
+

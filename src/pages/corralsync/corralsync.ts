@@ -118,13 +118,13 @@ loader;
               var key = [];
               var dataNoti=[];
                   for (j = 0; j < this.idcheck.length; j++) {
-                      dataSync.push({ dam_id: this.idcheck[j].id, date: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
+                      dataSync.push({ dam_id: this.idcheck[j].id, datepro: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
 
                       key.push(this.idcheck[j].key);
 
                       var test = new Date(data.value.datepro);
                       test.setDate(test.getDate() + Number(this.AlertDate.day_length));
-                      var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
+                      var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
                       dataNoti.push({id_cattle: this.idcheck[j].id, type: this.AlertDate.list, date: setDate });
                       this.DetailPro.forEach(element => {
                         test = new Date(data.value.datepro);

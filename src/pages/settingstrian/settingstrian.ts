@@ -54,16 +54,30 @@ datastrian:String;
     console.log('ionViewDidLoad SettingstrianPage');
   }
   addstrian(data:NgForm){
-    if(data.value.strain!=''){
-      this.api.addSettingBreed(this.user,data.value).subscribe(d=>{
-        if(d.status=='OK'){
-           this.datastrian='';
-           this.ionViewWillEnter()
+    if(data.value.strian!=''){
+      var c=0;
+      for(let i=0;i<this.item$.length;i++){
+        if(this.item$[i].strian == data.value.strian){
+          c=c;
         }
-      });
+        else {
+          c++;
+        }
+      }
+      if(c==this.item$.length){
+        this.api.addSettingBreed(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+             this.datastrian='';
+             this.ionViewWillEnter()
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อสายพันธุ์นี้อยู่แล้ว", "warning");
+      }
+
     }
     else{
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
   }

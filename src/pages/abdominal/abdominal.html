@@ -21,12 +21,12 @@
 
     <ion-item>
       <ion-label>วันที่ตรวจท้อง :</ion-label>
-      <ion-input type="date" ngModel="{{date}}" name="dateabd"  (input)="test($event.target.value)"></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="dateabd" (ngModelChange)="changDate()"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>เวลาที่ตรวจท้อง :</ion-label>
-      <ion-input type="time" ngModel="{{time}}" name="timeabd" ></ion-input>
+      <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{time}}" name="timeabd"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -50,7 +50,7 @@
 
     <ion-item>
       <ion-label>ท้อง แจ้งเตือนคลอด(วัน) :</ion-label>
-      <ion-input type="text"  name="pregnant_noti" ngModel="{{noti_pregnant}}" readonly="{{bmark}}"></ion-input>
+      <ion-input type="text"  name="pregnant_noti" ngModel="{{noti_pregnant}}" readonly="{{bmark}}" max="9999"  maxlength="4" (keyup)="updateList($event)"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>กำหนดเอง</ion-label>
@@ -59,7 +59,7 @@
 
     <ion-item>
       <ion-label>ไม่ท้อง แจ้งเตือนการผสม(วัน) :</ion-label>
-      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{noti_oestrus}}" readonly="{{EPmark}}"></ion-input>
+      <ion-input type="text"  name="not_pregnant_noti" ngModel="{{noti_oestrus}}" readonly="{{EPmark}}" max="9999"  maxlength="4" (keyup)="updateList1($event)"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>กำหนดเอง</ion-label>
@@ -100,13 +100,15 @@
   <ion-card>
     <ion-row>
         <ion-col>
-          <p align="center">*ถ้าผสมพันธุ์ไม่ติด ระยะเหนี่ยวนำการกลับสัด(คาดการณ์)</p>
+          <p align="center">*ถ้าผสมพันธุ์ไม่ติด ระยะการบำรุงแม่พันธุ์(คาดการณ์)</p>
           <h2><p align="center">{{alert_sync  | date : "dd/MM/yyyy"}}</p></h2>
       </ion-col>
     </ion-row>
   </ion-card>
     <br>
-    <button type="submit" ion-button block color="facebook">ยืนยัน</button>
+    <p align="center">
+    <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+  </p>
   </form>
 </a>
 </ion-content>

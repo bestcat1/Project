@@ -56,15 +56,28 @@ day_length;
     console.log(data.value);
     if(data.value.drug_maintain!=''&&data.value.volumn!=''&&data.value.day_length!=''){
       console.log(data.value);
-      this.api.addDetailMaintain(this.user,data.value).subscribe(d=>{
-        console.log(d);
-        if(d.status=='OK'){
-          this.drug_maintain='';
-          this.volumn='';
-          this.day_length='';
-          this.ionViewWillEnter();
+      var c=0;
+      for(let i=0;i<this.data_drug.length;i++){
+        if(this.data_drug[i].drug_maintain == data.value.drug_maintain){
+          c=c;
+        }else{
+          c++;
         }
-      });
+      }
+      if(c==this.data_drug.length){
+        this.api.addDetailMaintain(this.user,data.value).subscribe(d=>{
+          console.log(d);
+          if(d.status=='OK'){
+            this.drug_maintain='';
+            this.volumn='';
+            this.day_length='';
+            this.ionViewWillEnter();
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อยาบำรุงนี้อยู่แล้ว", "warning");
+      }
+
 
     }else{
       swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");

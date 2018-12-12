@@ -61,10 +61,10 @@ m6=false;
         this.global.setMyGlobalVar(value[0].user);
         if(value[0].count_login==0){
         this.loader.dismiss();
-      let noti=[{id_noti:0,list:'ผสมพันธุ์',day_length:18,note:'หลังผสมไม่ติด'},
+      let noti=[{id_noti:0,list:'บำรุง',day_length:18,note:'หลังผสมไม่ติด'},
           {id_noti:1,list:'ตรวจท้อง',day_length:90,note:'หลังผสมพันธุ์'},
           {id_noti:2,list:'คลอด',day_length:193,note:'หลังจากตั้งท้อง'},
-          {id_noti:3,list:'เหนี่ยวนำการกลับสัด',day_length:60,note:'หลังจากคลอด'},
+          {id_noti:3,list:'บำรุงแม่พันธุ์',day_length:60,note:'หลังจากคลอด'},
           {id_noti:4,list:'สูญเขา',day_length:60,note:'หลังจากเกิด'},
           {id_noti:5,list:'หย่านม',day_length:180,note:'หลังจากเกิด'},
           {id_noti:6,list:'ตีเบอร์',day_length:240,note:'หลังจากเกิด'},
@@ -74,27 +74,31 @@ m6=false;
           {id_noti:10,list:'เหนี่ยวนำการกลับสัด',day_length:18,note:'บำรุงแม่พันธุ์'},
           {id_noti:11,list:'ผสมพันธุ์',day_length:21,note:'หลังจากเหนี่ยวนำการกลับสัด'},];
           swal("ยินดีต้อนรับ!", "การเข้าลงชื่อเข้าใช้ครั้งแรก กรุณาตั้งค่าระบบฟาร์มของท่าน", "warning").then(()=>{
+            this.presentLoading();
             this.api.updateUser(Object.keys(data)[0],{count_login:'1'}).subscribe(d=>{
               if(d.status=='OK'){
-                this.api.addNotiall(value[0].user,noti).subscribe();
-                this.api.addColor(value[0].user,{color:'น้ำตาล'}).subscribe(d1=>{
-                  if(d1.status=='OK'){
-                    this.api.addCorral(value[0].user,{corral:'คอกที่1'}).subscribe(d2=>{
-                      if(d2.status=='OK'){
-                        this.api.addSettingBreed(value[0].user,{strian:'พื้นเมือง'}).subscribe(d3=>{
-                          if(d3.status=='OK'){
-                            this.api.addHerdNumber(value[0].user,{herd_num:'01'}).subscribe(d4=>{
-                              if(d4.status=='OK'){
-                                this.api.addProgram_maintain(value[0].user,{pro_maintain:'บำรุงก่อนคลอด'}).subscribe(d=>{
-                                  if(d.status=='OK'){
-                                    this.api.addProgramSync(this.user,{pro_sync:'ProgramA'}).subscribe(d=>{
+                this.api.addNotiall(value[0].user,noti).subscribe(d0=>{
+                  if(d0.status == 'OK'){
+                    this.api.addColor(value[0].user,{color:'น้ำตาล'}).subscribe(d1=>{
+                      if(d1.status=='OK'){
+                        this.api.addCorral(value[0].user,{corral:'คอกที่1'}).subscribe(d2=>{
+                          if(d2.status=='OK'){
+                            this.api.addSettingBreed(value[0].user,{strian:'พื้นเมือง'}).subscribe(d3=>{
+                              if(d3.status=='OK'){
+                                this.api.addHerdNumber(value[0].user,{herd_num:'01'}).subscribe(d4=>{
+                                  if(d4.status=='OK'){
+                                    this.api.addProgram_maintain(value[0].user,{pro_maintain:'บำรุงก่อนคลอด'}).subscribe(d=>{
                                       if(d.status=='OK'){
-                                        this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});
+                                        this.api.addProgramSync(this.user,{pro_sync:'ProgramA'}).subscribe(d=>{
+                                          if(d.status=='OK'){
+                                            this.endPresent();
+                                            this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});
+                                          }
+                                        });
                                       }
                                     });
                                   }
-                                });
-
+                                })
                               }
                             })
                           }
@@ -102,10 +106,9 @@ m6=false;
                       }
                     })
                   }
-                })
+                });
               }
             });
-
           });
         }
       }

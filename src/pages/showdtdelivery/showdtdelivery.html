@@ -17,16 +17,16 @@
     <form (ngSubmit)="dv(wikiForm)" #wikiForm="ngForm" >
       <ion-item>
         <ion-label>ชื่อแม่พันธุ์ :</ion-label>
-        <ion-input  type="text"  name="dam_id" ngModel="{{data.dam_id}}" readonly [disabled]="edit"></ion-input>
+        <ion-input  type="text"  name="dam_id" ngModel="{{data.dam_id}}" readonly [disabled]="true"></ion-input>
     </ion-item>
       <ion-item>
           <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
-          <ion-input  type="text"  name="sire_id" ngModel="{{data.sire_id}}" readonly [disabled]="edit"></ion-input>
+          <ion-input  type="text"  name="sire_id" ngModel="{{data.sire_id}}" readonly [disabled]="true"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
-        <ion-input  type="date"  name="date" ngModel={{data.date}} [disabled]="edit"></ion-input>
+        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel={{data.date}} name="date" [disabled]="edit"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>

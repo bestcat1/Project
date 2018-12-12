@@ -24,8 +24,8 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>วัน/เดือน/ปี เกิด :</ion-label>
-        <ion-input  type="date"  name="date" ngModel={{date}}></ion-input>
+        <ion-label>วันที่คลอด :</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="date" (ngModelChange)="test1()"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -50,6 +50,16 @@
       <br>
 
 <br>
+
+<ion-card>
+    <ion-row>
+      <ion-col>
+      <p align="center"><b>วันที่ทำบำรุงแม่พันธุ์</b></p>
+      <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+    </ion-col>
+    </ion-row>
+  </ion-card>
+
 <ion-card [hidden]="count_calf==0">
 <ion-slides>
 
@@ -92,7 +102,9 @@
 
 </ion-slides>
 </ion-card>
-<button type="submit" ion-button block color="facebook">ยืนยัน</button>
+<p align="center">
+<button type="submit" ion-button round color="facebook">ยืนยัน</button>
+</p>
 </form>
 </a>
 </ion-content>

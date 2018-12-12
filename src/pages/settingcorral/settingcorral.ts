@@ -59,15 +59,28 @@ data_corral:String;
   addcorral(data:NgForm){
     console.log(data.value);
     if(data.value.corral!=''){
-    this.api.addCorral(this.user,data.value).subscribe(d=>{
-      if(d.status=='OK'){
-        this.data_corral='';
-        this.ionViewWillEnter();
+      var c=0;
+      for(let i = 0; i< this.item$.length;i++){
+        if(this.item$[i].corral == data.value.corral){
+          c = c;
+        } else {
+          c++;
+        }
       }
-    });
+      if(c==this.item$.length){
+        this.api.addCorral(this.user,data.value).subscribe(d=>{
+          if(d.status=='OK'){
+            this.data_corral='';
+            this.ionViewWillEnter();
+          }
+        });
+      } else {
+        swal("ขออภัย!", "มีการใช้ชื่อคอกวัวนี้อยู่แล้ว", "warning");
+      }
+
 
     } else {
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
 
   }

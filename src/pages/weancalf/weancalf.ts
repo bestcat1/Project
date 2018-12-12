@@ -70,11 +70,7 @@ export class WeancalfPage {
   weanc(data:NgForm){
     if(data.value.bid==""||data.value.weanweight=="")
     {
-      const alert46 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert46.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else{
       let alert47 = this.alertCtrl.create({
@@ -96,7 +92,7 @@ export class WeancalfPage {
                 this.api.editCalf(this.user,this.key,{wean:true}).subscribe(d1=>{
                   if(d1.status=='OK'){
                     this.success();
-                    this.viewCtrl.dismiss();
+                    this.navCtrl.pop();
                   }
                 });
               }

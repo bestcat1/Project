@@ -26,11 +26,12 @@
         </ion-item>
         <ion-item>
           <ion-label>วันที่หย่านม: </ion-label>
-          <ion-input type="date" name="datewean" ngModel="{{date}}"></ion-input>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="datewean"></ion-datetime>
+
         </ion-item>
         <ion-item>
             <ion-label>น้ำหนักหย่านม(กก.): </ion-label>
-            <ion-input type="text" name="weanweight" ngModel></ion-input>
+            <ion-input type="number" name="weanweight" ngModel></ion-input>
           </ion-item>
           <ion-item>
             <ion-label >ผู้ปฏิบัติการ: </ion-label>
@@ -48,7 +49,8 @@
         </ion-item>
 
         <br>
-        <button type="submit" ion-button block color="facebook">ยืนยัน</button>
-
+        <p align="center">
+        <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+</p>
       </form>
 </ion-content>

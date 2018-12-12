@@ -70,11 +70,7 @@ export class BrandingcalfPage {
   }
   branc(data:NgForm){
     if(data.value.bid==""||data.value.wid==""){
-      const alert6 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert6.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else{
       let alert7 = this.alertCtrl.create({
@@ -96,7 +92,7 @@ export class BrandingcalfPage {
                 this.api.editCalf(this.user,this.key,{branding:true}).subscribe(d1=>{
                   if(d.status=='OK'){
                     this.success();
-                    this.viewCtrl.dismiss();
+                    this.navCtrl.pop();
                   }
                 });
 

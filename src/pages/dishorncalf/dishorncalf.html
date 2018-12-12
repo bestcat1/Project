@@ -25,7 +25,7 @@
         </ion-item>
         <ion-item>
           <ion-label>วันที่สูญเขา: </ion-label>
-          <ion-input type="date" name="datedishorn" ngModel="{{date}}"></ion-input>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="datedishorn"></ion-datetime>
         </ion-item>
         <ion-item>
             <ion-label >วิธีที่ใช้ในการสูญเขา: </ion-label>
@@ -49,9 +49,8 @@
           <ion-label>หมายเหตุ: </ion-label>
           <ion-input type="text" name="note" ngModel></ion-input>
         </ion-item>
-
-        <br>
-        <button type="submit" ion-button block color="facebook">ยืนยัน</button>
-
+        <p align="center">
+        <button type="submit" ion-button round color="facebook">ยืนยัน</button>
+      </p>
       </form>
 </ion-content>

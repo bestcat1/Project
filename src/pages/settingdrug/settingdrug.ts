@@ -21,6 +21,8 @@ drugs
 drug_name;
 common_drug;
 dosage;
+mfd='';
+exp='';
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
@@ -48,7 +50,17 @@ else{
   }
   adddrug(data:NgForm){
     console.log(data.value);
-    if(data.value.drug_name!=''&&data.value.common_drug!=''&&data.value.dosage!=''){
+    if(data.value.drug_name!=''&&data.value.common_drug!=''&&data.value.dosage!=''&&data.value.exp_date!=''&&data.value.mfd_date!=''){
+     var c = 0;
+      for(let i=0;i<this.drugs.length;i++){
+        if(this.drugs[i].drug_name == data.value.drug_name){
+          c=c;
+        }
+        else {
+          c++;
+        }
+      }
+      if(c==this.drugs.length){
       this.api.addDrug(this.user,data.value).subscribe(d=>{
         if(d.status == 'OK'){
           this.drug_name='';
@@ -57,10 +69,13 @@ else{
           this.ionViewWillEnter();
         }
       });
-
     } else {
-      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "warning");
+      swal("ขออภัย!", "มีการใช้ชื่อยานี้อยู่แล้ว", "warning");
     }
+    } else {
+      swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+    }
+
 
 
   }
@@ -71,5 +86,36 @@ else{
       }
     });
 
+  }
+  test(){
+    if(this.exp == ''||this.mfd == ''){
+      this.exp = this.exp;
+    }
+    else {
+      var date1 = new Date(this.mfd);
+      var date2 = new Date(this.exp);
+      var timeDiff = (date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      alert(diffDays);
+      if(diffDays<0){
+        this.exp = this.mfd;
+      }
+    }
+    console.log(this.mfd);
+  }
+  test1(){
+    console.log(this.exp);
+    if(this.exp == ''||this.mfd == ''){
+      this.exp = this.exp;
+    }
+    else {
+      var date1 = new Date(this.mfd);
+      var date2 = new Date(this.exp);
+      var timeDiff = (date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if(diffDays<0){
+       this.mfd= this.exp;
+      }
+    }
   }
 }

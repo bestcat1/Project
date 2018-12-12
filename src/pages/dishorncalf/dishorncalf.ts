@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -24,7 +24,7 @@ export class DishorncalfPage {
 name;
 key;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  public alertCtrl:AlertController,public viewCtrl:ViewController,private api: NodeapiProvider) {
+  public alertCtrl:AlertController,private api: NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.bid=this.navParams.get('id');
 console.log(this.bid);
@@ -70,13 +70,9 @@ this.api.getPersonnel(this.user).subscribe(data=>{
     console.log('ionViewDidLoad DishorncalfPage');
   }
   dishornc(data: NgForm){
-    if(data.value.bid==""||data.value.howu=="")
+    if(data.value.bid==""||data.value.method=="")
     {
-      const alert24 = this.alertCtrl.create({
-        subTitle: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-        buttons: ['ตกลง']
-      });
-      alert24.present();
+      swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
     else
     {
@@ -99,7 +95,7 @@ this.api.getPersonnel(this.user).subscribe(data=>{
                   this.api.editCalf(this.user,this.key,{horndetering:true}).subscribe(d1=>{
                     if(d1.status=='OK'){
                       this.success();
-                      this.viewCtrl.dismiss();
+                      this.navCtrl.pop();
                     }
                   });
                 }

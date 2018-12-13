@@ -40,6 +40,7 @@ export class DeliveryPage {
   loader;
   viewDate;
   AlertDate
+  semen
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public alertCtrl: AlertController, private api: NodeapiProvider,
     private loadingCtrl: LoadingController) {
@@ -64,6 +65,9 @@ export class DeliveryPage {
           console.log(snap.number_of_breeding)
           if (snap.number_of_breeding == this.count_breed)
             this.sire_id = snap.sire_id;
+            this.semen = snap.semen;
+            console.log(this.sire_id);
+            console.log(this.semen);
         });
       }
     })
@@ -113,7 +117,10 @@ export class DeliveryPage {
       if (data != null) {
         var values = Object.keys(data).map(key => data[key]);
         values.forEach(snap => {
+          if(snap.privilege != 'ยังไม่ได้อนุมัติ'){
           this.operator.push(snap.fname + ' ' + snap.lname);
+            }
+
         })
       }
     })

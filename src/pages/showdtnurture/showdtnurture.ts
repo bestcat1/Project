@@ -41,7 +41,10 @@ export class ShowdtnurturePage {
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
     for(let i = 0; i < values.length;i++){
+      if(values[i].privilege != 'ยังไม่ได้อนุมัติ'){
       this.operator.push(values[i].fname + ' ' + values[i].lname);
+        }
+
     }
   }
     });

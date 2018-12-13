@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController } from 'ionic-angular';
-import { AngularFireDatabase  } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import { MenuController } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, NavParams } from 'ionic-angular';
+
 
 
 
@@ -12,28 +10,14 @@ import { MenuController } from 'ionic-angular';
   templateUrl: 'detail.html',
 })
 export class DetailPage {
+detail;
+user
+constructor(public NavCtrl: NavController,public navParams: NavParams) {
+  this.user = this.navParams.get('user');
+  console.log(this.user);
+  this.detail = this.navParams.get('detail');
 
-  item$ : Observable<any[]>;
-
-constructor(private db: AngularFireDatabase,public menuCtrl: MenuController,public NavCtrl: NavController,public alertCtrl:AlertController) {
-  this.item$=this.db.list('/User').snapshotChanges().map(chang =>{
-    return chang.map(c=>({key:c.payload.key, ...c.payload.val()}));
-  });
-
-  this.db.list('/User').query.on("child_added",function(snapshot){
-
-  });
-
+  console.log(this.detail);
 }
 
-delWiki(k){
-   this.db.list('/User').remove(k);
-   let alert = this.alertCtrl.create({
-    title: 'เรียบร้อย!',
-    subTitle: 'ลบข้อมูลผู้ใช้เรียบร้อยแล้ว',
-    buttons: ['ตกลง'],
-  });
-  alert.present();
-  }
 }
-

@@ -306,16 +306,18 @@ stherdnum(){
   alert.addButton({
     text: 'บันทึก',
     handler: data => {
-      this.api.updateUser(c.key,{privilege:data}).subscribe();
-      this.settingUser();
-      console.log(data);
+      this.api.updateUser(c.key,{privilege:data}).subscribe(d=>{
+        if(d.status == 'OK'){
+          this.settingUser();
+        }
+      });
     }
   });
   alert.present();
 }
 showdetail(d){
   console.log(d);
-
+  this.navCtrl.push("DetailPage",{user:this.user,detail:d});
   // let profileModal = this.modalCtrl.create("StaffinfoPage", { detail: d });
   // profileModal.present();
 

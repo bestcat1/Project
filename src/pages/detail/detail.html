@@ -1,42 +1,66 @@
 
 <ion-header>
   <ion-navbar color="dark-blue">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title >List</ion-title>
+    <ion-title>ข้อมูลผู้ใช้งาน</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 
 <ion-content padding class="background">
-<ion-row>
-  <ion-col>
-  <table class='table'>
-  <thead>
-  <tr>
-      <td>Action</td>
-  <td>First</td>
-  <td>Last</td>
-  <td>User</td>
-  <td>Pass</td>
+<p align="center">
+  <ion-card>
+    <ion-item>
+      <ion-label>
+          <b>ชื่อผู้ใช้งาน:</b> {{detail.user}}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+        <ion-label>
+            <b>ชื่อ-สกุล:</b> {{detail.fname}} {{detail.lname}}
+        </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+              <b>วันเกิด:</b> {{detail.day_of_birth}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <b>เพศ:</b> {{detail.gender}}
+            </ion-label>
+          </ion-item>
+          <ion-item>
+              <ion-label>
+                  <b>ที่อยู่:</b> {{detail.address}}
+              </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <b>รหัสบัตรประชาชน:</b> {{detail.id_card}}
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                  <ion-label>
+                      <b>เบอร์โทร:</b> {{detail.phone_num}}
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                        <b>fax:</b> {{detail.fax}}<br>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>
+                          <b>email:</b> {{detail.email}}
+                      </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>
+                            <b>ตำแหน่ง:</b> {{detail.privilege}}
+                        </ion-label>
+                      </ion-item>
 
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let item of item$ | async">
-     <td>
-      <button type="button" (click)="delWiki(item.key)" >Delete</button>
-    </td>
-    <td>{{item.fname}}</td>
-    <td>{{item.lname}}</td>
-    <td>{{item.user}}</td>
-    <td>{{item.pass}}</td>
-
-  </tr>
-  </tbody>
-  </table>
-</ion-col>
-</ion-row>
+</ion-card>
+</p>
 </ion-content>

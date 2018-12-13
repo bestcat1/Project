@@ -72,7 +72,9 @@ export class CorralmaintainPage {
       if(data!=null){
       var values = Object.keys(data).map(key => data[key]);
       for(let i = 0; i<values.length;i++){
-        this.operator.push({operator: values[i].fname+' '+values[i].lname});
+        if(values[i].privilege != 'ยังไม่ได้อนุมัติ'){
+          this.operator.push({operator: values[i].fname+' '+values[i].lname});
+          }
       }
     }
     });

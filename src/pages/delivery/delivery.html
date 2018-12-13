@@ -18,7 +18,12 @@
         <ion-label>ชื่อแม่พันธุ์ :</ion-label>
         <ion-input  type="text"  name="dam_id" ngModel="{{m.cattle_id}}" readonly></ion-input>
     </ion-item>
-      <ion-item>
+
+    <ion-item [hidden]="semen == undefined">
+        <ion-label>น้ำเชื้อ :</ion-label>
+        <ion-input  type="text"  name="semen" ngModel="{{semen}}" readonly></ion-input>
+    </ion-item>
+      <ion-item [hidden]="sire_id == undefined">
           <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
           <ion-input  type="text"  name="sire_id" ngModel="{{sire_id}}" readonly></ion-input>
       </ion-item>

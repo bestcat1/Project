@@ -40,7 +40,10 @@ this.api.getPersonnel(this.user).subscribe(data=>{
   if(data!=null){
   var values = Object.keys(data).map(key=>data[key]);
   values.forEach(snap=>{
-    this.operator.push(snap.fname + ' ' + snap.lname);
+    if(snap.privilege != 'ยังไม่ได้อนุมัติ'){
+   this.operator.push(snap.fname + ' ' + snap.lname);
+      }
+
   })
   }
 })

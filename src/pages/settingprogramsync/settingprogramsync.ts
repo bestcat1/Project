@@ -18,7 +18,7 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 })
 export class SettingprogramsyncPage {
   user;
-  item$;
+  item$ =[];
   pro_sync;
 
   constructor(public navCtrl: NavController, public navParams: NavParams
@@ -28,7 +28,6 @@ export class SettingprogramsyncPage {
   }
 
   ionViewWillEnter(){
-    this.pro_sync = '';
     this.api.getProgramSync(this.user).subscribe(data=>{
       if(data!=null){
       var value = Object.keys(data).map(key=>data[key]);
@@ -36,6 +35,8 @@ export class SettingprogramsyncPage {
       for(let i=0;i<value.length;i++){
         this.item$[i].key = Object.keys(data)[i];
       }
+    } else {
+      this.item$ = [];
     }
     })
   }
@@ -46,13 +47,18 @@ export class SettingprogramsyncPage {
   addpro(data:NgForm){
     if(data.value.pro_sync!=''){
       var c=0;
-      for(let i=0;i<this.item$.length;i++){
-        if(this.item$[i].pro_sync == data.value.pro_sync){
-          c=c;
-        } else {
-          c++;
+      if(this.item$.length!=0){
+        for(let i=0;i<this.item$.length;i++){
+          if(this.item$[i].pro_sync == data.value.pro_sync){
+            c=c;
+          } else {
+            c++;
+          }
         }
+      } else {
+        c=0;
       }
+
       if(c==this.item$.length){
         this.api.addProgramSync(this.user,data.value).subscribe(d=>{
           if(d.status=='OK'){
@@ -73,7 +79,9 @@ export class SettingprogramsyncPage {
   }
   removepro(k){
     this.api.removeProgramSync(this.user,k).subscribe(d=>{
-      if(d.status=='OK'){
+
+      if(d.status =='OK'){
+        console.log('asasasas');
         this.ionViewWillEnter();
       }
     });

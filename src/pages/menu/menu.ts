@@ -89,7 +89,7 @@ m6=false;
                                   if(d4.status=='OK'){
                                     this.api.addProgram_maintain(value[0].user,{pro_maintain:'บำรุงก่อนคลอด'}).subscribe(d=>{
                                       if(d.status=='OK'){
-                                        this.api.addProgramSync(this.user,{pro_sync:'ProgramA'}).subscribe(d=>{
+                                        this.api.addProgramSync(value[0].user,{pro_sync:'ProgramA'}).subscribe(d=>{
                                           if(d.status=='OK'){
                                             this.endPresent();
                                             this.navCtrl.push("SettingPage",{user: value[0].user,type:'ตั้งค่าระบบฟาร์ม'});

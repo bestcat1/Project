@@ -9,7 +9,6 @@ import { File } from '@ionic-native/file';
 import * as papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
-
 /**
  * Generated class for the VerifyPage page.
  *
@@ -45,7 +44,10 @@ export class VerifyPage {
   pdfimage;
   csvData: any[] = [];
   headerRow: any[] = [];
-
+  start_date='';
+  end_date=''
+  head_report=''
+  checkTypeReport = true;
   //==============
   constructor(public navCtrl: NavController, public navParams: NavParams,
      private plt: Platform, private file: File
@@ -245,108 +247,8 @@ export class VerifyPage {
     console.log(a);
     this.data_cattle = [];
     this.name = a;
-    if(a == 'cattle'){
-      this.api.getAllCattle(this.user).subscribe(data=>{
-        if(data!=null){
-          a=Object.keys(data);
-       this.data_cattle = Object.keys(data).map(key=>data[key]);
-    } else {
-      this.data_cattle = [];
-    }
-  })
-    } else if(a == 'maintain') {
-      this.api.getMaintainByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'synchronize') {
-      this.api.getSyncByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'breed') {
-      this.api.getBreedByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'abdominal') {
-      this.api.getPregnantByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'delivery') {
-      this.api.getDeliveryByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'abortion') {
-      this.api.getAbortionByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'nurture') {
-      this.api.getTreatmentByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'dishorn') {
-      this.api.getHorndeteringByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    } else if(a == 'branding') {
-      this.api.getBrandingByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    }  else if(a == 'wean') {
-      this.api.getWeanByUser(this.user).subscribe(data=>{
-        if(data!=null){
-          this.data_cattle = Object.keys(data).map(key=>data[key]);
-       } else {
-         this.data_cattle = [];
-       }
-       console.log(this.data_cattle)
-      })
-    }
-
   }
+  // ==========================================================
   createPdf() {
 
     this.presentLoading();
@@ -374,7 +276,10 @@ export class VerifyPage {
       }
       convertToDataURLviaCanvas(data, "image/png").then(base64 => this.pdfimage = base64)
     })
+    var month = ['มกราคม','กุมภาพันธุ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฏาคม','สิงหาคม'
+    ,'กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
     var d = new Date();
+    var day = d.getDate()+' '+month[d.getMonth()]+' '+(d.getFullYear()+543)
     setTimeout(() => {
 // -----------------------------------------------------------------------------
       if(this.name == 'cattle'){
@@ -391,7 +296,7 @@ export class VerifyPage {
                 text: [
                   { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
                   { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-                  { text: 'รายงานข้อมูลโคทั้งหมด', style: 'subheader', alignment: 'center' }
+                  { text: this.head_report, style: 'subheader', alignment: 'center' }
                 ],
               },
               {
@@ -450,7 +355,7 @@ export class VerifyPage {
                 text: [
                   { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
                   { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-                  { text: 'รายงานข้อมูลการบำรุง', style: 'subheader', alignment: 'center' }
+                  { text: this.head_report, style: 'subheader', alignment: 'center' }
                 ],
               },
               {
@@ -507,7 +412,7 @@ export class VerifyPage {
                text: [
                  { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
                  { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-                 { text: 'รายงานข้อมูลเหนี่ยวนำ', style: 'subheader', alignment: 'center' }
+                 { text: this.head_report, style: 'subheader', alignment: 'center' }
                ],
              },
              {
@@ -566,7 +471,7 @@ export class VerifyPage {
              text: [
                { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
                { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-               { text: 'รายงานข้อมูลการผสมพันธุ์', style: 'subheader', alignment: 'center' }
+               { text: this.head_report, style: 'subheader', alignment: 'center' }
              ],
            },
            {
@@ -625,7 +530,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลการตรวจท้อง', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -684,7 +589,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลคลอด', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -743,7 +648,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลโคแท้ง', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -802,7 +707,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลการรักษา', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -861,7 +766,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลการสูญเขา', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -920,7 +825,7 @@ export class VerifyPage {
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลการตีเบอร์', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -979,7 +884,7 @@ else if(this.name == 'wean'){
            text: [
              { text: this.myPhotoURL[0].farm_name_TH + ' (' + this.myPhotoURL[0].farm_name_EN + ')', style: 'header', alignment: 'center', width: '*' },
              { text: '\n' + this.myPhotoURL[0].farm_address + '\n', alignment: 'center' },
-             { text: 'รายงานข้อมูลการตีเบอร์', style: 'subheader', alignment: 'center' }
+             { text: this.head_report, style: 'subheader', alignment: 'center' }
            ],
          },
          {
@@ -1029,6 +934,7 @@ else if(this.name == 'wean'){
     }, 5000);
 
   }
+
 
   downloadPdf() {
     if (this.plt.is('cordova')) {
@@ -1185,4 +1091,617 @@ else if(this.name == 'wean'){
     this.loader.present();
 
   }
+
+  test1(){
+    console.log(this.start_date);
+    if(this.end_date == ''||this.start_date == ''){
+      this.end_date = this.end_date;
+    }
+    else {
+      var date1 = new Date(this.start_date);
+      var date2 = new Date(this.end_date);
+      var timeDiff = (date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if(diffDays<0){
+        this.end_date = this.start_date;
+      }
+    }
+  }
+  test2(){
+    console.log(this.end_date);
+    if(this.end_date == ''||this.start_date == ''){
+      this.start_date = this.start_date;
+    }
+    else {
+      var date1 = new Date(this.start_date);
+      var date2 = new Date(this.end_date);
+      var timeDiff = (date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if(diffDays<0){
+       this.start_date= this.end_date;
+      }
+    }
+  }
+  filterDate(){
+    var month = ['มกราคม','กุมภาพันธุ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฏาคม','สิงหาคม'
+    ,'กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+    var d = new Date(this.start_date);
+    console.log(d.getDate()+' '+month[d.getMonth()]+' '+(d.getFullYear()+543))
+
+    d = new Date(this.end_date);
+    console.log(d.getDate()+' '+month[d.getMonth()]+' '+(d.getFullYear()+543))
+    console.log('Start: '+this.start_date,'End: '+this.end_date);
+  }
+  selectTypeReport(b){
+    console.log(b)
+    this.checkTypeReport = b;
+  }
+
+  openPDF(){
+    if(this.checkTypeReport == true){
+      if(this.name == '') {
+        swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+      }
+      else {
+        this.queryDataAll();
+      }
+    }
+    else {
+      if(this.name == '' || this.start_date == '' || this.end_date == ''){
+        swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+      } else {
+        this.queryDataDate()
+      }
+    }
+  }
+
+  queryDataAll(){
+    if(this.name == 'cattle'){
+      this.api.getAllCattle(this.user).subscribe(data=>{
+        if(data!=null){
+       this.data_cattle = Object.keys(data).map(key=>data[key]);
+       this.head_report = 'รายงานข้อมูลโคทั้งหมด';
+       this.createPdf();
+    } else {
+      this.data_cattle = [];
+      swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+    }
+  })
+    } else if(this.name == 'maintain') {
+      this.api.getMaintainByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลบำรุงทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'synchronize') {
+      this.api.getSyncByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลเหนี่ยวนำทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'breed') {
+      this.api.getBreedByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลผสมพันธุ์ทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abdominal') {
+      this.api.getPregnantByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลตรวจท้องทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'delivery') {
+      this.api.getDeliveryByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลคลอดทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abortion') {
+      this.api.getAbortionByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลโคแท้งทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'nurture') {
+      this.api.getTreatmentByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลรักษาทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'dishorn') {
+      this.api.getHorndeteringByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลสูญเขาทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'branding') {
+      this.api.getBrandingByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลตีเบอร์ทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    }  else if(this.name == 'wean') {
+      this.api.getWeanByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลหย่านมทั้งหมด';
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+      })
+    }
+  }
+
+  queryDataDate(){
+    var month = ['มกราคม','กุมภาพันธุ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฏาคม','สิงหาคม'
+    ,'กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+    var d = new Date(this.start_date);
+    var start = d.getDate()+' '+month[d.getMonth()]+' '+(d.getFullYear()+543);
+
+    d = new Date(this.end_date);
+    var end = d.getDate()+' '+month[d.getMonth()]+' '+(d.getFullYear()+543);
+    console.log('Start: '+this.start_date,'End: '+this.end_date)
+
+    if(this.name == 'cattle'){
+      this.api.getCattleByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        console.log(data);
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลโควันที่ '+ start +' ถึง ' + end;
+       this.data_cattle = Object.keys(data).map(key=>data[key]);
+       this.createPdf();
+    } else {
+      this.data_cattle = [];
+      swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+    }
+  })
+    } else if(this.name == 'maintain') {
+      this.api.getMaintainByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลบำรุงวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'synchronize') {
+      this.api.getSyncByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลเหนี่ยวนำวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'breed') {
+      this.api.getBreedByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลผสมพันธุ์วันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abdominal') {
+      this.api.getPregnantByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลตรวจท้องวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'delivery') {
+      this.api.getDeliveryByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลคลอดวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abortion') {
+      this.api.getAbortionByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลโคแท้งวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'nurture') {
+      this.api.getTreatmentByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลรักษาวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'dishorn') {
+      this.api.getDishornByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลสูญเขาวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'branding') {
+      this.api.getBrandingByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลตีเบอร์วันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    }  else if(this.name == 'wean') {
+      this.api.getWeanByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.head_report = 'รายงานข้อมูลหย่านมวันที่ '+ start +' ถึง ' + end;
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.createPdf();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+      })
+    }
+  }
+
+
+  openExcel(){
+    if(this.checkTypeReport == true){
+      if(this.name == '') {
+        swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+      }
+      else {
+        this.queryDataAllExcel();
+      }
+    }
+    else {
+      if(this.name == '' || this.start_date == '' || this.end_date == ''){
+        swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+      } else {
+
+        this.queryDataDateExcel()
+      }
+    }
+  }
+
+
+  queryDataAllExcel(){
+    if(this.name == 'cattle'){
+      this.api.getAllCattle(this.user).subscribe(data=>{
+        if(data!=null){
+
+       this.data_cattle = Object.keys(data).map(key=>data[key]);
+       this.OnExport();
+    } else {
+      this.data_cattle = [];
+      swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+    }
+  })
+    } else if(this.name == 'maintain') {
+      this.api.getMaintainByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'synchronize') {
+      this.api.getSyncByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'breed') {
+      this.api.getBreedByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abdominal') {
+      this.api.getPregnantByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'delivery') {
+      this.api.getDeliveryByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abortion') {
+      this.api.getAbortionByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'nurture') {
+      this.api.getTreatmentByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'dishorn') {
+      this.api.getHorndeteringByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'branding') {
+      this.api.getBrandingByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    }  else if(this.name == 'wean') {
+      this.api.getWeanByUser(this.user).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+      })
+    }
+  }
+
+  queryDataDateExcel(){
+    if(this.name == 'cattle'){
+      this.api.getCattleByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        console.log(data);
+        if(data!=null){
+       this.data_cattle = Object.keys(data).map(key=>data[key]);
+       this.OnExport();
+    } else {
+      this.data_cattle = [];
+      swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+    }
+  })
+    } else if(this.name == 'maintain') {
+      this.api.getMaintainByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'synchronize') {
+      this.api.getSyncByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'breed') {
+      this.api.getBreedByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abdominal') {
+      this.api.getPregnantByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();;
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'delivery') {
+      this.api.getDeliveryByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'abortion') {
+      this.api.getAbortionByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'nurture') {
+      this.api.getTreatmentByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'dishorn') {
+      this.api.getDishornByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    } else if(this.name == 'branding') {
+      this.api.getBrandingByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+       console.log(this.data_cattle)
+      })
+    }  else if(this.name == 'wean') {
+      this.api.getWeanByDate(this.user,this.start_date,this.end_date).subscribe(data=>{
+        if(data!=null){
+          this.data_cattle = Object.keys(data).map(key=>data[key]);
+          this.OnExport();
+       } else {
+         this.data_cattle = [];
+         swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
+       }
+      })
+    }
+  }
+
 }

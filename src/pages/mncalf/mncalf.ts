@@ -33,7 +33,18 @@ export class MncalfPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public menu:MenuController,
     private api: NodeapiProvider,private alertCtrl: AlertController) {
     this.user=this.navParams.get('user');
-
+    this.api.getBreed(this.user).subscribe(d=>{
+      Object.keys(d).map(key=>d[key]).forEach(d1=>{
+        this.breed.push(d1.strian);
+        this.sub_type.push(d1.strian);
+      })
+    })
+    this.api.getColor(this.user).subscribe(d=>{
+      Object.keys(d).map(key=>d[key]).forEach(d1=>{
+        this.color.push(d1.color);
+      })
+      console.log(d);
+    })
 
   }
 

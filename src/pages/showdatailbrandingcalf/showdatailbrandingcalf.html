@@ -32,7 +32,8 @@
   </ion-item>
   <ion-item>
     <ion-label>วันที่ตีเบอร์: </ion-label>
-    <ion-input type="date" name="datebran" ngModel="{{data.datebran}}"  [disabled]="edit"></ion-input>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{data.datebran}}"  name="datebran" [disabled]="edit"></ion-datetime>
+
   </ion-item>
   <ion-item>
     <ion-label >ผู้ปฏิบัติการ: </ion-label>

@@ -27,7 +27,7 @@
   </ion-item>
   <ion-item>
     <ion-label>วันที่หย่านม: </ion-label>
-    <ion-input type="date" name="datewean" ngModel="{{data.datewean}}" [disabled]="edit"></ion-input>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน" ngModel="{{data.datewean}}"name="datewean" [disabled]="edit"></ion-datetime>
   </ion-item>
   <ion-item>
       <ion-label>น้ำหนักหย่านม(กก.): </ion-label>

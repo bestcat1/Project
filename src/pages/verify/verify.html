@@ -34,16 +34,16 @@
                 <ion-row>
                   <ion-col>
                     <ion-card class="c1" (click)="showmt()">
-                      <p>
-                        <ion-list></ion-list>
+                      <p align="right">
+                        <ion-label>ข้อมูลการบำรุง</ion-label>
                       </p>
                     </ion-card>
                   </ion-col>
                   <ion-col>
                     <ion-card class="c2" (click)="showsyc()">
-                      <p>
-                        <ion-list></ion-list>
-                      </p>
+                        <p align="right">
+                            <ion-label>ข้อมูลการบำรุง</ion-label>
+                          </p>
                     </ion-card>
                   </ion-col>
                 </ion-row>
@@ -52,9 +52,9 @@
                 <ion-row>
                   <ion-col>
                     <ion-card class="c3" (click)="showbreed()">
-                      <p>
-                        <ion-list></ion-list>
-                      </p>
+                        <p align="right">
+                            <ion-label>ข้อมูลการผสมพันธุ์</ion-label>
+                          </p>
                     </ion-card>
                   </ion-col>
 
@@ -62,9 +62,9 @@
 
                   <ion-col>
                     <ion-card class="c4" (click)="showabd()">
-                      <p>
-                        <ion-list></ion-list>
-                      </p>
+                        <p align="right">
+                            <ion-label>ข้อมูลการตรวจท้อง</ion-label>
+                          </p>
                     </ion-card>
                   </ion-col>
                 </ion-row>
@@ -72,26 +72,26 @@
                 <ion-row>
                   <ion-col>
                     <ion-card class="c5" (click)="showdrv()">
-                      <p>
-                        <ion-list></ion-list>
-                      </p>
+                        <p align="right">
+                            <ion-label>ข้อมูลการคลอด</ion-label>
+                          </p>
                     </ion-card>
                   </ion-col>
 
                   <ion-col>
                     <ion-card class="c6" (click)="showabortion()">
-                      <p>
-                        <ion-list></ion-list>
-                      </p>
+                        <p align="right">
+                            <ion-label>ข้อมูลโคแท้ง</ion-label>
+                          </p>
                     </ion-card>
                   </ion-col>
                 </ion-row>
 
                 <ion-row>
                   <ion-card class="c7" (click)="shownt()">
-                    <p>
-                      <ion-list></ion-list>
-                    </p>
+                      <p align="right">
+                          <ion-label>ข้อมูลการรักษา</ion-label>
+                        </p>
                   </ion-card>
                 </ion-row>
 
@@ -100,9 +100,9 @@
                 <br>ข้อมูลการจัดการลูกโค
                 <ion-row>
                   <ion-card class="c8" (click)="showdhc()">
-                    <p>
-                      <ion-list></ion-list>
-                    </p>
+                      <p align="right">
+                          <ion-label>ข้อมูลการสูญเขา</ion-label>
+                        </p>
                   </ion-card>
                   <!-- <button type="submit" ion-button block color="light" (click)="showdhc()">
                     ข้อมูลการสูญเขา
@@ -111,9 +111,9 @@
 
                 <ion-row>
                   <ion-card class="c9" (click)="showbdc()">
-                    <p>
-                      <ion-list></ion-list>
-                    </p>
+                      <p align="right">
+                          <ion-label>ข้อมูลการตีเบอร์</ion-label>
+                        </p>
                   </ion-card>
                   <!-- <button type="submit" ion-button block color="light" (click)="showbdc()">
                     ข้อมูลการตีเบอร์
@@ -122,9 +122,9 @@
 
                 <ion-row>
                   <ion-card class="c10" (click)="showwc()">
-                    <p>
-                      <ion-list></ion-list>
-                    </p>
+                      <p align="right">
+                          <ion-label>ข้อมูลการหย่านม</ion-label>
+                        </p>
                   </ion-card>
                   <!-- <button type="submit" ion-button block color="light" (click)="showwc()">
                     ข้อมูลการหย่านม
@@ -138,10 +138,10 @@
           <ion-list *ngSwitchCase="'report'">
               <ion-list>
                   <h4><p align="center">เลือกประเภทรายงาน</p></h4>
-                  <ion-item>
+                  <ion-item class="list-radius">
                     <ion-label><ion-icon name="md-archive"></ion-icon>&nbsp;รายงาน</ion-label>
                     <ion-select ngModel name="typereport" (ionChange)="typereport($event)" interface="action-sheet" cancelText="ยกเลิก">
-                      <ion-option value="cattle">ข้อมูลโคทั้งหมด</ion-option>
+                      <ion-option value="cattle">ข้อมูลโค</ion-option>
                       <ion-option value="maintain">ข้อมูลการบำรุง</ion-option>
                       <ion-option value="synchronize">ข้อมูลการเหนี่ยวนำ</ion-option>
                       <ion-option value="breed">ข้อมูลการผสมพันธุ์</ion-option>
@@ -156,9 +156,41 @@
                     </ion-select>
                   </ion-item>
                 </ion-list>
+
+
+                <p align="center" [hidden]="checkTypeReport == false">
+                    <button type="button" ion-button color="primary" round (click)="selectTypeReport(true)">ข้อมูลทั้งหมด</button>
+                    <button type="button" ion-button color="white" round (click)="selectTypeReport(false)">ข้อมูลช่วงวัน</button>
+                </p>
+                <p align="center" [hidden]="checkTypeReport == true">
+                    <button type="button" ion-button color="white" round (click)="selectTypeReport(true)">ข้อมูลทั้งหมด</button>
+                    <button type="button" ion-button color="primary" round (click)="selectTypeReport(false)">ข้อมูลช่วงวัน</button>
+                </p>
+
+
+                <ion-row [hidden]="checkTypeReport == true">
+                    <ion-col col-6>
+                        <ion-item class="list-radius">
+                            <ion-label stacked>วันที่เริ่ม:</ion-label>
+                            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="start_date" name="date" (ngModelChange)="test1()" placeholder="เลือกวันเริ่ม" ></ion-datetime>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col col-6>
+                        <ion-item class="list-radius">
+                            <ion-label stacked>วันที่สุดท้าย:</ion-label>
+                            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="end_date" name="date" (ngModelChange)="test2()" placeholder="เลือกวันสุดท้าย"></ion-datetime>
+                        </ion-item>
+                      </ion-col>
+                  </ion-row>
+
+
                 <p align="center">
-                    <button type="button" ion-button color="danger" round (click)="createPdf()"><ion-icon name="md-document" ></ion-icon>&nbsp;PDF</button>
-                    <button type="button" ion-button color="secondary" round (click)="OnExport()"><ion-icon name="md-browsers" ></ion-icon>&nbsp;EXCEL</button>
+                    <button type="button" ion-button color="danger" round (click)="filterDate()">Test</button>
+                </p>
+
+                <p align="center">
+                    <button type="button" ion-button color="danger" round (click)="openPDF()"><ion-icon name="md-document" ></ion-icon>&nbsp;PDF</button>
+                    <button type="button" ion-button color="secondary" round (click)="openExcel()"><ion-icon name="md-browsers" ></ion-icon>&nbsp;EXCEL</button>
                 </p>
         </ion-list>
       </div>

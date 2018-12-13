@@ -24,12 +24,12 @@
       </ion-item>
       <ion-item>
         <ion-label>วันที่วินิจฉัย :</ion-label>
-        <ion-input  type="date"  name="datediagnose" ngModel="{{data.datediagnose}}" [disabled]="edit"></ion-input>
+        <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  ngModel="{{data.datediagnose}}" name="datediagnose" [disabled]="edit"></ion-datetime>
       </ion-item>
 
       <ion-item>
         <ion-label>เวลาที่วินิจฉัย :</ion-label>
-        <ion-input type="time" name="timediagnose" ngModel="{{data.timediagnose}}" [disabled]="edit"></ion-input>
+        <ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" cancelText="ยกเลิก" doneText="ยืนยัน" ngModel="{{data.timediagnose}}"  name="timediagnose" [disabled]="edit"></ion-datetime>
       </ion-item>
 
       <ion-item>

@@ -5,6 +5,7 @@ import { GlobalProvider } from '../../providers/global/global';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+import * as firebase from 'firebase';
 
 
 
@@ -43,6 +44,7 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
   this.detail_user = value;
   this.detail_user[0].key = Object.keys(data)[0];
   console.log(this.detail_user);
+  this.myPhotosRef = firebase.storage().ref();
 })
   }
 
@@ -50,6 +52,7 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
     console.log('ionViewDidLoad ProfilePage');
   }
   takePhoto() {
+
     this.camera.getPicture({
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -60,13 +63,13 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
       targetHeight:200,
       targetWidth:200,
     }).then(imageData => {
+      this.check=1;
       this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
       this.base64Data = imageData;
 
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
-    this.check=1;
   }
 
   selectPhoto(): void {
@@ -79,17 +82,18 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
       targetHeight:200,
       targetWidth:200,
     }).then(imageData => {
+      this.check=1;
       this.myPhotoURL= "data:image/jpeg;base64,"+imageData;
       this.base64Data = imageData;
     }, error => {
 
       console.log("ERROR -> " + JSON.stringify(error));
     });
-    this.check=1;
+
   }
  uploadPhoto(data,k) {
     if(this.check==1){
-      this.myPhotosRef.child('Logo')
+      this.myPhotosRef.child('/Photos/'+this.user+'/Logo')
       .putString(this.base64Data, 'base64', { contentType: 'image/png' })
       .then((savedPicture) => {
         this.api.updateBrandByKey(this.user,k,{
@@ -101,7 +105,8 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
           logo_base64:savedPicture.downloadURL
         }).subscribe(d=>{
           if(d.status=='OK'){
-            this.viewCtrl.dismiss();
+            this.navCtrl.pop();
+          this.loader.dismiss();
             swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
           }
         });
@@ -115,7 +120,8 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
         phone_num:data.phone_num
       }).subscribe(d=>{
         if(d.status=='OK'){
-          this.viewCtrl.dismiss();
+          this.navCtrl.pop();
+          this.loader.dismiss();
           swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success")
         }
       });
@@ -140,6 +146,7 @@ this.api.getPicLogoFromStorage(this.user).subscribe(data=>{
           {
             text: 'ตกลง',
             handler: () => {
+                  this.presentLoading();
                   this.uploadPhoto(data.value,k);
 
             }

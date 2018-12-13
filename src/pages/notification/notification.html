@@ -70,12 +70,20 @@
           </ng-template>
         </ion-col> -->
         <ion-col col-1 *ngFor="let day of daysInThisMonth" (click)="test(day)">
-            <span class="currentDate" *ngIf="currentDate == day && b == y && c == x ; else otherDate">{{day}}</span>
-            <ng-template #otherDate class="otherDate">
-              {{day}}<br>
+            <!-- <span class="currentDate" *ngIf="currentDate == day && b == y && c == x ; else otherDate">{{day}}</span> -->
+            <!-- <ng-template #otherDate class="otherDate"> -->
+              <div class ="current"*ngIf="(currentDate == day && b == y && c == x ) && !checkEvent(day)"><b>{{day}}</b></div>
+              <div *ngIf="(currentDate != day || b != y || c != x ) && !checkEvent(day)">{{day}}</div>
               <!-- <div class="event-bullet" *ngIf="checkEvent(day)"></div> -->
-              <ion-icon name="alarm" *ngIf="checkEvent(day)"></ion-icon>
-            </ng-template>
+              <div class="alert" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-after7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-after3" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-after0" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-current" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-current7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-current3" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert-current0" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+            <!-- </ng-template> -->
           </ion-col>
         <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
       </ion-row>

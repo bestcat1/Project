@@ -96,7 +96,6 @@ else{
       var date2 = new Date(this.exp);
       var timeDiff = (date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      alert(diffDays);
       if(diffDays<0){
         this.exp = this.mfd;
       }

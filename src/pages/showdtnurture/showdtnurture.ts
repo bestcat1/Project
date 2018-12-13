@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 /**
@@ -22,7 +22,11 @@ export class ShowdtnurturePage {
   use_drug=[];
   key_use_drug=[];
   edit=true;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
+  add_data_drug=[];
+  edit_treatment;
+  loader;
+  constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider
+    ,private loadingCtrl: LoadingController) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
     this.api.getUser(this.user).subscribe(data=>{
@@ -65,20 +69,38 @@ export class ShowdtnurturePage {
     console.log('ionViewDidLoad ShowdtnurturePage');
   }
   nt(data:NgForm){
+    this.presentLoading();
     console.log(data.value);
     console.log(this.key_use_drug);
-    for(let i=0;i<this.key_use_drug.length;i++){
-      this.api.deleteDrugTreatmentByKey(this.user,this.data.id,this.key_use_drug[i]).subscribe();
-    }
+    this.edit_treatment = data.value;
+
     for(let i=0;i<this.use_drug.length;i++){
-      this.api.addTreatmentDrug(this.user,this.data.id,{number_of_treatment:Number(this.data.number_of_treatment),drug_name:this.use_drug[i]}).subscribe();
+      this.add_data_drug.push({number_of_treatment:Number(this.data.number_of_treatment),drug_name:this.use_drug[i]});
     }
-    this.api.updateTreatmentByKey(this.user,this.data.key,data.value).subscribe(d=>{
-      if(d.status=='OK'){
-        swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
-        this.navCtrl.pop();
-      }
-    });
+    this.uploader(0);
+  }
+
+  uploader(i) {
+
+    if (i < this.key_use_drug.length) {
+        this.api.deleteDrugTreatmentByKey(this.user,this.data.id,this.key_use_drug[i]).subscribe(d=>{
+          if(d.status == 'OK'){
+            this.uploader(i + 1);
+          }
+      });
+    } else {
+      this.api.addTreatmentDrug(this.user,this.data.id,this.add_data_drug).subscribe(d1=>{
+        if(d1.status == 'OK'){
+          this.api.updateTreatmentByKey(this.user,this.data.key,this.edit_treatment).subscribe(d=>{
+            if(d.status=='OK'){
+              swal("เสร็จสิ้น", "แก้ไขข้อมูลเรียบร้อยแล้ว", "success");
+              this.navCtrl.pop();
+              this.loader.dismiss();
+            }
+          });
+        }
+      });
+    }
   }
   adddrug(d)
   {
@@ -89,5 +111,11 @@ export class ShowdtnurturePage {
   }
   check(a){
     this.edit = a;
+  }
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "กรุณารอสักครู่...",
+    });
+    this.loader.present();
   }
 }

@@ -414,4 +414,48 @@ export class NodeapiProvider {
   updateNumberOfBreeding(user,data){
     return this.http.post(URL_API.NODE_API+'/cattle/updateNumber/'+user,data).pipe(map(res=>res.json()));
   }
+
+  getCattleByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/cattle/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getMaintainByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/maintain/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getSyncByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/synchronize/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getBreedByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/breed/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getPregnantByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/pregnant/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getDeliveryByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/delivery/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getAbortionByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/abortion/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getTreatmentByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/treatment/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+
+  getDishornByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/dishorn/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+
+  getBrandingByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/branding/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
+  getWeanByDate(user,start,end){
+    return this.http.get(URL_API.NODE_API+'/branding/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
+  }
 }

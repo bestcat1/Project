@@ -152,13 +152,13 @@ page-notification {
   }
 }
 .alert{
-  background-image: url('../../assets/icon/Alert.png');
+  background-image: url('../assets/icon/Alert.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
 .alert-current{
-  background-image: url('../../assets/icon/Alert.png');
+  background-image: url('../assets/icon/Alert.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
@@ -168,40 +168,52 @@ page-notification {
   background-color: aquamarine
 }
 .alert-after7{
-  background-image: url('../../assets/icon/Alert7.png');
+  background-image: url('../assets/icon/Alert7.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
 .alert-after3{
-  background-image: url('../../assets/icon/Alert3.png');
+  background-image: url('../assets/icon/Alert3.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
 .alert-after0{
-  background-image: url('../../assets/icon/Alert0.png');
+  background-image: url('../assets/icon/Alert0.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
-
+.alert-afterafter{
+  background-image: url('../assets/icon/AlertAfter.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.alert-currentafter{
+  background-image: url('../assets/icon/AlertAfter.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: aquamarine
+}
 .alert-current7{
-  background-image: url('../../assets/icon/Alert7.png');
+  background-image: url('../assets/icon/Alert7.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
   background-color: aquamarine
 }
 .alert-current3{
-  background-image: url('../../assets/icon/Alert3.png');
+  background-image: url('../assets/icon/Alert3.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;
   background-color: aquamarine
 }
 .alert-current0{
-  background-image: url('../../assets/icon/Alert0.png');
+  background-image: url('../assets/icon/Alert0.png');
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center center;

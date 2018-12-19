@@ -31,6 +31,7 @@
     <ion-item>
         <ion-label >วิธีที่ใช้ในการสูญเขา: </ion-label>
         <ion-select ngModel="{{data.method}}" name="method" placeholder="เลือกการสูญเขา"  [disabled]="edit">
+            <ion-option value="ไม่มีเขา">ไม่มีเขา</ion-option>
             <ion-option value="ความร้อน">ความร้อน</ion-option>
             <ion-option value="ตัดเขา">ตัดเขา</ion-option>
             <ion-option value="สารเคมี">สารเคมี</ion-option>
@@ -50,7 +51,7 @@
       <ion-label>หมายเหตุ: </ion-label>
       <ion-input type="text" name="note" ngModel="{{data.note}}"  [disabled]="edit"></ion-input >
     </ion-item>
-        <p align="center" [hidden]="!edit">
+        <p align="center" [hidden]="!edit || privilege!='เจ้าของฟาร์ม'">
             <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
         </p>
         <p align="center" [hidden]="edit">

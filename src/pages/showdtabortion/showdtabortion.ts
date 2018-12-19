@@ -20,10 +20,12 @@ detail;
 user;
 operator=[];
 edit = true;
+privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
 this.detail = this.navParams.get('detail');
 this.user = this.navParams.get('user');
 console.log(this.user);
+this.privilege = this.navParams.get('privilege');
 this.api.getUser(this.user).subscribe(data=>{
   console.log(data);
   if(data!=null){

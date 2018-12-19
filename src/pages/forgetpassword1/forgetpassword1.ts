@@ -51,7 +51,7 @@ email;
 
       this.checkanwser=true;
       this.checkcpass=true;
-      this.viewCtrl.dismiss();
+      this.navCtrl.pop();
     }
     else{
 

@@ -50,7 +50,7 @@
     <ion-input type="text" name="note" ngModel="{{data.note}}"  [disabled]="edit"></ion-input>
   </ion-item>
     <br>
-    <p align="center" [hidden]="!edit">
+    <p align="center" [hidden]="!edit || privilege!='เจ้าของฟาร์ม'">
         <button type="button" ion-button color="secondary" round (click)="check(false)"><ion-icon name="md-create" ></ion-icon>&nbsp;แก้ไข</button>
     </p>
     <p align="center" [hidden]="edit">

@@ -42,6 +42,8 @@ time_length;
       for(let i=0;i<value.length;i++){
         this.data_drug[i].key = Object.keys(data)[i];
       }
+    } else {
+      this.data_drug = [];
     }
     })
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
@@ -18,11 +18,12 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 export class SettingprogrammaintainPage {
   user;
   item$
+  data_maintain = [];
   pro_maintain:String;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public viewCtrl :ViewController,private api:NodeapiProvider,
+    private alertCtrl:AlertController
     ) {
-    this.user=this.navParams.get('user');
 
   }
 
@@ -35,7 +36,13 @@ export class SettingprogrammaintainPage {
       for(let i=0;i<values.length;i++){
         this.item$[i].key = Object.keys(data)[i];
       }
+    } else {
+      this.item$ = [];
     }
+    })
+    this.user=this.navParams.get('user');
+    this.api.getMaintainByUser(this.user).subscribe(data=>{
+      this.data_maintain = Object.keys(data).map(key=>data[key]);
     })
   }
 
@@ -70,12 +77,52 @@ export class SettingprogrammaintainPage {
     }
 
   }
-  removepro(k){
-    this.api.removeProgram_maintain(this.user,k).subscribe(d=>{
-      if(d.status=='OK'){
-        this.ionViewWillEnter();
+  removepro(k,t){
+    var c=0;
+    var check=0;
+    if(this.data_maintain.length!=0){
+      for (let i = 0;i<this.data_maintain.length;i++){
+        if(this.data_maintain[i].type_of_maintain == t){
+          c=c;
+          check++;
+        }
+        else {
+          c++;
+        }
       }
-    });
+    }
+
+    if(c==this.data_maintain.length){
+      this.api.removeProgram_maintain(this.user,k).subscribe(d=>{
+        if(d.status=='OK'){
+          this.ionViewWillEnter();
+        }
+      });
+    }
+    else {
+      let alert37 = this.alertCtrl.create({
+        title: 'คำเตือน',
+        subTitle: 'มีการใช้ข้อมูลสีโค '+ check +' รายการ<br>กรุณาแก้่ไขข้อมูลโค',
+        buttons: [
+          {
+            text: 'ยกเลิก',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+
+            }
+          },
+          {
+            text: 'แก้ไขข้มูล',
+            handler: () => {
+              this.navCtrl.push("ShowmaintainPage",{user:this.user,privilege:'เจ้าของฟาร์ม'});
+            }
+          }
+        ]
+      });
+      alert37.present();
+    }
+
 
   }
   setpromaintain(p){

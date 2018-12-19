@@ -98,6 +98,8 @@ import { SettingherdnumPageModule } from '../pages/settingherdnum/settingherdnum
 import { SearchFarmPageModule } from '../pages/search-farm/search-farm.module';
 import { ShowabortionPageModule } from '../pages/showabortion/showabortion.module';
 import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion.module';
+import { EditdetailcalfPageModule } from '../pages/editdetailcalf/editdetailcalf.module';
+import { SettingdetaildrugPageModule } from '../pages/settingdetaildrug/settingdetaildrug.module';
 
 @NgModule({
   declarations: [
@@ -187,7 +189,8 @@ import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion
     SearchFarmPageModule,
     ShowabortionPageModule,
     ShowdtabortionPageModule,
-
+    EditdetailcalfPageModule,
+    SettingdetaildrugPageModule
   ],
 
   bootstrap: [IonicApp],

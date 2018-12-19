@@ -1,0 +1,59 @@
+<!--
+  Generated template for the SettingdetaildrugPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="dark-blue">
+    <ion-title>แก้ไขข้อมูลยา</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form (ngSubmit)="adddrug(dForm)" #dForm="ngForm" >
+        <ion-card>
+          <ion-item>
+            <ion-label stacked>ชื่อยา</ion-label>
+              <ion-input type="text" name="drug_name" placeholder="กรอกชื่อยา" ngModel [(ngModel)]="detail.drug_name"></ion-input>
+          </ion-item>
+          <ion-row>
+          <ion-col col-6>
+          <ion-item>
+              <ion-label stacked>ชื่อสามัญ</ion-label>
+             <ion-input  type="text" name="common_drug" ngModel placeholder="กรอกชื่อสามัญ" [(ngModel)]="detail.common_drug"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-6>
+            <ion-item>
+            <ion-label class="myCustomSelect" stacked>ขนาด(cc.)</ion-label>
+            <ion-input type="number" name="dosage" ngModel placeholder="กรอกขนาดยา(cc.)" [(ngModel)]="detail.dosage"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6>
+            <ion-item>
+                <ion-label stacked>วันผลิต</ion-label>
+                <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" placeholder="กรอกวันผลิต" [(ngModel)]="detail.mfd_date" cancelText="ยกเลิก" doneText="ยืนยัน"  name="mfd_date" (ngModelChange)="test()" ></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col col-6>
+              <ion-item>
+              <ion-label class="myCustomSelect" stacked>วันหมดอายุ</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" placeholder="กรอกวันหมดอายุ" [(ngModel)]="detail.exp_date" cancelText="ยกเลิก" doneText="ยืนยัน"  name="exp_date" (ngModelChange)="test1()" ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+
+        </ion-card>
+        <p align="center">
+            <button type="button" ion-button round color="danger" (click)="cancel()">ย้อนกลับ</button>
+          <button type="submit" ion-button round color="secondary">บันทึก</button>
+        </p>
+    </form>
+</ion-content>

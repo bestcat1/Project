@@ -22,10 +22,13 @@ export class ShowdtmaintainPage {
 d:any;
 edit=true;
 operator=[];
+privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.d=this.navParams.get('key');;
+    this.privilege = this.navParams.get('privilege');
+    console.log('aaaa: '+this.privilege);
     this.api.getMaintainByKey(this.user,this.d.key).subscribe(data=>{
       console.log(data);
       if(data!=null){

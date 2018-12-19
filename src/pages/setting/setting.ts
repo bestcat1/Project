@@ -112,13 +112,15 @@ type;
 settingNoti(){
   this.api.showNotification(this.user).subscribe(data => {
     this.settingnotification = Object.keys(data).map(key => data[key]);
-    for (let i = 0; i < this.notification.length; i++) {
+    for (let i = 0; i < this.settingnotification.length; i++) {
       this.settingnotification[i].key = Object.keys(data)[i];
+      console.log(Object.keys(data)[i]);
     }
   })
 }
 
 edit(k, d, l, n) {
+  console.log(k,d,l,n);
   let alert = this.alertCtrl.create({
     title: l + '(' + n + ')',
     subTitle: 'แก้ไขจำนวนวันแจ้งเตือน(วัน)',
@@ -143,6 +145,7 @@ edit(k, d, l, n) {
           this.api.editNotificationByKey(this.user, k, { day_length: data.day_length }).subscribe(d=>{
             if(d.status == 'OK'){
               this.presentToast();
+              this.settingNoti();
             }
           })
 
@@ -308,6 +311,7 @@ stherdnum(){
     handler: data => {
       this.api.updateUser(c.key,{privilege:data}).subscribe(d=>{
         if(d.status == 'OK'){
+          swal("เสร็จสิ้น", "แก้ไขสิทธิ์เรียบร้อยแล้ว", "success");
           this.settingUser();
         }
       });

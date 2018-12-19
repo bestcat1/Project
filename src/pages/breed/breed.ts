@@ -34,6 +34,7 @@ loader;
 checkType=0;
 semen='';
 check_sire_id='';
+viewDateSyc;
   constructor(public ptf:Platform,public navCtrl: NavController
     , public navParams: NavParams,public alertCtrl:AlertController
     ,private api : NodeapiProvider,
@@ -69,6 +70,9 @@ check_sire_id='';
       if(data!=null){
       var value = Object.keys(data).map(key=>data[key]);
       this.not_oestrus = value[0].day_length;
+      var day = new Date(this.date);
+      day.setDate(day.getDate()+Number(value[0].day_length));
+      this.viewDateSyc =day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day)
       }
     });
 
@@ -207,6 +211,10 @@ check_sire_id='';
     day.setDate(day.getDate()+Number(this.noti_pregnant));
     this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
     console.log(this.viewDate);
+
+    var day2 = new Date(this.date);
+    day2.setDate(day2.getDate()+Number(this.not_oestrus));
+    this.viewDateSyc=day2.getFullYear()+"-"+this.month_of_the_year(day2)+"-"+this.day_of_the_month(day2);
  }
  presentLoading() {
   this.loader = this.loadingCtrl.create({
@@ -219,6 +227,12 @@ updateList(a){
   this.noti_pregnant = a.target.value;
   this.test();
 }
+updateList1(b){
+  console.log(b.target.value);
+  this.not_oestrus = b.target.value;
+  this.test();
+}
+
 selectType(){
   let alert = this.alertCtrl.create();
   alert.setTitle('ตัวเลือกการผสมพันธุ์');

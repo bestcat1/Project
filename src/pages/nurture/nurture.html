@@ -21,13 +21,13 @@
       <ion-input  type="text"  name="id" ngModel="{{id}}" readonly></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>รักษาครั้งที่ :</ion-label>
+      <ion-label>จำนวนครั้งที่รักษา :</ion-label>
       <ion-input  type="number"  name="number_of_treatment" ngModel="{{number_of_treatment}}" readonly></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>วันที่วินิจฉัย :</ion-label>
 
-      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="datediagnose"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MMMM YYYY" cancelText="ยกเลิก" doneText="ยืนยัน"  [(ngModel)]="date" name="datediagnose" (ngModelChange)="test1()"></ion-datetime>
     </ion-item>
 
     <ion-item>
@@ -61,6 +61,14 @@
         <ion-option *ngFor="let drug of drugs" value="{{drug.drug_name}}">{{drug.drug_name}}</ion-option>
       </ion-select>
     </ion-item>
+    <ion-card>
+      <ion-row>
+        <ion-col>
+        <p align="center"><b>วันที่ทำบำรุงแม่พันธุ์</b></p>
+        <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+      </ion-col>
+      </ion-row>
+    </ion-card>
     <ion-label>ยาทีใช้ในการรักษา</ion-label>
     <ion-card>
       <ion-list>

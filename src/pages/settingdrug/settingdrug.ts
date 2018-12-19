@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ModalController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
@@ -24,7 +24,8 @@ dosage;
 mfd='';
 exp='';
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,private api:NodeapiProvider) {
+    ,private api:NodeapiProvider,public actionSheetCtrl: ActionSheetController,
+    public modalCtrl: ModalController) {
     this.user=this.navParams.get('user');
     this.drug_name='';
     this.common_drug='';
@@ -66,6 +67,8 @@ else{
           this.drug_name='';
           this.common_drug='';
           this.dosage='';
+          this.mfd='';
+          this.exp='';
           this.ionViewWillEnter();
         }
       });
@@ -80,11 +83,42 @@ else{
 
   }
   delete(k){
-    this.api.removeDrug(this.user,k).subscribe(d=>{
+    console.log(k);
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'ตัวเลือกการตั้งค่า',
+      buttons: [
+        {
+          text: 'แก้ไข',
+          icon: 'md-settings',
+          handler: () => {
+            let profileModal = this.modalCtrl.create("SettingdetaildrugPage", { user:this.user,detail: k });
+               profileModal.present();
+          }
+        },
+        {
+          text: 'ลบ',
+          role: 'destructive',
+          icon: 'ios-trash',
+          handler: () => {
+             this.api.removeDrug(this.user,k.key).subscribe(d=>{
       if(d.status=='OK'){
         this.ionViewWillEnter();
       }
     });
+          }
+        },{
+          text: 'ยกเลิก',
+          role: 'cancel',
+          icon: 'md-close',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+
+
 
   }
   test(){

@@ -75,14 +75,18 @@
               <div class ="current"*ngIf="(currentDate == day && b == y && c == x ) && !checkEvent(day)"><b>{{day}}</b></div>
               <div *ngIf="(currentDate != day || b != y || c != x ) && !checkEvent(day)">{{day}}</div>
               <!-- <div class="event-bullet" *ngIf="checkEvent(day)"></div> -->
-              <div class="alert" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-after7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-after3" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-after0" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && checkEventlength0(day) && !(currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-current" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-current7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-current3" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
-              <div class="alert-current0" *ngIf="checkEvent(day) && checkEventlength(day) && checkEventlength3(day) && checkEventlength0(day) && (currentDate == day && b == y && c == x )"><b>{{day}}</b></div>
+              <div class="alert" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-after7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-after3" *ngIf="checkEvent(day) && !checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-after0" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && checkEventlength0(day) && !(currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-afterafter" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && !(currentDate == day && b == y && c == x ) && checkEventlengthAfter(day)"><b>{{day}}</b></div>
+
+
+              <div class="alert-current" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-current7" *ngIf="checkEvent(day) && checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-current3" *ngIf="checkEvent(day) && !checkEventlength(day) && checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-current0" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && checkEventlength0(day) && (currentDate == day && b == y && c == x ) && !checkEventlengthAfter(day)"><b>{{day}}</b></div>
+              <div class="alert-currentafter" *ngIf="checkEvent(day) && !checkEventlength(day) && !checkEventlength3(day) && !checkEventlength0(day) && (currentDate == day && b == y && c == x ) && checkEventlengthAfter(day)"><b>{{day}}</b></div>
             <!-- </ng-template> -->
           </ion-col>
         <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
@@ -92,8 +96,8 @@
   <p align="center">{{selectDate}}</p>
   <ion-card *ngFor="let d of detailDate">
     <ion-item>
-        <ion-label >หมายเลยโค: {{d.id_cattle}} ประเภท: {{d.type}}  </ion-label>
-        <button item-end ion-button type="button" color="danger" (click)="delete(d.key,d.date)">ลบ</button>
+        <ion-label >หมายเลยโค: {{d.id_cattle}} รายการ: {{d.type}}  </ion-label>
+        <button item-end ion-button type="button" color="danger" (click)="delete(d.key,d.date)" [hidden]="privilege!='เจ้าของฟาร์ม'" >ลบ</button>
     </ion-item>
 
   </ion-card>

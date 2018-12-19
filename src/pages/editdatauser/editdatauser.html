@@ -20,10 +20,21 @@
           <ion-label floating>Username: </ion-label>
           <ion-input type="text"class="mFont" name="user" ngModel={{u.user}} [disabled]="true"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label floating>Password: </ion-label>
-          <ion-input type="text" class="mFont" name="pass" ngModel="{{u.pass}}"></ion-input>
-        </ion-item>
+
+      <ion-row>
+        <ion-col col-9>
+            <ion-item>
+                <ion-label >Password: </ion-label>
+                <ion-input type="text" class="mFont" name="pass" ngModel="{{u.pass}}" disabled></ion-input>
+              </ion-item>
+        </ion-col>
+        <ion-col col-3>
+          <button ion-button type="button" (click)="changPass(u.email)">เปลี่ยนรหัส</button>
+          </ion-col>
+        </ion-row>
+
+
+
         <ion-item>
             <ion-label floating>คำถามเมื่อลืมรหัสผ่าน</ion-label>
             <ion-input type="text" class="mFont" name="question" ngModel="{{u.question}}"></ion-input>

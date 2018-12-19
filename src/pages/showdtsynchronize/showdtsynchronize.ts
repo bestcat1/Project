@@ -25,11 +25,13 @@ pro;
 operator = [];
 edit=true;
 DetailPro;
+privilege
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public modalCtrl:ModalController,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
     this.pro = this.data.program_sync;
+    this.privilege = this.navParams.get('privilege');
     this.api.getUser(this.user).subscribe(data=>{
       if(data!=null){
       var values = Object.keys(data).map(key => data[key]);

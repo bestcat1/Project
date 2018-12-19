@@ -30,16 +30,19 @@ x;y;
 check7day=[];
 check3day=[];
 check0day=[];
+checkAfter = [];
   monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
   "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษศิกายน", "ธันวาคม"
 ];;
   currentMonth: any;
   currentYear: any;
   currentDate: any;
-
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public localNotifications: LocalNotifications, private api: NodeapiProvider) {
     this.user = this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
+    console.log(this.privilege);
      this.onInit();
     this.date = new Date();
     this.a = new Date();
@@ -71,6 +74,24 @@ check0day=[];
   }
 
   onInit(){
+
+    var test = new Date();
+    var thisDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
+    this.api.getDateByDate(this.user,thisDate).subscribe(data=>{
+      if(data!=null){
+        var values = Object.keys(data).map(key=>data[key]);
+        this.detailDate = values;
+        for(let i=0;i<values.length;i++){
+          this.detailDate[i].key = Object.keys(data)[i];
+        }
+      }
+      else{
+        this.detailDate = [];
+      }
+
+    })
+
+
     this.notification = [];
     this.api.showAlertDate(this.user).subscribe(data => {
       if(data!=null){
@@ -93,6 +114,8 @@ check0day=[];
                 this.check3day.push(values[i]);
               } else if(diffDays ==  0){
                 this.check0day.push(values[i]);
+              } else if(diffDays < 0) {
+                this.checkAfter.push(values[i]);
               }
             }
           });
@@ -113,7 +136,7 @@ check0day=[];
       Object.keys(data).forEach(snap=>{
         console.log(snap);
         this.api.showAlertDateDetail(this.user,snap).subscribe(element=>{
-          console.log(Object.keys(element).length);
+          console.log(Object.keys(element).length,i);
           let day = new Date(snap).getDate();
           let year = new Date(snap).getFullYear();
           let month = new Date(snap).getMonth();
@@ -124,7 +147,9 @@ check0day=[];
         text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
         trigger: { at: new Date(time1) },
        });
+       i++;
         })
+
       })
 
     })
@@ -282,6 +307,22 @@ checkEventlength0(day) {
   return hasEvent;
 }
 
+checkEventlengthAfter(day) {
+  var hasEvent = false;
+  var thisDate1 = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+day;
+  for(let i=0;i<this.checkAfter.length;i++){
+    var d = new Date(this.checkAfter[i].date)
+    var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    if(date == thisDate1){
+      hasEvent = true;
+      break;
+    }
+    else{
+      hasEvent = false;
+    }
+  }
+  return hasEvent;
+}
 
 day_of_the_month(d)
   {

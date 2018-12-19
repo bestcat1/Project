@@ -19,10 +19,12 @@ edit:boolean=true;
 user;
 data;
 operator=[];
+privilege
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public viewCtrl:ViewController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.data=this.navParams.get('id');
+    this.privilege = this.navParams.get('privilege');
     this.api.getUser(this.user).subscribe(data=>{
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);

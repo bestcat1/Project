@@ -34,8 +34,8 @@ export class MyApp {
   lname;
   user;
   myPhotoURL;
-
-
+  privilege;
+  adminfarm;
   pages: Array<{icon: string,title: string, component: any}>;
   constructor(private platform: Platform
     , statusBar: StatusBar, splashScreen: SplashScreen,public global:GlobalProvider,
@@ -55,6 +55,7 @@ export class MyApp {
             console.log(this.auth.getEmail());
             this.api.getUserByEmail(this.auth.getEmail()).subscribe(data=>{
               var value = Object.keys(data).map(key=>data[key]);
+              this.privilege = value[0].privilege;
                   if(value[0].privilege =='เจ้าของฟาร์ม'){
                     this.pages = [
                       { icon: 'ios-arrow-forward', title: 'จัดการใบพันธุ์ประวัติโค', component: MncattlePage },
@@ -90,6 +91,7 @@ export class MyApp {
                     this.user = value[0].user;
                     this.fname = value[0].fname;
                     this.lname = value[0].lname;
+                    this.adminfarm = value[0].adminfarm;
                     firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{
                       this.myPhotoURL=url;
                     })
@@ -105,6 +107,7 @@ export class MyApp {
                     this.user = value[0].user;
                     this.fname = value[0].fname;
                     this.lname = value[0].lname;
+                    this.adminfarm = value[0].adminfarm;
                     firebase.storage().ref().child('Photos/'+value[0].adminfarm+'/Logo').getDownloadURL().then((url)=>{
                       this.myPhotoURL=url;
                     })
@@ -118,6 +121,7 @@ export class MyApp {
                     this.fname = value[0].fname;
                     this.lname = value[0].lname;
                     this.user = value[0].user;
+                    this.adminfarm = value[0].adminfarm;
                     this.myPhotoURL = 'assets/menu1/3.png'
                     this.rootPage = SearchFarmPage;
 
@@ -163,8 +167,18 @@ export class MyApp {
 
 
     }
+    else if(page.component==MncattlePage){
+      this.nav.push("MncattlePage",{user:this.adminfarm, corral:'ทั้งหมด',type:'addcow'});
+    }
+    else if(page.component==VerifyPage){
+
+      this.nav.push("VerifyPage",{user:this.adminfarm,privilege:this.privilege});
+
+    } else if(page.component==EditdatauserPage){
+      this.nav.push("EditdatauserPage",{user:this.user});
+    }
     else{
-      this.nav.push(page.component,{user:this.user});
+      this.nav.push(page.component,{user:this.adminfarm});
     }
   }
   showAlert() {

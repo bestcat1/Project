@@ -67,7 +67,7 @@
   </ion-item>
   <ion-item>
     <ion-label>ผสมไม่ติด แจ้งเตือนวันกลับสัด(วัน): </ion-label>
-    <ion-input type="number" name="noti_oestrus" ngModel="{{not_oestrus}}" readonly="{{EPmark}}"></ion-input>
+    <ion-input type="number" name="noti_oestrus" ngModel="{{not_oestrus}}" readonly="{{EPmark}}" readonly="{{EPmark}}" max="9999"  maxlength="4" (keyup)="updateList1($event)"></ion-input>
   </ion-item>
   <ion-item>
       <ion-label>กำหนดเอง</ion-label>
@@ -80,8 +80,16 @@
     <ion-card>
         <ion-row>
           <ion-col>
-          <p align="center"><b>วันที่ผสมพันธุ์</b></p>
+          <p align="center"><b>วันที่คลอด</b></p>
           <h2><p align="center">{{viewDate | date : "dd/MM/yyyy"}}</p></h2>
+        </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card>
+        <ion-row>
+          <ion-col>
+          <p align="center"><b>วันที่เหนี่ยวนำกลับสัด</b></p>
+          <h2><p align="center">{{viewDateSyc | date : "dd/MM/yyyy"}}</p></h2>
         </ion-col>
         </ion-row>
       </ion-card>

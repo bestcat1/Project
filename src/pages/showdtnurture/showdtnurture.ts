@@ -25,10 +25,12 @@ export class ShowdtnurturePage {
   add_data_drug=[];
   edit_treatment;
   loader;
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider
     ,private loadingCtrl: LoadingController) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
     this.api.getUser(this.user).subscribe(data=>{
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);

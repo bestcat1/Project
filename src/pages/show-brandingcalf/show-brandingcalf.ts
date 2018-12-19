@@ -17,8 +17,10 @@ export class ShowBrandingcalfPage {
   public calfList:Array<any>;
   public loadedcalfList:Array<any>;
   user;
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
 
 
   }
@@ -73,6 +75,6 @@ export class ShowBrandingcalfPage {
 }
 
 showdetail(n){
-  this.navCtrl.push("ShowdatailbrandingcalfPage",{user:this.user,id:n})
+  this.navCtrl.push("ShowdatailbrandingcalfPage",{user:this.user,id:n,privilege:this.privilege})
 }
 }

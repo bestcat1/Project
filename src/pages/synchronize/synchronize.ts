@@ -170,6 +170,9 @@ promain(p){
       this.DetailPro = value;
       this.checkpro=false;
     }
+    else {
+      this.DetailPro = [];
+    }
     })
   }
 

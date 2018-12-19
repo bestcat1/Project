@@ -6,6 +6,7 @@ import { Network } from '@ionic-native/network';
 import swal from 'sweetalert';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 @Component({
@@ -27,13 +28,16 @@ export class HomePage {
      ,public menu:MenuController,public loadingCtrl: LoadingController
      ,public global:GlobalProvider,private network:Network,public toast:ToastController,
      private auth:AuthProvider,
-     private api:NodeapiProvider){
+     private api:NodeapiProvider,private splashScreen: SplashScreen){
       this.user$ = this.auth.user;
        console.log('Status: '+this.network.type);
       this.network.onDisconnect().subscribe(()=>{
         swal(
-          "ไม่สามารถเชื่อมต่อได้","กรุณาตรวจสอบการเชื่อมต่ออินเตอร์เน็ต","info"
-        )
+          "ไม่สามารถเชื่อมต่อได้","กรุณาตรวจสอบการเชื่อมต่ออินเตอร์เน็ตและลองใหม่อีกครั้ง","info"
+        ).then(value => {
+          this.splashScreen.show();
+          window.location.reload();
+        })
       });
 
 

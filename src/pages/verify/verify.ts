@@ -48,6 +48,7 @@ export class VerifyPage {
   end_date=''
   head_report=''
   checkTypeReport = true;
+  privilege;
   //==============
   constructor(public navCtrl: NavController, public navParams: NavParams,
      private plt: Platform, private file: File
@@ -56,6 +57,8 @@ export class VerifyPage {
     this.user = this.navParams.get('user');
     this.mncattle = "verify";
     this.indexreport();
+    this.privilege = this.navParams.get('privilege');
+    console.log('privilege: '+this.privilege)
   }
 
     OnExport = function ()
@@ -186,40 +189,40 @@ export class VerifyPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad VerifyPage', { user: this.user });
+    console.log('ionViewDidLoad VerifyPage', { user: this.user ,privilege:this.privilege});
   }
   showmt() {
-    this.navCtrl.push("ShowmaintainPage", { user: this.user });
+    this.navCtrl.push("ShowmaintainPage", { user: this.user ,privilege:this.privilege});
   }
   showcattle() {
-    this.navCtrl.push("ShowcattlePage", { user: this.user });
+    this.navCtrl.push("ShowcattlePage", { user: this.user ,privilege:this.privilege});
   }
   showabd() {
-    this.navCtrl.push("ShowabdominalPage", { user: this.user });
+    this.navCtrl.push("ShowabdominalPage", { user: this.user ,privilege:this.privilege});
   }
   showbdc() {
-    this.navCtrl.push("ShowBrandingcalfPage", { user: this.user });
+    this.navCtrl.push("ShowBrandingcalfPage", { user: this.user ,privilege:this.privilege});
   }
   showdrv() {
-    this.navCtrl.push("ShowdeliveryPage", { user: this.user });
+    this.navCtrl.push("ShowdeliveryPage", { user: this.user ,privilege:this.privilege});
   }
   showdhc() {
-    this.navCtrl.push("ShowDishorncalfPage", { user: this.user });
+    this.navCtrl.push("ShowDishorncalfPage", { user: this.user ,privilege:this.privilege});
   }
   shownt() {
-    this.navCtrl.push("ShownurturePage", { user: this.user });
+    this.navCtrl.push("ShownurturePage", { user: this.user ,privilege:this.privilege});
   }
   showwc() {
-    this.navCtrl.push("ShowWeancalfPage", { user: this.user });
+    this.navCtrl.push("ShowWeancalfPage", { user: this.user ,privilege:this.privilege});
   }
   showsyc() {
-    this.navCtrl.push("ShowsynchronizePage", { user: this.user });
+    this.navCtrl.push("ShowsynchronizePage", { user: this.user ,privilege:this.privilege});
   }
   showbreed() {
-    this.navCtrl.push("ShowbreedPage", { user: this.user });
+    this.navCtrl.push("ShowbreedPage", { user: this.user ,privilege:this.privilege});
   }
   showabortion(){
-    this.navCtrl.push("ShowabortionPage", { user: this.user });
+    this.navCtrl.push("ShowabortionPage", { user: this.user ,privilege:this.privilege});
   }
 
   // ============================================
@@ -250,7 +253,7 @@ export class VerifyPage {
   }
   // ==========================================================
   createPdf() {
-
+    console.log(this.data_cattle);
     this.presentLoading();
     this.api.getPicLogoFromStorage(this.user).subscribe(snap => {
       var value = Object.keys(snap).map(key => snap[key]);
@@ -300,7 +303,7 @@ export class VerifyPage {
                 ],
               },
               {
-                text: d.toDateString(), alignment: 'right', width: 50
+                text: day, alignment: 'right', width: 50
               }
             ]
           }, {
@@ -422,7 +425,7 @@ export class VerifyPage {
          }, {
            text: '\n\n',
          },
-         this.table(this.data_cattle, ['dam_id', 'program_sync', 'date', 'operator', 'recoder']),          {
+         this.table(this.data_cattle, ['dam_id', 'program_sync', 'datepro', 'operator', 'recoder']),          {
            text: '\n\n\n'
          },
          {
@@ -1195,9 +1198,21 @@ else if(this.name == 'wean'){
     } else if(this.name == 'breed') {
       this.api.getBreedByUser(this.user).subscribe(data=>{
         if(data!=null){
+          var i =0;
           this.head_report = 'รายงานข้อมูลผสมพันธุ์ทั้งหมด';
           this.data_cattle = Object.keys(data).map(key=>data[key]);
-          this.createPdf();
+          while(i<this.data_cattle.length){
+            if(this.data_cattle[i].semen == undefined){
+              this.data_cattle[i].sire_id = this.data_cattle[i].sire_id;
+            }else {
+              this.data_cattle[i].sire_id = this.data_cattle[i].semen;
+            }
+            i++;
+          }
+          if(i==this.data_cattle.length){
+            this.createPdf();
+          }
+
        } else {
          this.data_cattle = [];
          swal("ไม่พบข้อมูล!", "ไม่มีรายการข้อมูลการบันทึกอยู่", "warning");
@@ -1221,6 +1236,8 @@ else if(this.name == 'wean'){
         if(data!=null){
           this.head_report = 'รายงานข้อมูลคลอดทั้งหมด';
           this.data_cattle = Object.keys(data).map(key=>data[key]);
+          console.log(this.data_cattle);
+
           this.createPdf();
        } else {
          this.data_cattle = [];

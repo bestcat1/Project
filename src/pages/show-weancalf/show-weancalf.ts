@@ -19,8 +19,11 @@ export class ShowWeancalfPage {
   public loadedcalfList:Array<any>;
   public calfRef:firebase.database.Reference;
   user;
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
+
 
   }
   ionViewWillEnter(){
@@ -75,6 +78,6 @@ export class ShowWeancalfPage {
 }
 showdetail(n)
 {
-  this.navCtrl.push("ShowdatailweancalfPage",{user:this.user,id:n});
+  this.navCtrl.push("ShowdatailweancalfPage",{user:this.user,id:n,privilege:this.privilege});
 }
 }

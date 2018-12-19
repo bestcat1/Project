@@ -19,10 +19,11 @@ export class ShowdtdeliveryPage {
   data;
   operator=[];
 edit = true;
+privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.data=this.navParams.get('key');
     this.user=this.navParams.get('user');
-
+    this.privilege = this.navParams.get('privilege');
     this.api.getUser(this.user).subscribe(data=>{
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);

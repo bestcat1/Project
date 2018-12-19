@@ -15,7 +15,7 @@
 
   <ion-segment [(ngModel)]="mncattle">
     <ion-segment-button value="addcow">
-      <b>เพิ่มข้อมูลโค</b>
+      <b>เพิ่มข้อมูลโคนอกฟาร์ม</b>
     </ion-segment-button>
     <ion-segment-button value="editcow">
       <b>แก้ไขข้อมูลโค</b>
@@ -34,7 +34,7 @@
           </ion-item>
           <ion-item>
             <ion-label>สายพันธุ์: </ion-label>
-            <ion-select name="breed" placeholder="เลือกสายพันธุ์โค" ngModel>
+            <ion-select name="breed" placeholder="เลือกสายพันธุ์โค" ngModel interface="popover">
               <ion-option *ngFor="let s of strian" value="{{s.strian}}">{{s.strian}}</ion-option>
             </ion-select>
           </ion-item>
@@ -48,33 +48,33 @@
           </ion-item>
           <ion-item>
             <ion-label>เพศ: </ion-label>
-            <ion-select name="sex" placeholder="เลือกเพศโค" ngModel>
+            <ion-select name="sex" placeholder="เลือกเพศโค" ngModel interface="popover">
               <ion-option value="BULL">เพศผู้</ion-option>
               <ion-option value="MISS">เพศเมีย</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>สีโค: </ion-label>
-            <ion-select name="color" placeholder="เลือกสีโค" ngModel>
+            <ion-select name="color" placeholder="เลือกสีโค" ngModel interface="popover">
               <ion-option *ngFor="let cl of color" value="{{cl.color}}">{{cl.color}}</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>ฝูงโค: </ion-label>
-            <ion-select name="herd_no" placeholder="เลือกฝูงโค" ngModel>
+            <ion-select name="herd_no" placeholder="เลือกฝูงโค" ngModel interface="popover">
               <ion-option value="{{hn.herd_num}}" *ngFor="let hn of herd_num">{{hn.herd_num}}</ion-option>
 
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>คอกโค: </ion-label>
-            <ion-select name="corral" placeholder="เลือกคอก" ngModel>
+            <ion-select name="corral" placeholder="เลือกคอก" ngModel interface="popover">
               <ion-option *ngFor="let c of corral" value="{{c.corral}}">{{c.corral}}</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>วิธีการผสมพันธุ์: </ion-label>
-            <ion-select name="breed_method" placeholder="เลือกฝูงโค" ngModel>
+            <ion-select name="breed_method" placeholder="เลือกวิธีการผสมพันธุ์" ngModel interface="popover">
               <ion-option value="NT">ผสมธรรมขาติ</ion-option>
               <ion-option value="AI">ผสมเทียม</ion-option>
               <ion-option value="ET">การย้ายฝากตัวอ่อน</ion-option>
@@ -137,20 +137,22 @@
       <ion-row>
         <ion-col col-6>
           <ion-item>
-            <ion-label>คอก:</ion-label>
-            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="{{checkcorral}}" name="corralcattle" (ionChange)="selectcorral($event)">
-                <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
-              <ion-option *ngFor="let c of corrals" value="{{c.corral}}">{{c.corral}}</ion-option>
+            <ion-label>ประเภท:</ion-label>
+            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" [(ngModel)]="sub_head" name="corralcattle" (ionChange)="selectsex($event)" interface="popover">
+                <ion-option value="0">เพศ</ion-option>
+                <ion-option value="1">สายพันธุ์โค</ion-option>
+                <ion-option value="2">สีโค</ion-option>
+                <ion-option value="3" [disabled]="search_type=='ลูกโค'">คอกโค</ion-option>
             </ion-select>
           </ion-item>
         </ion-col>
         <ion-col col-6>
           <ion-item>
-            <ion-label>เพศ:</ion-label>
-            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" ngModel="ทั้งหมด" name="sexcattle" (ionChange)="selectsex($event)">
+            <ion-label>เลือก:</ion-label>
+            <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" [(ngModel)]="select_sub_type" name="sexcattle" (ionChange)="selectType($event)" interface="popover">
                 <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
-                <ion-option value="BULL">เพศผู้</ion-option>
-                <ion-option value="MISS">เพศเมีย</ion-option>
+                <ion-option *ngFor="let s of sub_type" value="{{s}}">{{s}}</ion-option>
+
             </ion-select>
           </ion-item>
         </ion-col>
@@ -159,7 +161,7 @@
       <ion-list>
         <ion-label color="danger">เลือกหมายเลขโค</ion-label>
         <ion-item  *ngFor="let dam of damList">
-          <ion-label>หมายเลขโค: {{dam.cattle_id}}</ion-label>>
+          <ion-label>หมายเลขโค: {{dam.cattle_id}}</ion-label>
           <button type="button" ion-button round outline color="secondary" item-end (click)="showdetail(dam.cattle_id)">
               เลือก
           </button>

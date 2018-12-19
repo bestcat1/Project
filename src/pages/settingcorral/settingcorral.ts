@@ -38,6 +38,8 @@ data_corral:String;
       for(let i = 0 ; i < value.length;i++){
         this.item$[i].key = Object.keys(data)[i];
       }
+    } else {
+      this.item$ = [];
     }
     });
 
@@ -48,6 +50,8 @@ data_corral:String;
         this.corral.push(snap.corral);
       })
       console.log(this.corral);
+    } else {
+      this.corral = [];
     }
     });
 
@@ -60,12 +64,14 @@ data_corral:String;
     console.log(data.value);
     if(data.value.corral!=''){
       var c=0;
-      for(let i = 0; i< this.item$.length;i++){
-        if(this.item$[i].corral == data.value.corral){
-          c = c;
-        } else {
-          c++;
-        }
+      if(this.item$.length!=0){
+        for(let i = 0; i< this.item$.length;i++){
+          if(this.item$[i].corral == data.value.corral){
+            c = c;
+          } else {
+            c++;
+          }
+      }
       }
       if(c==this.item$.length){
         this.api.addCorral(this.user,data.value).subscribe(d=>{

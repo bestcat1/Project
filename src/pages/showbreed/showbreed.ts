@@ -17,10 +17,11 @@ export class ShowbreedPage {
   public damList:Array<any>;
   public loadeddamList:Array<any>;
   user:string;
+  privilege;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-
+    this.privilege = this.navParams.get('privilege');
 
   }
   ionViewWillEnter(){
@@ -45,7 +46,7 @@ export class ShowbreedPage {
     console.log('ionViewDidLoad ShowbreedPage');
   }
   showdtbreed(k){
-    this.navCtrl.push('ShowdtbreedPage',{user:this.user,key:k})
+    this.navCtrl.push('ShowdtbreedPage',{user:this.user,key:k,privilege:this.privilege})
   }
   initializeItems(): void {
     this.damList = this.loadeddamList;

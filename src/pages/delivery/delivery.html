@@ -21,7 +21,7 @@
 
     <ion-item [hidden]="semen == undefined">
         <ion-label>น้ำเชื้อ :</ion-label>
-        <ion-input  type="text"  name="semen" ngModel="{{semen}}" readonly></ion-input>
+        <ion-input  type="text"  name="sire_id" ngModel="{{semen}}" readonly></ion-input>
     </ion-item>
       <ion-item [hidden]="sire_id == undefined">
           <ion-label>ชื่อพ่อพันธุ์ :</ion-label>
@@ -80,26 +80,26 @@
       </ion-item>
       <ion-item>
         <ion-label>สายพันธุ์: </ion-label>
-        <ion-select name="spi{{i}}" placeholder="เลือกสายพันธุ์โค" ngModel>
+        <ion-select name="spi{{i}}" placeholder="เลือกสายพันธุ์โค" ngModel  interface="popover">
             <ion-option *ngFor="let s of strian" value="{{s.strian}}">{{s.strian}}</ion-option>
         </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>สีโค: </ion-label>
-      <ion-select name="colorcattle{{i}}" placeholder="เลือกสีโค" ngModel>
+      <ion-select name="colorcattle{{i}}" placeholder="เลือกสีโค" ngModel  interface="popover">
           <ion-option *ngFor="let cl of color" value="{{cl.color}}">{{cl.color}}</ion-option>
       </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>เพศ: </ion-label>
-    <ion-select name="sexct{{i}}" placeholder="เลือกเพศโค" ngModel>
-        <ion-option value="เพศผู้">เพศผู้</ion-option>
-        <ion-option value="เพศเมีย">เพศเมีย</ion-option>
+    <ion-select name="sexct{{i}}" placeholder="เลือกเพศโค" ngModel  interface="popover">
+        <ion-option value="BULL">เพศผู้</ion-option>
+        <ion-option value="MISS">เพศเมีย</ion-option>
     </ion-select>
 </ion-item>
 <ion-item>
     <ion-label>น้ำหนักแรกเกิด(กก.) :</ion-label>
-    <ion-input  type="number"  name="birth_weight{{i}}" ngModel></ion-input>
+    <ion-input  type="number"  name="birth_weight{{i}}" ngModel  interface="popover"></ion-input>
 </ion-item>
       <button ion-button round (click)="backslide()" type="button" [hidden]="a==0">ย้อนกลับ</button>
       <button ion-button round (click)="nextslide()" type="button" [hidden]="a==(count_calf-1)" color="secondary">ต่อไป</button>

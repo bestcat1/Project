@@ -61,7 +61,7 @@ m6=false;
         this.global.setMyGlobalVar(value[0].user);
         if(value[0].count_login==0){
         this.loader.dismiss();
-      let noti=[{id_noti:0,list:'บำรุง',day_length:18,note:'หลังผสมไม่ติด'},
+      let noti=[{id_noti:0,list:'เหนี่ยวนำกลับสัด',day_length:18,note:'หลังผสมไม่ติด'},
           {id_noti:1,list:'ตรวจท้อง',day_length:90,note:'หลังผสมพันธุ์'},
           {id_noti:2,list:'คลอด',day_length:193,note:'หลังจากตั้งท้อง'},
           {id_noti:3,list:'บำรุงแม่พันธุ์',day_length:60,note:'หลังจากคลอด'},
@@ -145,9 +145,8 @@ m6=false;
 
     this.count_notification=0;
     var i=0;
-    var localNotification = this.localNotifications;
 
-    localNotification.clearAll();
+    this.localNotifications.clearAll();
 
 
     // var d = new Date();
@@ -171,24 +170,56 @@ m6=false;
           this.api.showAlertDateDetail(value[0].user,snap).subscribe(element=>{
             if(element!=null){
             this.count_notification+=Object.keys(element).length;
-            console.log('xxx: '+this.count_notification+'yyy:'+snap);
+            console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
             let day = new Date(snap).getDate();
             let year = new Date(snap).getFullYear();
             let month = new Date(snap).getMonth();
             let time1 = new Date(year, month, day, 7, 0, 0, 0);
+            console.log(time1);
             this.localNotifications.schedule({
           id: i,
           title: 'แจ้งเตือน',
           text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
           trigger: { at: new Date(time1) },
          });
+         i++;
             }
           })
+
         })
       }
       })
     }
     else{
+      this.api.showAlertDate(value[0].adminfarm).subscribe(data1=>{
+        if(data1!=null){
+        Object.keys(data1).forEach(snap=>{
+
+          this.api.showAlertDateDetail(value[0].adminfarm,snap).subscribe(element=>{
+            if(element!=null){
+            this.count_notification+=Object.keys(element).length;
+            console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
+            let day = new Date(snap).getDate();
+            let year = new Date(snap).getFullYear();
+            let month = new Date(snap).getMonth();
+            let time1 = new Date(year, month, day, 7, 0, 0, 0);
+            console.log(time1);
+            this.localNotifications.schedule({
+          id: i,
+          title: 'แจ้งเตือน',
+          text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
+          trigger: { at: new Date(time1) },
+         });
+         i++;
+            }
+          })
+
+        })
+      }
+      })
+
+
+
       this.api.getUser(value[0].adminfarm).subscribe(data=>{
         console.log(data);
         var value = Object.keys(data).map(key=>data[key]);
@@ -223,13 +254,14 @@ m6=false;
     this.navCtrl.push("SettingPage",{user: this.global.getMyGlobalVar()});
   }
   verify(){
-    this.navCtrl.push("VerifyPage",{user: this.global.getMyGlobalVar()});
+    this.navCtrl.push("VerifyPage",{user: this.global.getMyGlobalVar(),privilege:this.privilege});
   }
   report(){
     this.navCtrl.push("ReportPage",{user: this.global.getMyGlobalVar()});
   }
   notificationview(){
-    this.navCtrl.push("NotificationPage",{user: this.global.getMyGlobalVar()});
+    console.log(this.privilege);
+    this.navCtrl.push("NotificationPage",{user: this.global.getMyGlobalVar(),privilege:this.privilege});
   }
   nurture(){
     this.navCtrl.push("SelectnurturePage",{user : this.global.getMyGlobalVar()});

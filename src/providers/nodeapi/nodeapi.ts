@@ -458,4 +458,9 @@ export class NodeapiProvider {
   getWeanByDate(user,start,end){
     return this.http.get(URL_API.NODE_API+'/branding/show/'+user+'/'+start+'/'+end).pipe(map(res=>res.json()));
   }
+
+  updateDrug(user,key,data){
+    return this.http.post(URL_API.NODE_API+'/setting/farm/update/drug/'+user+'/'+key,data).pipe(map(res=>res.json()));
+  }
+
 }

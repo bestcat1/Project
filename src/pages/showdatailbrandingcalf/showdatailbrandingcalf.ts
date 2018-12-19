@@ -19,10 +19,12 @@ export class ShowdatailbrandingcalfPage {
   user;
   data;
   operator=[];
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public viewCtrl:ViewController,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
     this.data=this.navParams.get('id');
+    this.privilege = this.navParams.get('privilege');
     this.api.getUser(this.user).subscribe(data=>{
       var values = Object.keys(data).map(key=>data[key]);
       this.operator.push(values[0].fname + ' ' + values[0].lname)

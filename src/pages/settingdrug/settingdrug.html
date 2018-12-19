@@ -56,18 +56,20 @@
 <br>
 <ion-card>
   <ion-row>
-    <ion-col col-2><p align="center">ลำดับ</p></ion-col>
+    <ion-col col-2><p align="center">ที่</p></ion-col>
     <ion-col col-3><p align="center">ชื่อยา</p></ion-col>
     <ion-col col-3><p align="center">ชื่อสามัญ</p></ion-col>
     <ion-col col-2><p align="center">ขนาด</p></ion-col>
     <ion-col col-2><p align="center">ตั้งค่า</p></ion-col>
   </ion-row>
   <ion-row *ngFor="let d of drugs; let i = index">
-      <ion-col col-2><p align="center">{{i+1}}</p></ion-col>
+      <ion-col col-2><p align="center" class ="center-text">{{i+1}}</p></ion-col>
       <ion-col col-3><p align="center">{{d.drug_name}}</p></ion-col>
       <ion-col col-3><p align="center">{{d.common_drug}}</p></ion-col>
       <ion-col col-2><p align="center">{{d.dosage}}</p></ion-col>
-      <ion-col col-2><p align="center"><button ion-button class="customBtn" color="danger" (click)="delete(d.key)">ลบ</button></p></ion-col>
+      <ion-col col-2><p align="center">
+        <button ion-button class="customBtn" color="secondary" (click)="delete(d)">ตั้งค่า</button></p>
+     </ion-col>
     </ion-row>
 </ion-card>
 </ion-content>

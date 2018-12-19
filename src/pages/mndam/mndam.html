@@ -21,7 +21,7 @@
 
     <ion-item>
         <ion-label floating>เลือกสถานะจัดการ</ion-label>
-        <ion-select name="type" interface="action-sheet" (ionChange)="test($event)" cancelText="ยกเลิก">
+        <ion-select name="type" (ionChange)="test($event)" cancelText="ยกเลิก" okText="ยืนยัน">
           <ion-option value="บันทึกการบำรุง">บันทึกการบำรุง</ion-option>
           <ion-option value="บันทึกการเหนี่ยวนำ">บันทึกการเหนี่ยวนำ</ion-option>
           <ion-option value="บันทึกการผสมพันธุ์">บันทึกการผสมพันธุ์</ion-option>

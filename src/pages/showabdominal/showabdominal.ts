@@ -18,10 +18,11 @@ export class ShowabdominalPage {
   public loadeddamList:Array<any>;
 
   user:string;
-
+  privilege;
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
 
   }
   ionViewWillEnter(){
@@ -48,7 +49,7 @@ export class ShowabdominalPage {
     console.log('ionViewDidLoad ShowabdominalPage');
   }
   showdtabdominal(k){
-    this.navCtrl.push('ShowdtabdominalPage',{user:this.user,key:k})
+    this.navCtrl.push('ShowdtabdominalPage',{user:this.user,key:k,privilege:this.privilege})
   }
   initializeItems(): void {
     this.damList = this.loadeddamList;

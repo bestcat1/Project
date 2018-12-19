@@ -18,11 +18,11 @@ export class ShowdeliveryPage {
   public loadeddamList:Array<any>;
 
   user:string;
-
+  privilege
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-
+    this.privilege = this.navParams.get('privilege');
   }
   ionViewWillEnter(){
     this.api.getDeliveryByUser(this.user).subscribe(data=>{
@@ -47,7 +47,7 @@ export class ShowdeliveryPage {
     console.log('ionViewDidLoad ShowdeliveryPage');
   }
   showdtdelivery(k){
-    this.navCtrl.push('ShowdtdeliveryPage',{user:this.user,key:k})
+    this.navCtrl.push('ShowdtdeliveryPage',{user:this.user,key:k,privilege:this.privilege})
   }
   initializeItems(): void {
     this.damList = this.loadeddamList;

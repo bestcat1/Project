@@ -19,7 +19,7 @@
 <ion-content padding class="background">
   <ion-item>
     <ion-label floating>เลือกสถานะจัดการ</ion-label>
-    <ion-select (ionChange)="selectType($event)" interface="action-sheet" cancelText="ยกเลิก">
+    <ion-select (ionChange)="selectType($event)"  cancelText="ยกเลิก" okText="ยืนยัน">
       <ion-option value="บันทึกข้อมูลการสูญเขา">บันทึกข้อมูลการสูญเขา</ion-option>
       <ion-option value="บันทึกข้อมูลการตีเบอร์">บันทึกข้อมูลการตีเบอร์</ion-option>
       <ion-option value="บันทึกข้อมูลการหย่านม">บันทึกข้อมูลการหย่านม</ion-option>

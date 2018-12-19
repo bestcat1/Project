@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { NgForm } from '@angular/forms';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
@@ -20,9 +20,9 @@ export class SettingprogramsyncPage {
   user;
   item$ =[];
   pro_sync;
-
+data_sync;
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,private api : NodeapiProvider) {
+    ,private api : NodeapiProvider,private alertCtrl:AlertController) {
     this.user=this.navParams.get('user');
 
   }
@@ -38,6 +38,10 @@ export class SettingprogramsyncPage {
     } else {
       this.item$ = [];
     }
+    })
+    this.api.getSyncByUser(this.user).subscribe(data=>{
+      console.log(data);
+      this.data_sync = Object.keys(data).map(key=>data[key]);
     })
   }
 
@@ -77,14 +81,49 @@ export class SettingprogramsyncPage {
     }
 
   }
-  removepro(k){
-    this.api.removeProgramSync(this.user,k).subscribe(d=>{
-
-      if(d.status =='OK'){
-        console.log('asasasas');
-        this.ionViewWillEnter();
+  removepro(k,t){
+    var c = 0;
+    var check = 0;
+    if(this.data_sync.length!=0){
+      for(let i=0;i<this.data_sync.length;i++){
+        if(this.data_sync[i].program_sync == t){
+          c=c;
+          check++;
+        }else {
+          c++;
+        }
       }
-    });
+    }
+    if(c==this.data_sync.length){
+      this.api.removeProgramSync(this.user,k).subscribe(d=>{
+        if(d.status =='OK'){
+          console.log('asasasas');
+          this.ionViewWillEnter();
+        }
+      });
+    } else {
+      let alert37 = this.alertCtrl.create({
+        title: 'คำเตือน',
+        subTitle: 'มีการใช้ข้อมูลสีโค '+ check +' รายการ<br>กรุณาแก้่ไขข้อมูลโค',
+        buttons: [
+          {
+            text: 'ยกเลิก',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+
+            }
+          },
+          {
+            text: 'แก้ไขข้มูล',
+            handler: () => {
+              this.navCtrl.push("ShowsynchronizePage",{user:this.user,privilege:'เจ้าของฟาร์ม'});
+            }
+          }
+        ]
+      });
+      alert37.present();
+    }
 
   }
   stdetailsync(p){

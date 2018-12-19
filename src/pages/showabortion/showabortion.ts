@@ -18,8 +18,11 @@ export class ShowabortionPage {
   public damList:Array<any>;
   public loadeddamList:Array<any>;
   user;
+  privilege;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api: NodeapiProvider) {
-    this.user = this.navParams.get('user')
+    this.user = this.navParams.get('user');
+    this.privilege = this.navParams.get('privilege');
+
   }
   ionViewWillEnter(){
 
@@ -47,7 +50,7 @@ export class ShowabortionPage {
   }
   showdtabortion(d){
     console.log('user: '+this.user);
-    this.navCtrl.push('ShowdtabortionPage',{user:this.user,detail:d})
+    this.navCtrl.push('ShowdtabortionPage',{user:this.user,detail:d,privilege:this.privilege})
   }
   initializeItems(): void {
     this.damList = this.loadeddamList;

@@ -43,7 +43,7 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
   reg(data:NgForm){
-    console.log(data.value);
+
 
     let c=0;
     if(this.user.length != 0){
@@ -79,15 +79,17 @@ export class RegisterPage {
                   this.api.addBrandFarm(data.value.user,{farm_name_TH:'ฟาร์มคุณ'+data.value.fname
               ,farm_name_EN:'',farm_initial:'',farm_address:data.value.address,phone_num:data.value.phone_num
               ,logo_base64:URL}).subscribe(d1=>{
+                data.value.email = data.value.email.toLowerCase();
                 if(d1.status=='OK'){
                   this.auth.doRegister(data.value.email,data.value.pass)
                   .then(() => {
                     this.checkEmail=true;
                     data.value.privilege = 'เจ้าของฟาร์ม';
                     delete data.value.cpass;
-                    this.success();
+
                     this.api.addUser(data.value).subscribe(d=>{
                       if(d.status=='OK'){
+                        this.success();
                         this.loader.dismiss();
                         this.viewCtrl.dismiss();
 
@@ -139,7 +141,7 @@ export class RegisterPage {
 }
 
 error(){
-  swal("ข้ออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+  swal("ขออภัย!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
 }
 success(){
     swal("เสร็จสิ้น!", "สมัครผู้ใช้งานเรียบร้อยแล้ว", "success");

@@ -17,87 +17,100 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
   templateUrl: 'nurture.html',
 })
 export class NurturePage {
-  user:string;
+  user: string;
   date;
-  use_drug=[];
+  use_drug = [];
   time;
   name;
 
-  operator=[];
-  item:Observable<any[]>;
-  noti_treatment:Observable<any[]>;
-  noti=[];
+  operator = [];
+  item: Observable<any[]>;
+  noti_treatment: Observable<any[]>;
+  noti = [];
   id;
+  viewDate
   drugs;
   number_of_treatment;
   constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public alertCtrl:AlertController,public viewCtrl:ViewController,private api: NodeapiProvider) {
+    , public alertCtrl: AlertController, public viewCtrl: ViewController, private api: NodeapiProvider) {
 
-    this.id=this.navParams.get('id');
-    this.user=this.navParams.get('user');
-    this.api.getTreatmentById(this.user,this.id).subscribe(data=>{
-      if(data!=null){
+    this.id = this.navParams.get('id');
+    this.user = this.navParams.get('user');
+    this.api.getTreatmentById(this.user, this.id).subscribe(data => {
+      if (data != null) {
         var value = Object.keys(data);
         this.number_of_treatment = value.length;
       }
-      else{
+      else {
         this.number_of_treatment = 0;
       }
 
     })
 
-    this.api.getDrug(this.user).subscribe(data=>{
-      if(data!=null){
-      this.drugs = Object.keys(data).map(key=>data[key]);
+    this.api.getDrug(this.user).subscribe(data => {
+      if (data != null) {
+        var value = Object.keys(data).map(key=>data[key]);
+        for(let i = 0 ; i<value.length; i++){
+          console.log(value[i].exp_date);
+          var day = new Date();
+          var exp = new Date(value[i].exp_date)
+          var timeDiff = exp.getTime() - day.getTime();
+          var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
+          console.log(diffDays);
+          if(diffDays>=0){
+            this.drugs.push(value[i]);
+          }
+        }
       }
     })
     var d = new Date();
-    this.time=d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit',hour12:false});
+    this.time = d.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', hour12: false });
 
-    this.date=d.getFullYear()+"-"+month_of_the_year(d)+"-"+day_of_the_month(d);
-    function day_of_the_month(d)
-    {
+    this.date = d.getFullYear() + "-" + month_of_the_year(d) + "-" + day_of_the_month(d);
+    function day_of_the_month(d) {
       return (d.getDate() < 10 ? '0' : '') + d.getDate();
     }
-    function month_of_the_year(d)
-    {
-      return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+    function month_of_the_year(d) {
+      return ((d.getMonth() + 1) < 10 ? '0' : '') + (d.getMonth() + 1);
     }
-    this.api.getUser(this.user).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data).map(key=>data[key]);
-      this.name = values[0].fname + ' ' + values[0].lname;
-      this.operator.push(values[0].fname + ' ' + values[0].lname);
+    this.api.getUser(this.user).subscribe(data => {
+      if (data != null) {
+        var values = Object.keys(data).map(key => data[key]);
+        this.name = values[0].fname + ' ' + values[0].lname;
+        this.operator.push(values[0].fname + ' ' + values[0].lname);
       }
     })
 
-    this.api.getPersonnel(this.user).subscribe(data=>{
-      if(data!=null){
-      var values = Object.keys(data).map(key=>data[key]);
-    for(let i = 0; i < values.length;i++){
-      if(values[i].privilege != 'ยังไม่ได้อนุมัติ'){
-   this.operator.push(values[i].fname + ' ' + values[i].lname);
-        }
+    this.api.getPersonnel(this.user).subscribe(data => {
+      if (data != null) {
+        var values = Object.keys(data).map(key => data[key]);
+        for (let i = 0; i < values.length; i++) {
+          if (values[i].privilege != 'ยังไม่ได้อนุมัติ') {
+            this.operator.push(values[i].fname + ' ' + values[i].lname);
+          }
 
-    }
-  }
+        }
+      }
     });
 
-    this.api.getNotiById(this.user,8).subscribe(data=>{
-      var values = Object.keys(data).map(key=>data[key]);
+    this.api.getNotiById(this.user, 8).subscribe(data => {
+      var values = Object.keys(data).map(key => data[key]);
       this.noti.push(values[0].day_length);
+      var day = new Date(this.date);
+      day.setDate(day.getDate() + Number(values[0].day_length));
+      this.viewDate = day.getFullYear() + "-" + this.month_of_the_year(day) + "-" + this.day_of_the_month(day);
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NurturePage');
   }
-  nt(data:NgForm){
+  nt(data: NgForm) {
     console.log(data.value);
-    if(data.value.noti_treatment==""||data.value.sickness==""||data.value.type_of_treatment==""||this.use_drug.length == 0){
+    if (data.value.noti_treatment == "" || data.value.sickness == "" || data.value.type_of_treatment == "" || this.use_drug.length == 0) {
       swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบถ้วน", "error");
     }
-    else{
+    else {
       let alert33 = this.alertCtrl.create({
         title: 'การบันทึก',
         message: 'ยืนยันการบันทึกข้อมูล?',
@@ -112,21 +125,26 @@ export class NurturePage {
           {
             text: 'ยืนยัน',
             handler: () => {
-              var dataTreatment=[];
-              for(let i=0;i<this.use_drug.length;i++){
+              var dataTreatment = [];
+              for (let i = 0; i < this.use_drug.length; i++) {
                 console.log(this.use_drug[i]);
-                dataTreatment.push({number_of_treatment:this.number_of_treatment,drug_name:this.use_drug[i]});
+                dataTreatment.push({ number_of_treatment: this.number_of_treatment, drug_name: this.use_drug[i] });
               }
-              this.api.addTreatmentDrug(this.user,this.id,dataTreatment).subscribe(d=>{
-                  if(d.status == 'OK'){
-                    this.api.addTreatment(this.user,data.value).subscribe(d1=>{
-                      if(d1.status=='OK'){
-                        this.success();
-                        this.navCtrl.pop();
-                      }
-                    });
+              this.api.addTreatmentDrug(this.user, this.id, dataTreatment).subscribe(d => {
+                if (d.status == 'OK') {
+                  this.api.addTreatment(this.user, data.value).subscribe(d1 => {
+                    if (d1.status == 'OK') {
+                      this.api.addNoti(this.user, this.viewDate, { id_cattle: data.value.id, type: 'รักษา', date: this.viewDate }).subscribe(d2 => {
+                        if (d2.status == 'OK') {
+                          this.success();
+                          this.navCtrl.pop();
+                        }
+                      })
 
-                  }
+                    }
+                  });
+
+                }
               })
 
             }
@@ -138,13 +156,24 @@ export class NurturePage {
     }
 
   }
-  success(){
+  success() {
     swal("เสร็จสิ้น", "บันทึกข้อมูลเรียบร้อยแล้ว", "success");
   }
-  adddrug(d){
-    this.use_drug=[];
-    for(let i =0;i<d.length;i++){
+  adddrug(d) {
+    this.use_drug = [];
+    for (let i = 0; i < d.length; i++) {
       this.use_drug.push(d[i]);
     }
+  }
+  test1() {
+    var day = new Date(this.date);
+    day.setDate(day.getDate() + Number(this.noti[0]));
+    this.viewDate = day.getFullYear() + "-" + this.month_of_the_year(day) + "-" + this.day_of_the_month(day);
+  }
+  day_of_the_month(d) {
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+  month_of_the_year(d) {
+    return ((d.getMonth() + 1) < 10 ? '0' : '') + (d.getMonth() + 1);
   }
 }

@@ -37,13 +37,14 @@
       <ion-searchbar
       [(ngModel)]="myInput"
       [showCancelButton]
-      (ionInput)="onInput($event)"
-      (ionCancel)="onCancel($event)">
+      (ionInput)="getItems($event)"
+      (ionCancel)="onCancel($event)"
+      placeholder="ค้นหาฟาร์ม">
     </ion-searchbar>
 
       <ion-list >
       <ion-item *ngFor="let item of detail">
-       <ion-label>ฟาร์มคุณ {{ item.fname }} {{ item.lname }}</ion-label>
+       <ion-label><b>{{item.farmname}}</b><br>คุณ {{ item.fname }} {{ item.lname }}</ion-label>
        <button item-end ion-button (click)="registerFarm(item)" type="button" color="secondary" [disabled]="adminfarm!='ยังไม่มี'">สมัคร</button>
 
       </ion-item>

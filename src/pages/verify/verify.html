@@ -28,109 +28,86 @@
       </ion-segment>
 
       <div [ngSwitch]="mncattle">
+
+
           <ion-list *ngSwitchCase="'verify'">
-              <ion-grid>
-                ข้อมูลการจัดการแม่พันธุ์
-                <ion-row>
-                  <ion-col>
-                    <ion-card class="c1" (click)="showmt()">
+
+            <p align="center"><b>ข้อมูลการจัดการแม่พันธุ์</b></p>
+
+              <ion-row>
+                  <ion-col col-6 class="c1" (click)="showmt()">
                       <p align="right">
                         <ion-label>ข้อมูลการบำรุง</ion-label>
                       </p>
-                    </ion-card>
                   </ion-col>
-                  <ion-col>
-                    <ion-card class="c2" (click)="showsyc()">
+                  <ion-col col-6 class="c2" (click)="showsyc()">
                         <p align="right">
-                            <ion-label>ข้อมูลการบำรุง</ion-label>
+                            <ion-label>ข้อมูลการเหนี่ยวนำ</ion-label>
                           </p>
-                    </ion-card>
                   </ion-col>
                 </ion-row>
 
-
+                <hr>
                 <ion-row>
-                  <ion-col>
-                    <ion-card class="c3" (click)="showbreed()">
+                    <ion-col col-6 class="c3" (click)="showbreed()">
                         <p align="right">
-                            <ion-label>ข้อมูลการผสมพันธุ์</ion-label>
-                          </p>
-                    </ion-card>
-                  </ion-col>
+                          <ion-label>ข้อมูลการผสมพันธุ์</ion-label>
+                        </p>
+                    </ion-col>
+                    <ion-col col-6 class="c4" (click)="showabd()">
+                          <p align="right">
+                              <ion-label>ข้อมูลการตรวจท้อง</ion-label>
+                            </p>
+                    </ion-col>
+                  </ion-row>
 
-
-
-                  <ion-col>
-                    <ion-card class="c4" (click)="showabd()">
-                        <p align="right">
-                            <ion-label>ข้อมูลการตรวจท้อง</ion-label>
-                          </p>
-                    </ion-card>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row>
-                  <ion-col>
-                    <ion-card class="c5" (click)="showdrv()">
-                        <p align="right">
+                  <hr>
+                  <ion-row>
+                      <ion-col col-6 class="c5" (click)="showdrv()">
+                          <p align="right">
                             <ion-label>ข้อมูลการคลอด</ion-label>
                           </p>
-                    </ion-card>
-                  </ion-col>
+                      </ion-col>
+                      <ion-col col-6 class="c6" (click)="showabortion()">
+                            <p align="right">
+                                <ion-label>ข้อมูลโคแท้ง</ion-label>
+                              </p>
+                      </ion-col>
 
-                  <ion-col>
-                    <ion-card class="c6" (click)="showabortion()">
-                        <p align="right">
-                            <ion-label>ข้อมูลโคแท้ง</ion-label>
-                          </p>
-                    </ion-card>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row>
-                  <ion-card class="c7" (click)="shownt()">
+                    </ion-row>
+                    <hr>
+                    <ion-row align="right">
+                      <ion-col col-6 class="c7" (click)="shownt()">
                       <p align="right">
-                          <ion-label>ข้อมูลการรักษา</ion-label>
-                        </p>
-                  </ion-card>
-                </ion-row>
+                                <ion-label>ข้อมูลการรักษา</ion-label>
+                              </p>
+                      </ion-col>
+                      </ion-row>
+
+                      <p align="center"><b>ข้อมูลการจัดการลูกโค</b></p>
+
+                      <ion-row>
+                          <ion-col col-6 class="c8" (click)="showdhc()">
+                              <p align="right">
+                                <ion-label>ข้อมูลการสูญเขา</ion-label>
+                              </p>
+                          </ion-col>
+                          <ion-col col-6 class="c9" (click)="showbdc()">
+                                <p align="right">
+                                    <ion-label>ข้อมูลการตีเบอร์</ion-label>
+                                  </p>
+                          </ion-col>
+                        </ion-row>
 
 
-
-                <br>ข้อมูลการจัดการลูกโค
-                <ion-row>
-                  <ion-card class="c8" (click)="showdhc()">
-                      <p align="right">
-                          <ion-label>ข้อมูลการสูญเขา</ion-label>
-                        </p>
-                  </ion-card>
-                  <!-- <button type="submit" ion-button block color="light" (click)="showdhc()">
-                    ข้อมูลการสูญเขา
-                  </button> -->
-                </ion-row>
-
-                <ion-row>
-                  <ion-card class="c9" (click)="showbdc()">
-                      <p align="right">
-                          <ion-label>ข้อมูลการตีเบอร์</ion-label>
-                        </p>
-                  </ion-card>
-                  <!-- <button type="submit" ion-button block color="light" (click)="showbdc()">
-                    ข้อมูลการตีเบอร์
-                  </button> -->
-                </ion-row>
-
-                <ion-row>
-                  <ion-card class="c10" (click)="showwc()">
-                      <p align="right">
-                          <ion-label>ข้อมูลการหย่านม</ion-label>
-                        </p>
-                  </ion-card>
-                  <!-- <button type="submit" ion-button block color="light" (click)="showwc()">
-                    ข้อมูลการหย่านม
-                  </button> -->
-                </ion-row>
-              </ion-grid>
+                          <hr>
+                          <ion-row align="right">
+                            <ion-col col-6 class="c10" (click)="showwc()">
+                            <p align="right">
+                                      <ion-label>ข้อมูลการหย่านม</ion-label>
+                                    </p>
+                            </ion-col>
+                            </ion-row>
             </ion-list>
       </div>
 
@@ -140,7 +117,7 @@
                   <h4><p align="center">เลือกประเภทรายงาน</p></h4>
                   <ion-item class="list-radius">
                     <ion-label><ion-icon name="md-archive"></ion-icon>&nbsp;รายงาน</ion-label>
-                    <ion-select ngModel name="typereport" (ionChange)="typereport($event)" interface="action-sheet" cancelText="ยกเลิก">
+                    <ion-select ngModel name="typereport" (ionChange)="typereport($event)" okText="ยืนยัน" cancelText="ยกเลิก">
                       <ion-option value="cattle">ข้อมูลโค</ion-option>
                       <ion-option value="maintain">ข้อมูลการบำรุง</ion-option>
                       <ion-option value="synchronize">ข้อมูลการเหนี่ยวนำ</ion-option>

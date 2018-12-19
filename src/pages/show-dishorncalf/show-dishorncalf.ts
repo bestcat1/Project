@@ -16,16 +16,17 @@ import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 export class ShowDishorncalfPage {
   public calfList:Array<any>;
   public loadedcalfList:Array<any>;
-
+  privilege
   user;
   constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
     this.user=this.navParams.get('user');
-
+    this.privilege = this.navParams.get('privilege');
 
   }
   ionViewWillEnter(){
     this.api.getHorndeteringByUser(this.user).subscribe(data=>{
       console.log(data);
+
       var calf = [];
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
@@ -75,6 +76,6 @@ export class ShowDishorncalfPage {
 
 showdetail(n){
 console.log(n);
-this.navCtrl.push("ShowdetaildishorncalfPage",{user:this.user,id:n});
+this.navCtrl.push("ShowdetaildishorncalfPage",{user:this.user,id:n,privilege:this.privilege});
 }
 }

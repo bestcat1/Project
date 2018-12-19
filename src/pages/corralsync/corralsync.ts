@@ -32,7 +32,7 @@ export class CorralsyncPage {
   syncs;
   checkpro=true;
   AlertDate;
-  DetailPro;
+  DetailPro =[];
   viewDate;
 loader;
   constructor(public navCtrl: NavController, public navParams: NavParams
@@ -121,9 +121,7 @@ loader;
               var dataNoti=[];
                   for (j = 0; j < this.idcheck.length; j++) {
                       dataSync.push({ dam_id: this.idcheck[j].id, datepro: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
-
                       key.push(this.idcheck[j].key);
-
                       var test = new Date(data.value.datepro);
                       test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                       var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
@@ -209,6 +207,8 @@ loader;
       var value = Object.keys(data).map(key=>data[key]);
       this.DetailPro = value;
       this.checkpro=false;
+    } else {
+      this.DetailPro = [];
     }
     })
   }

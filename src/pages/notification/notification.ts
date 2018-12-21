@@ -65,11 +65,9 @@ checkAfter = [];
         for(let i=0;i<values.length;i++){
           this.detailDate[i].key = Object.keys(data)[i];
         }
-      }
-      else{
+      } else {
         this.detailDate = [];
       }
-
     })
   }
 

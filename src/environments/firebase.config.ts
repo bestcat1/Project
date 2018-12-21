@@ -8,5 +8,5 @@ export const firebaseConfig={
     messagingSenderId: "246118940753"
 }
 export const URL_API = {
-  NODE_API: "http://192.168.1.12:4000",
+  NODE_API: "http://10.94.245.203:4000",
 }

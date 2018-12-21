@@ -23,8 +23,9 @@ export class SettingprogrammaintainPage {
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public viewCtrl :ViewController,private api:NodeapiProvider,
     private alertCtrl:AlertController
-    ) {
 
+    ) {
+      this.ionViewWillEnter();
   }
 
   ionViewWillEnter(){

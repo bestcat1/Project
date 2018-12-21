@@ -169,6 +169,7 @@ m6=false;
 
           this.api.showAlertDateDetail(value[0].user,snap).subscribe(element=>{
             if(element!=null){
+              console.log(this.textnoti(Object.keys(element).map(key=>element[key])));
             this.count_notification+=Object.keys(element).length;
             console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
             let day = new Date(snap).getDate();
@@ -179,7 +180,8 @@ m6=false;
             this.localNotifications.schedule({
           id: i,
           title: 'แจ้งเตือน',
-          text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
+          // text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ\n',
+          text: this.textnoti(Object.keys(element).map(key=>element[key])),
           trigger: { at: new Date(time1) },
          });
          i++;
@@ -197,6 +199,8 @@ m6=false;
 
           this.api.showAlertDateDetail(value[0].adminfarm,snap).subscribe(element=>{
             if(element!=null){
+            console.log(this.textnoti(Object.keys(element).map(key=>element[key])));
+
             this.count_notification+=Object.keys(element).length;
             console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
             let day = new Date(snap).getDate();
@@ -207,7 +211,8 @@ m6=false;
             this.localNotifications.schedule({
           id: i,
           title: 'แจ้งเตือน',
-          text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
+          // text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ' ,
+          text:this.textnoti(Object.keys(element).map(key=>element[key])),
           trigger: { at: new Date(time1) },
          });
          i++;
@@ -236,9 +241,41 @@ m6=false;
     });
   }
 
+  textnoti(value){
+   var text='';
+   var c = [];
+
+  for(let i = 0 ; i< value.length;i++){
+    if(i == 0){
+      c.push({type:value[i].type,count:0})
+    }
+    else {
+      for(let j = 0; j<c.length;j++){
+        if(c[j].type != value[i].type){
+          c.push({type:value[i].type,count:0});
+          break;
+        }
+      }
+    }
+  }
+  for(let i =0;i<c.length;i++){
+    for(let j=0;j<value.length;j++){
+      if(c[i].type == value[j].type){
+        c[i].count++;
+      }
+    }
+  }
+  text += 'วันนี้มีรายการจัดการ '+value.length+' รายการ\n';
+  c.forEach(element=>{
+    text += element.type+' '+element.count+' รายการ\n';
+  })
+    return text;
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
   }
+
 
   mncattle(){
     var text = 'ทั้งหมด'

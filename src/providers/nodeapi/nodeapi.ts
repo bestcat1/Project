@@ -463,4 +463,14 @@ export class NodeapiProvider {
     return this.http.post(URL_API.NODE_API+'/setting/farm/update/drug/'+user+'/'+key,data).pipe(map(res=>res.json()));
   }
 
+  addHistory(user,data){
+    return this.http.post(URL_API.NODE_API+'/history/add/'+user,data).pipe(map(res=>res.json()));
+  }
+  getHistoryById(user,id){
+    return this.http.get(URL_API.NODE_API+'/history/show/'+user+'/'+id).pipe(map(res=>res.json()));
+  }
+
+  addMultiHistory(user,data){
+    return this.http.post(URL_API.NODE_API+'/history/addMulti/'+user,data).pipe(map(res=>res.json()));
+  }
 }

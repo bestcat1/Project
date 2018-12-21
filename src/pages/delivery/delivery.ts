@@ -41,6 +41,7 @@ export class DeliveryPage {
   viewDate;
   AlertDate
   semen
+
   constructor(public navCtrl: NavController, public navParams: NavParams
     , public alertCtrl: AlertController, private api: NodeapiProvider,
     private loadingCtrl: LoadingController) {
@@ -141,6 +142,7 @@ export class DeliveryPage {
       day.setDate(day.getDate()+Number(value[0].day_length));
       this.viewDate=day.getFullYear()+"-"+this.month_of_the_year(day)+"-"+this.day_of_the_month(day);
     })
+
   }
 
   @ViewChild(Slides) slides: Slides;
@@ -223,6 +225,10 @@ export class DeliveryPage {
             handler: () => {
               this.presentLoading();
               this.api.addDelivery(this.user, { dam_id: data.value.dam_id, date: data.value.date, count_calf: data.value.count_calf, sire_id: data.value.sire_id, recoder: data.value.recoder, operator: data.value.operator }).subscribe(d => {
+                this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.date
+                  ,type:'บำรุงแม่พันธุ์'}).subscribe(d3=>{
+                    if(d3.status=='OK'){
+
 
                 if (d.status == 'OK') {
                   var test = new Date(data.value.date);
@@ -299,7 +305,10 @@ export class DeliveryPage {
                   });
                 }
                 })
+
                 }
+              }
+            })
               });
 
           }
@@ -365,6 +374,7 @@ export class DeliveryPage {
         }
       });
     } else {
+
       this.SweetAlert();
       this.navCtrl.pop();
       this.loader.dismiss();

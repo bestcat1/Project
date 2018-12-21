@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { NodeapiProvider } from '../../providers/nodeapi/nodeapi';
 
 /**
@@ -27,7 +27,8 @@ a= 'ทั้งหมด';
 head='คอก';
 head_type;
 datas:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private api:NodeapiProvider,
+    private alertCtrl:AlertController) {
     this.user=this.navParams.get('user');
     this.api.getCorral(this.user).subscribe(d=>{
       Object.keys(d).map(key=>d[key]).forEach(d1=>{
@@ -312,5 +313,52 @@ datas:any;
       })
     }
   }
+}
+showHistory(id){
+  console.log(id);
+  this.api.getHistoryById(this.user,id).subscribe(data=>{
+    if(data!=null){
+      var value = Object.keys(data).map(key=>data[key]);
+      const alert = this.alertCtrl.create({
+        title: 'ประวัติการจัดการ!',
+        subTitle: this.subTitle(value),
+        message: this.textHistory(value),
+        buttons: ['ตกลง']
+      });
+      alert.present();
+    }else{
+    }
+  })
+
+
+}
+subTitle(value){
+  var text='';
+  var i=1
+  value.forEach(element => {
+    if( i== value.length){
+      var d = new Date(element.date);
+      var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+      text = 'ล่าสุด "'+ element.type +'" วันที่ '+date;
+    }
+    i++;
+});
+return text;
+}
+
+textHistory(value){
+  var text = '';
+  for(let i=value.length-1;i>=0;i--){
+    if(value.length-1 == i){
+
+    }else {
+      var d = new Date(value[i].date);
+      var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+      text +='ที่ '+ (i+1) + '.' +value[i].type + ' ' + date + '<br>';
+    }
+
+  }
+
+  return text;
 }
 }

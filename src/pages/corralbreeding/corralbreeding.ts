@@ -156,6 +156,7 @@ console.log(this.sire_id);
             var key = [];
             var dataNoti = [];
             var keyAndNumber =[]
+            var history=[];
             for(j=0;j<this.idcheck.length;j++){
               if(this.checkType == 0){
               dataBreed.push({dam_id:this.idcheck[j].id,date_breeding:data.value.date_breeding,time_breeding:data.value.time_breeding,noti_oestrus:data.value.noti_oestrus,recoder:data.value.recoder,operator:data.value.operator,noti_pregnant:data.value.noti_pregnant,sire_id:data.value.sire_id,note:data.value.note,number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1});
@@ -169,6 +170,7 @@ console.log(this.sire_id);
             test.setDate(test.getDate() + Number(data.value.noti_pregnant));
             var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
             dataNoti.push({id_cattle: this.idcheck[j].id, type: 'ตรวจท้อง', date: setDate });
+            history.push({dam_id:this.idcheck[j].id,date:data.value.date_breeding,type:'ผสมพันธุ์'});
           }
             this.api.addBreedCorral(this.user,dataBreed).subscribe(d=>{
               if(d.status=='OK'){
@@ -178,9 +180,13 @@ console.log(this.sire_id);
                       if(d2.status == 'OK'){
                         this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
                           if(d3.status == 'OK'){
-                            this.success();
-                            this.navCtrl.pop();
-                            this.loader.dismiss();
+                            this.api.addMultiHistory(this.user,history).subscribe(d4=>{
+                              if(d4.status=='OK'){
+                                this.success();
+                                this.navCtrl.pop();
+                                this.loader.dismiss();
+                              }
+                            })
                           }
                         });
                       }

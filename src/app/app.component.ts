@@ -21,6 +21,8 @@ import { SelectnurturePage } from '../pages/selectnurture/selectnurture';
 import { NodeapiProvider } from '../providers/nodeapi/nodeapi';
 
 import { SearchFarmPage } from '../pages/search-farm/search-farm';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { NotificationPage } from '../pages/notification/notification';
 @Component({
   templateUrl: 'app.html'
 })
@@ -41,7 +43,8 @@ export class MyApp {
     , statusBar: StatusBar, splashScreen: SplashScreen,public global:GlobalProvider,
      private alertCtrl: AlertController,private auth: AuthProvider,
      private loadingCtrl:LoadingController
-     ,private api:NodeapiProvider
+     ,private api:NodeapiProvider,
+     public localNotifications:LocalNotifications
      ) {
       platform.ready().then(() => {
         if (splashScreen) {
@@ -49,6 +52,9 @@ export class MyApp {
             splashScreen.hide();
           }, 100);
          }
+        //  this.localNotifications.on('click').subscribe(()=>{
+        //    this.nav.push(NotificationPage);
+        //  })
          this.auth.isAuthenticated().subscribe((data)=>{
           if(data==true){
 

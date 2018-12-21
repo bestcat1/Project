@@ -35,6 +35,7 @@ checkType=0;
 semen='';
 check_sire_id='';
 viewDateSyc;
+
   constructor(public ptf:Platform,public navCtrl: NavController
     , public navParams: NavParams,public alertCtrl:AlertController
     ,private api : NodeapiProvider,
@@ -113,6 +114,8 @@ viewDateSyc;
     {
       return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
     }
+
+
   }
 
   ionViewDidLoad() {
@@ -172,8 +175,16 @@ viewDateSyc;
                           this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe(d1=>{
                             console.log(d1);
                             if(d1.status=='OK'){
-                              this.success();
-                             this.navCtrl.pop();
+                              this.api.addHistory(this.user,{dam_id:data.value.id,date:data.value.date_breeding
+                                ,type:'ผสมพันธุ์'}).subscribe(d3=>{
+                                  if(d3.status=='OK'){
+                                    this.success();
+                                    this.navCtrl.pop();
+                                  }
+                                })
+
+
+
                             }
                           });
 

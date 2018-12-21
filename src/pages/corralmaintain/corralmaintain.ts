@@ -117,11 +117,11 @@ export class CorralmaintainPage {
               this.presentLoading();
               let j = 0;
               var detail=[];
+              var history=[];
               var key = [];
               var dataNoti=[];
               for (j = 0; j < this.idcheck.length; j++) {
                  detail.push({ dam_id: this.idcheck[j].cattle_id, date: data.value.date, time: data.value.time, type_of_maintain: data.value.type_of_maintain,operator:data.value.operator,recoder: data.value.recoder });
-
                 //this.api.addDataType('maintain', this.user, detail).subscribe();
                 key.push(this.idcheck[j].key);
                 // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:"บำรุงแล้ว"}).subscribe();
@@ -135,7 +135,7 @@ export class CorralmaintainPage {
                 var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
                   dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: element.drug_maintain, date: setDate })
                 });
-                // this.api.addNoti(this.user,setDate,{id_cattle: this.idcheck[j].cattle_id.value.dam_id, type: this.AlertDate.list, date: setDate }).subscribe()
+                history.push({dam_id:this.idcheck[j].cattle_id,date:data.value.date,type:'บำรุงแม่พันธุ์'});
               }
               this.api.addMaintainCorral(this.user,detail).subscribe(d1=>{
                 if(d1.status=='OK'){
@@ -143,9 +143,14 @@ export class CorralmaintainPage {
                   if(d2.status=='OK'){
                     this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
                       if(d3.status=='OK'){
-                        this.success();
-                        this.navCtrl.pop();
-                        this.loader.dismiss();
+                        this.api.addMultiHistory(this.user,history).subscribe(d4=>{
+                          if(d4.status=='OK'){
+                            this.success();
+                            this.navCtrl.pop();
+                            this.loader.dismiss();
+                          }
+                        })
+
                       }
                     });
                   }

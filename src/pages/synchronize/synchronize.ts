@@ -32,6 +32,7 @@ AlertDate;
 DetailPro:any;
 viewDate;
 loader;
+
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public alertCtrl:AlertController
   ,public viewCtrl:ViewController,public modalCtrl: ModalController,private api: NodeapiProvider,
@@ -86,6 +87,9 @@ loader;
     {
       return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
     }
+
+
+
   }
 
   ionViewDidLoad() {
@@ -129,9 +133,15 @@ sync(data: NgForm){
                   if(d0.status == 'OK'){
                     this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว"}).subscribe(d1=>{
                       if(d1.status=='OK'){
-                          this.success();
-                          this.navCtrl.pop();
-                          this.loader.dismiss();
+                        this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.datepro
+                          ,type:'เหนี่ยวนำกลับสัด'}).subscribe(d3=>{
+                            if(d3.status=='OK'){
+                              this.success();
+                              this.navCtrl.pop();
+                              this.loader.dismiss();
+                            }
+                          })
+
                       }
                     });
                   }

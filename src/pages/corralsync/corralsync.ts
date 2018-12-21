@@ -119,6 +119,7 @@ loader;
               var dataSync=[];
               var key = [];
               var dataNoti=[];
+              var history=[];
                   for (j = 0; j < this.idcheck.length; j++) {
                       dataSync.push({ dam_id: this.idcheck[j].id, datepro: data.value.datepro, program_sync: data.value.program_sync, operator: data.value.operator, recoder:data.value.recoder });
                       key.push(this.idcheck[j].key);
@@ -132,16 +133,23 @@ loader;
                         var setDate = test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
                         dataNoti.push({id_cattle: data.value.dam_id, type: element.drug_sync, date: setDate,time: element.time_length });
                       });
-                  }
+                      history.push({dam_id:this.idcheck[j].id,date:data.value.datepro,type:'เหนี่ยวนำกลับสัด'});
+                    }
               this.api.addSyncCorral(this.user,dataSync).subscribe(d=>{
                 if(d.status=='OK'){
                   this.api.updateCattleCorral(this.user,key,'เหนี่ยวนำแล้ว').subscribe(d2=>{
                     if(d2.status == 'OK'){
                       this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
                         if(d3.status=='OK'){
-                          this.success();
-                          this.navCtrl.pop();
-                          this.loader.dismiss();
+                          this.api.addMultiHistory(this.user,history).subscribe(d4=>{
+                            if(d4.status=='OK'){
+                              this.success();
+                              this.navCtrl.pop();
+                              this.loader.dismiss();
+                            }
+                          })
+
+
                         }
                       });
 

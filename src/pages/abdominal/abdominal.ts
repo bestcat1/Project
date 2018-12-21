@@ -142,7 +142,6 @@ noti_pregnant;
       }
     })
 
-
   }
 
   ionViewDidLoad() {
@@ -193,8 +192,13 @@ noti_pregnant;
                       if(d.status=='OK'){
                         this.api.addNoti(this.user,this.calve_date,{id_cattle: data.value.dam_id, type: 'วันคลอด', date: this.calve_date }).subscribe(d3=>{
                           if(d3.status == 'OK'){
-                            this.success();
-                            this.navCtrl.pop();
+                            this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.dateabd
+                              ,type:'ตรวจท้อง'}).subscribe(d3=>{
+                                if(d3.status=='OK'){
+                                  this.success();
+                                  this.navCtrl.pop();
+                                }
+                              })
                           }
                         });
 

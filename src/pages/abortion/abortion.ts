@@ -83,6 +83,7 @@ export class AbortionPage {
 
       }
     });
+
   }
 
   ionViewDidLoad() {
@@ -117,8 +118,13 @@ export class AbortionPage {
                     var setDate = test.getFullYear() + "-" + this.month_of_the_year(test) + "-" + this.day_of_the_month(test);
                     this.api.addNoti(this.user, setDate, { id_cattle: data.value.dam_id, type: 'เหนี่ยวนำการกลับสัด', date: setDate }).subscribe(d2 => {
                       if (d2.status == 'OK') {
-                        this.sucess();
-                        this.navCtrl.pop();
+                        this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.date
+                          ,type:'โคแท้ง'}).subscribe(d3=>{
+                            if(d3.status=='OK'){
+                              this.sucess();
+                              this.navCtrl.pop();
+                            }
+                          })
                       }
                     });
 

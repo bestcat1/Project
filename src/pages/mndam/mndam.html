@@ -58,6 +58,10 @@
         <ion-label color="danger"><b>เลือกหมายเลขโค</b></ion-label>
         <ion-item *ngFor="let dam of damList">
           <ion-label [hidden]="type==null">หมายเลขโค: {{dam.cattle_id}}</ion-label>
+          <button class="button1" type="button" ion-button round outline color="secondary" item-end (click)="showHistory(dam.cattle_id)">
+             <ion-icon name="clipboard"></ion-icon>
+
+          </button>
           <button class="button1" type="button" ion-button round outline color="secondary" item-end (click)="showdetail(dam.cattle_id)">
             เลือก
           </button>

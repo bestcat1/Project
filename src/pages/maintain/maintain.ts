@@ -34,6 +34,7 @@ export class MaintainPage {
   AlertDate;
   viewDateSync;
   hiddenProgram = 0;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,public alertCtrl:AlertController
   ,public toastCtrl: ToastController,public viewCtrl:ViewController,
     private api:NodeapiProvider) {
@@ -96,6 +97,7 @@ export class MaintainPage {
     {
       return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
     }
+
   }
 
   ionViewDidLoad() {
@@ -141,8 +143,14 @@ export class MaintainPage {
                     if(d1.status=='OK'){
                       this.api.addNotiMultiple(this.user,datanoti).subscribe(d2=>{
                         if(d2.status=='OK'){
-                          this.success();
-                    this.navCtrl.pop();
+                          this.api.addHistory(this.user,{dam_id:mtData.value.dam_id,date:mtData.value.date
+                          ,type:'บำรุงแม่พันธุ์'}).subscribe(d3=>{
+                            if(d3.status=='OK'){
+                              this.success();
+                              this.navCtrl.pop();
+                            }
+                          })
+
                         }
                       });
 

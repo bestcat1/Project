@@ -28,7 +28,7 @@ export class AuthProvider {
     return Observable.fromPromise(
 
     this.afAuth.auth.signInWithEmailAndPassword(email, password).then(user=>{
-      console.log(user.massage);
+
       if(password!=datapass){
       this.api.updateUser(key,{pass:password}).subscribe();
       }

@@ -151,7 +151,7 @@ datas:any;
       if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
       for(let i = 0; i<values.length; i++){
-        if(values[i].sex=="MISS"&&values[i].status==""||values[i].status=="คลอดแล้ว"||values[i].status=="โคแท้ง"){
+        if(values[i].sex=="MISS"&&(values[i].status==""||values[i].status=="คลอดแล้ว"||values[i].status=="โคแท้ง"||values[i].status=="ไม่ท้อง")){
           dam.push(values[i]);
         }
       }

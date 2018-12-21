@@ -30,6 +30,7 @@ x;y;
 check7day=[];
 check3day=[];
 check0day=[];
+checkDate:any;
 checkAfter = [];
   monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
   "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษศิกายน", "ธันวาคม"
@@ -56,40 +57,40 @@ checkAfter = [];
     // } else {
     //   this.currentDate = 999;
     // }
-    var thisDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate();
-    this.selectDate = this.date.toLocaleDateString();
+   
+  }
+  ionViewWillEnter(){
+    var setDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.currentDate;
+
+    var test = new Date(setDate);
+    var thisDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
+    this.checkDate = thisDate;
+    console.log(thisDate);
     this.api.getDateByDate(this.user,thisDate).subscribe(data=>{
       if(data!=null){
         var values = Object.keys(data).map(key=>data[key]);
-        this.detailDate = values;
-        for(let i=0;i<values.length;i++){
-          this.detailDate[i].key = Object.keys(data)[i];
-        }
-      } else {
+        this.detailDate = this.textnotiDisplay(values);
+      }
+      else{
         this.detailDate = [];
       }
     })
+  
   }
 
   onInit(){
-
     var test = new Date();
     var thisDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
     this.api.getDateByDate(this.user,thisDate).subscribe(data=>{
       if(data!=null){
         var values = Object.keys(data).map(key=>data[key]);
-        this.detailDate = values;
-        for(let i=0;i<values.length;i++){
-          this.detailDate[i].key = Object.keys(data)[i];
-        }
+        this.detailDate = this.textnotiDisplay(values);
       }
       else{
         this.detailDate = [];
       }
 
     })
-
-
     this.notification = [];
     this.api.showAlertDate(this.user).subscribe(data => {
       if(data!=null){
@@ -142,7 +143,7 @@ checkAfter = [];
           this.localNotifications.schedule({
         id: i,
         title: 'แจ้งเตือน',
-        text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ',
+        text: this.textnoti(Object.keys(element).map(key=>element[key])),
         trigger: { at: new Date(time1) },
        });
        i++;
@@ -166,6 +167,64 @@ checkAfter = [];
 
     })
   }
+
+  textnoti(value){
+    var text='';
+    var c = [];
+ 
+   for(let i = 0 ; i< value.length;i++){
+     if(i == 0){
+       c.push({type:value[i].type,count:0})
+     }
+     else {
+       for(let j = 0; j<c.length;j++){
+         if(c[j].type != value[i].type){
+           c.push({type:value[i].type,count:0});
+           break;
+         }
+       }
+     }
+   }
+   for(let i =0;i<c.length;i++){
+     for(let j=0;j<value.length;j++){
+       if(c[i].type == value[j].type){
+         c[i].count++;
+       }
+     }
+   }
+   text += 'วันนี้มีรายการจัดการ '+value.length+' รายการ\n';
+   c.forEach(element=>{
+     text += element.type+' '+element.count+' รายการ\n';
+   })
+     return text;
+   }
+   textnotiDisplay(value){
+
+    var c = [];
+ 
+   for(let i = 0 ; i< value.length;i++){
+     if(i == 0){
+       c.push({type:value[i].type,count:0})
+     }
+     else {
+       for(let j = 0; j<c.length;j++){
+         if(c[j].type != value[i].type){
+           c.push({type:value[i].type,count:0});
+           break;
+         }
+       }
+     }
+   }
+   for(let i =0;i<c.length;i++){
+     for(let j=0;j<value.length;j++){
+       if(c[i].type == value[j].type){
+         c[i].count++;
+       }
+     }
+   }
+     return c;
+   }
+
   getDaysOfMonth() {
 
     this.daysInThisMonth = new Array();
@@ -217,26 +276,21 @@ checkAfter = [];
   var setDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+a;
   this.x = this.c;
   this.y = this.b;
-
-
   var test = new Date(setDate);
   var thisDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
-
-
+  this.checkDate = thisDate;
+  console.log(thisDate);
   this.selectDate = new Date(this.c,this.b,a).toLocaleDateString();
   this.api.getDateByDate(this.user,thisDate).subscribe(data=>{
     if(data!=null){
       var values = Object.keys(data).map(key=>data[key]);
-      this.detailDate = values;
-      for(let i=0;i<values.length;i++){
-        this.detailDate[i].key = Object.keys(data)[i];
-      }
+      this.detailDate = this.textnotiDisplay(values);
     }
     else{
       this.detailDate = [];
     }
-
   })
+
 }
 checkEvent(day) {
   var hasEvent = false;
@@ -329,5 +383,11 @@ day_of_the_month(d)
  month_of_the_year(d)
   {
     return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+
+  searchDetail(data){
+    console.log(this.checkDate);
+    console.log(data);
+    this.navCtrl.push("DetailNotificationPage",{user:this.user,date:this.checkDate,detail:data});
   }
 }

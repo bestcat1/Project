@@ -100,6 +100,7 @@ import { ShowabortionPageModule } from '../pages/showabortion/showabortion.modul
 import { ShowdtabortionPageModule } from '../pages/showdtabortion/showdtabortion.module';
 import { EditdetailcalfPageModule } from '../pages/editdetailcalf/editdetailcalf.module';
 import { SettingdetaildrugPageModule } from '../pages/settingdetaildrug/settingdetaildrug.module';
+import { DetailNotificationPageModule } from '../pages/detail-notification/detail-notification.module';
 
 @NgModule({
   declarations: [
@@ -190,7 +191,8 @@ import { SettingdetaildrugPageModule } from '../pages/settingdetaildrug/settingd
     ShowabortionPageModule,
     ShowdtabortionPageModule,
     EditdetailcalfPageModule,
-    SettingdetaildrugPageModule
+    SettingdetaildrugPageModule,
+    DetailNotificationPageModule
   ],
 
   bootstrap: [IonicApp],

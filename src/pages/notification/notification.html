@@ -96,8 +96,9 @@
   <p align="center">{{selectDate}}</p>
   <ion-card *ngFor="let d of detailDate">
     <ion-item>
-        <ion-label >หมายเลยโค: {{d.id_cattle}} รายการ: {{d.type}}  </ion-label>
-        <button item-end ion-button type="button" color="danger" (click)="delete(d.key,d.date)" [hidden]="privilege!='เจ้าของฟาร์ม'" >ลบ</button>
+        <ion-label >มีรายการ: {{d.type}} | จำนวน: {{d.count}} รายการ  </ion-label>
+        <button item-end ion-button type="button" color="secondary" (click)="searchDetail(d)" [hidden]="privilege!='เจ้าของฟาร์ม'" ><ion-icon name="search"></ion-icon>
+        </button>
     </ion-item>
 
   </ion-card>

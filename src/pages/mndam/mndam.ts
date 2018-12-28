@@ -160,6 +160,11 @@ datas:any;
     else {
       dam = [];
     }
+    dam.sort(function(a, b) {
+      return  +new Date(a.process_date) - +new Date(b.process_date);
+    })
+    console.log(dam);
+
     this.damList = dam;
     this.loadeddamList = dam;
     this.datas = dam;
@@ -180,6 +185,10 @@ datas:any;
       else{
         dam = [];
       }
+      dam.sort(function(a, b) {
+        return  +new Date(a.process_date) - +new Date(b.process_date);
+      })
+      console.log(dam);
       this.damList = dam;
       this.loadeddamList = dam;
       this.datas = dam;
@@ -199,6 +208,10 @@ datas:any;
     else {
       dam =[];
     }
+    dam.sort(function(a, b) {
+      return  +new Date(a.process_date) - +new Date(b.process_date);
+    })
+    console.log(dam);
       this.damList = dam;
       this.loadeddamList = dam;
       this.datas = dam;
@@ -221,6 +234,10 @@ datas:any;
     {
       dam = [];
     }
+    dam.sort(function(a, b) {
+      return  +new Date(a.process_date) - +new Date(b.process_date);
+    })
+    console.log(dam);
       this.damList = dam;
       this.loadeddamList = dam;
       this.datas = dam;
@@ -241,6 +258,10 @@ datas:any;
     else{
       dam=[];
     }
+    dam.sort(function(a, b) {
+      return  +new Date(a.process_date) - +new Date(b.process_date);
+    })
+    console.log(dam);
       this.damList = dam;
       this.loadeddamList = dam;
       this.datas = dam;
@@ -260,6 +281,10 @@ datas:any;
     else{
       dam=[];
     }
+    dam.sort(function(a, b) {
+      return  +new Date(a.process_date) - +new Date(b.process_date);
+    })
+    console.log(dam);
      this.damList = dam;
      this.loadeddamList = dam;
      this.datas = dam;
@@ -347,17 +372,43 @@ return text;
 }
 
 textHistory(value){
+  console.log(value);
   var text = '';
+  var c=value.length;
+  console.log(value.length);
   for(let i=value.length-1;i>=0;i--){
-    if(value.length-1 == i){
+    if(value[i].type=='บำรุงแม่พันธุ์' || value[i].type=='เหนี่ยวนำกลับสัด'){
+      console.log(value[i],i,value.length-1);
+      for(let j=value.length-1;j>=i;j--){
+        if(value.length-1 == j){
+          if(value[j-1].type == 'บำรุงแม่พันธุ์'){
+            d = new Date(value[i-1].date);
+           date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+           text +='ที่ '+ (value.length-c-1) + '.' +value[j-1].type + ' ' + date + '<br>';
+           c--;
+           break;
+         }
+        }else {
+          var d = new Date(value[j].date);
+          var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+          text +='ที่ '+ (value.length-c+1) + '.' +value[j].type + ' ' + date + '<br>';
+          c--;
+          if(value[j-1].type == 'บำรุงแม่พันธุ์'){
+            d = new Date(value[i-1].date);
+           date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+           text +='ที่ '+ (value.length-c-1) + '.' +value[i-1].type + ' ' + date + '<br>';
+           c--;
 
-    }else {
-      var d = new Date(value[i].date);
-      var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
-      text +='ที่ '+ (i+1) + '.' +value[i].type + ' ' + date + '<br>';
+         }
+         console.log(text);
+        }
+
     }
+    break;
+  }
 
   }
+  console.log(text);
 
   return text;
 }

@@ -234,9 +234,9 @@ export class DeliveryPage {
                   var test = new Date(data.value.date);
                   test.setDate(test.getDate() + Number(this.AlertDate.day_length));
                   var setDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
-                  this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'ตรวจท้อง', date: setDate }).subscribe(d5=>{
+                  this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'บำรุงแม่พันธฺุ', date: setDate }).subscribe(d5=>{
                     if(d5.status == 'OK'){
-                  this.api.updateType('cattle', this.user, k, { status: "คลอดแล้ว" }).subscribe(d1 => {
+                  this.api.updateType('cattle', this.user, k, { status: "คลอดแล้ว" ,process_date: setDate }).subscribe(d1 => {
                     if (d1.status == 'OK') {
                       if (this.count_calf == 1) {
                         this.calf = [];

@@ -35,8 +35,10 @@ page-mncattle {
     opacity: 1;
 }
 ion-item{
+  border:2px solid #488aff;
   border-radius: 20px;
   background-color:black;
+
 }
 ion-list{
   // border-radius: 20px;
@@ -60,10 +62,18 @@ ion-list{
 }
 .list1{
   border-radius: 20px;
-
+  border:1px solid #488aff;
 }
 // .d1{
 //   border-radius: 20px;
 // }
-
+ion-searchbar{
+  background-color: #488aff;
+}
+}
+.border-item {
+  border:1px solid #488aff;
+}
+.button11{
+  width: 50px;
 }

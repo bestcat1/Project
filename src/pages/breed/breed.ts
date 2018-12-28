@@ -172,7 +172,7 @@ viewDateSyc;
                       var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
                       this.api.addNoti(this.user,setDate,{id_cattle: data.value.id, type: 'ตรวจท้อง', date: setDate }).subscribe(d2=>{
                         if(d2.status == 'OK'){
-                          this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:Number(data.value.number_of_breeding)+1}).subscribe(d1=>{
+                          this.api.updateType('cattle',this.user,this.key,{status:'ผสมพันธุ์แล้ว',number_of_breeding:(Number(data.value.number_of_breeding)+1),process_date:this.viewDate}).subscribe(d1=>{
                             console.log(d1);
                             if(d1.status=='OK'){
                               this.api.addHistory(this.user,{dam_id:data.value.id,date:data.value.date_breeding

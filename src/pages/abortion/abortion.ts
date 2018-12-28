@@ -111,7 +111,10 @@ export class AbortionPage {
             console.log(data.value);
             this.api.addAbortion(this.user, data.value).subscribe(d => {
               if (d.status == 'OK') {
-                this.api.updateType('cattle', this.user, this.key, { status: 'โคแท้ง' }).subscribe(d1 => {
+                var test1 = new Date();
+              test1.setDate(test1.getDate() + Number(data.value.alert_sync));
+                var setDate1 = test1.getFullYear() + "-" + this.month_of_the_year(test1) + "-" + this.day_of_the_month(test1);
+                this.api.updateType('cattle', this.user, this.key, { status: 'โคแท้ง',process_date: setDate1 }).subscribe(d1 => {
                   if (d1.status == 'OK') {
                     var test = new Date();
                     test.setDate(test.getDate() + Number(data.value.alert_sync));

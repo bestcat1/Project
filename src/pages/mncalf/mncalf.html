@@ -17,7 +17,7 @@
 
 
 <ion-content padding class="background">
-  <ion-item>
+  <ion-item class="border-item">
     <ion-label floating>เลือกสถานะจัดการ</ion-label>
     <ion-select (ionChange)="selectType($event)"  cancelText="ยกเลิก" okText="ยืนยัน">
       <ion-option value="บันทึกข้อมูลการสูญเขา">บันทึกข้อมูลการสูญเขา</ion-option>
@@ -32,14 +32,14 @@
       <ion-searchbar item-start class="test" (ionInput)="getItems($event)" [(ngModel)]="clearText" placeholder="ค้นหาหมายเลข{{headType}}" [hidden]="hiddentype==null"></ion-searchbar>
 </ion-col>
 <ion-col col-2>
-        <button ion-button item-end class="btncustom" outline small color="secondary" (click)="TypeSearch()"> <ion-icon name="md-more"></ion-icon></button>
+        <button ion-button item-end class="btncustom" outline small color="primary" (click)="TypeSearch()"> <ion-icon name="md-more"></ion-icon></button>
 </ion-col>
 </ion-row>
 
 
 <ion-row [hidden]="type==null">
     <ion-col col-6>
-      <ion-item>
+      <ion-item class="border-item">
       <ion-label>ประเภท:</ion-label>
       <ion-select name="Head_type" (ionChange)="headsearch($event)" [(ngModel)]="head" cancelText="ยกเลิก" interface="popover">
         <ion-option value="0">สายพันธุ์</ion-option>
@@ -48,7 +48,7 @@
       </ion-item>
     </ion-col>
     <ion-col col-6>
-      <ion-item>
+      <ion-item class="border-item">
           <ion-label>></ion-label>
       <ion-select name="Sub_type" (ionChange)="subsearch($event)" [(ngModel)]="a" cancelText="ยกเลิก" interface="popover">
           <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
@@ -63,7 +63,7 @@
 <ion-list>
   <ion-item *ngFor="let e of damList" >
   <ion-label>เบอร์แรกเกิด: {{e.birth_id}}</ion-label>
-  <button type="button" ion-button round outline color="secondary" item-end (click)="selectcalf(e.birth_id)">
+  <button type="button" ion-button round outline color="primary" item-end (click)="selectcalf(e.birth_id)">
       เลือก
   </button>
   </ion-item>

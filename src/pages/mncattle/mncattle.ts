@@ -155,6 +155,58 @@ select_head_type='0';
     }
 
   }
+  showHistory(id){
+    console.log(id);
+    this.api.getHistoryById(this.user,id).subscribe(data=>{
+      if(data!=null){
+        var value = Object.keys(data).map(key=>data[key]);
+        const alert = this.alertCtrl.create({
+          title: 'ประวัติการจัดการ!',
+          subTitle: this.subTitle(value),
+          message: this.textHistory(value),
+          buttons: ['ตกลง']
+        });
+        alert.present();
+      }else{
+        const alert = this.alertCtrl.create({
+          title: 'ประวัติการจัดการ!',
+          subTitle: 'ไม่พบรายการจัดการ',
+          buttons: ['ตกลง']
+        });
+        alert.present();
+      }
+    })
+  }
+  subTitle(value){
+    var text='';
+    var i=1
+    value.forEach(element => {
+      if( i== value.length){
+        var d = new Date(element.date);
+        var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+        text = 'ล่าสุด "'+ element.type +'" วันที่ '+date;
+      }
+      i++;
+  });
+  return text;
+  }
+
+  textHistory(value){
+    var text = '';
+    for(let i=value.length-1;i>=0;i--){
+      if(value.length-1 == i){
+
+      }else {
+        var d = new Date(value[i].date);
+        var date = d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+        text +='ที่ '+ (i+1) + '.' +value[i].type + ' ' + date + '<br>';
+      }
+
+    }
+
+    return text;
+  }
+
   initializeItems(): void {
     this.damList = this.loadedDamList;
   }

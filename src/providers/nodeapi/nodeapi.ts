@@ -473,4 +473,8 @@ export class NodeapiProvider {
   addMultiHistory(user,data){
     return this.http.post(URL_API.NODE_API+'/history/addMulti/'+user,data).pipe(map(res=>res.json()));
   }
+
+  updateCattleMulti(user,data){
+    return this.http.post(URL_API.NODE_API+'/cattle/updateMutiple/'+user,data).pipe(map(res=>res.json()));
+  }
 }

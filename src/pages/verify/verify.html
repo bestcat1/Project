@@ -28,8 +28,58 @@
       </ion-segment>
 
       <div [ngSwitch]="mncattle">
+          <ion-list *ngSwitchCase="'verify'">
+          <br>
+        <ion-list>
+            <ion-item-divider color="primary" (click)="clickHide(1)">
+                 การจัดการแม่พันธุ์
+                </ion-item-divider>
+              <ion-item detail-push [hidden]="hideverify!=1" (click)="showmt()">
+                  <ion-label>ข้อมูลการบำรุง</ion-label>
+              </ion-item>
+              <ion-item detail-push [hidden]="hideverify!=1" (click)="showsyc()">
+                  <ion-label>ข้อมูลการเหนี่ยวนำ</ion-label>
+              </ion-item>
+
+              <ion-item detail-push [hidden]="hideverify!=1" (click)="showbreed()">
+                  <ion-label>ข้อมูลการผสมพันธุ์</ion-label>
+              </ion-item>
+              <ion-item detail-push [hidden]="hideverify!=1" (click)="showabd()">
+                  <ion-label>ข้อมูลการตรวจท้อง</ion-label>
+                </ion-item>
+                <ion-item detail-push [hidden]="hideverify!=1" (click)="showdrv()">
+                    <ion-label>ข้อมูลการคลอด</ion-label>
+                  </ion-item>
+                  <ion-item detail-push [hidden]="hideverify!=1" (click)="showabortion()">
+                      <ion-label>ข้อมูลโคแท้ง</ion-label>
+                    </ion-item>
+
+                    <ion-item-divider color="primary" (click)="clickHide(2)">
+                        การรักษา
+                       </ion-item-divider>
+                      <ion-item detail-push [hidden]="hideverify!=2" (click)="shownt()">
+                        <ion-label>ข้อมูลการรักษา</ion-label>
+                      </ion-item>
+              <ion-item-divider color="primary" (click)="clickHide(3)">
+                  การจัดการลูกโค
+                 </ion-item-divider>
+                <ion-item detail-push [hidden]="hideverify!=3"  (click)="showdhc()">
+                    <ion-label>ข้อมูลการสูญเขา</ion-label>
+                </ion-item>
+                <ion-item detail-push [hidden]="hideverify!=3"  (click)="showbdc()">
+                    <ion-label>ข้อมูลการตีเบอร์</ion-label>
+                </ion-item>
+
+                <ion-item detail-push [hidden]="hideverify!=3" (click)="showwc()">
+                    <ion-label>ข้อมูลการหย่านม</ion-label>
+                </ion-item>
 
 
+
+        </ion-list>
+      </ion-list>
+
+<!--
           <ion-list *ngSwitchCase="'verify'">
 
             <p align="center"><b>ข้อมูลการจัดการแม่พันธุ์</b></p>
@@ -108,7 +158,7 @@
                                     </p>
                             </ion-col>
                             </ion-row>
-            </ion-list>
+            </ion-list> -->
       </div>
 
       <div [ngSwitch]="mncattle">

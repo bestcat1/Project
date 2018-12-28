@@ -111,10 +111,18 @@ page-verify {
 
 }
 ion-label{
-  color: white;
+
 
 }
 .list-radius{
   border-radius: 10px;
+}
+
+ion-list-header{
+
+}
+ion-list{
+  // background-color: #488aff;
+  border-radius: 20px;
 }
 }

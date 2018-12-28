@@ -22,7 +22,6 @@ import { NodeapiProvider } from '../providers/nodeapi/nodeapi';
 
 import { SearchFarmPage } from '../pages/search-farm/search-farm';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-import { NotificationPage } from '../pages/notification/notification';
 @Component({
   templateUrl: 'app.html'
 })

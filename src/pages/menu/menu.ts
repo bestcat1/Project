@@ -169,7 +169,7 @@ m6=false;
 
           this.api.showAlertDateDetail(value[0].user,snap).subscribe(element=>{
             if(element!=null){
-              console.log(this.textnoti(Object.keys(element).map(key=>element[key])));
+
             this.count_notification+=Object.keys(element).length;
             console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
             let day = new Date(snap).getDate();
@@ -181,9 +181,11 @@ m6=false;
           id: i,
           title: 'แจ้งเตือน',
           // text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ\n',
-          text: this.textnoti(Object.keys(element).map(key=>element[key])),
+          text: this.textnoti(Object.keys(element).map(key=>element[key]),snap),
           trigger: { at: new Date(time1) },
          });
+         console.log( this.textnoti(Object.keys(element).map(key=>element[key]),snap));
+
          i++;
             }
           })
@@ -199,7 +201,6 @@ m6=false;
 
           this.api.showAlertDateDetail(value[0].adminfarm,snap).subscribe(element=>{
             if(element!=null){
-            console.log(this.textnoti(Object.keys(element).map(key=>element[key])));
 
             this.count_notification+=Object.keys(element).length;
             console.log('xxx: '+this.count_notification+'yyy:'+snap+'sdasd'+i);
@@ -212,7 +213,7 @@ m6=false;
           id: i,
           title: 'แจ้งเตือน',
           // text: 'วันนี้มีรายการจัดการ ' + Object.keys(element).length + ' รายการ' ,
-          text:this.textnoti(Object.keys(element).map(key=>element[key])),
+          text: this.textnoti(Object.keys(element).map(key=>element[key]),snap),
           trigger: { at: new Date(time1) },
          });
          i++;
@@ -241,7 +242,9 @@ m6=false;
     });
   }
 
-  textnoti(value){
+  textnoti(value,date){
+    var d = new Date(date);
+    var datts = d.getDate() + '/'+(d.getMonth()+1)+'/'+d.getFullYear();
    var text='';
    var c = [];
 
@@ -265,7 +268,7 @@ m6=false;
       }
     }
   }
-  text += 'วันนี้มีรายการจัดการ '+value.length+' รายการ\n';
+  text += 'วันที่'+datts+' มีรายการจัดการ '+value.length+' รายการ\n';
   c.forEach(element=>{
     text += element.type+' '+element.count+' รายการ\n';
   })

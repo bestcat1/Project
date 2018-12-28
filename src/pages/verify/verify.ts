@@ -49,6 +49,7 @@ export class VerifyPage {
   head_report=''
   checkTypeReport = true;
   privilege;
+  hideverify = 0;
   //==============
   constructor(public navCtrl: NavController, public navParams: NavParams,
      private plt: Platform, private file: File
@@ -1721,4 +1722,13 @@ else if(this.name == 'wean'){
     }
   }
 
+
+  clickHide(a){
+
+    if(this.hideverify == a){
+      this.hideverify = 0;
+    }else{
+      this.hideverify = a;
+    }
+  }
 }

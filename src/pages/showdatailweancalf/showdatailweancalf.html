@@ -31,8 +31,17 @@
   </ion-item>
   <ion-item>
       <ion-label>น้ำหนักหย่านม(กก.): </ion-label>
-      <ion-input type="text" name="weanweight" ngModel="{{data.weanweight}}" [disabled]="edit"></ion-input>
+      <ion-input type="text" name="wean_weight" ngModel="{{data.wean_weight}}" [disabled]="edit"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>รอบอกหลังหย่านม(ซม.): </ion-label>
+      <ion-input type="number" name="wean_chest_head_ratio" ngModel="{{data.wean_chest_head_ratio}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>ความสูงสะโพกหลังหย่านม(ซม.): </ion-label>
+      <ion-input type="number" name="wean_hip_hight" ngModel="{{data.wean_hip_hight}}"></ion-input>
+    </ion-item>
+
     <ion-item>
       <ion-label >ผู้ปฏิบัติการ: </ion-label>
       <ion-select type="text" name="operator" ngModel="{{data.operator}}" [disabled]="edit" >

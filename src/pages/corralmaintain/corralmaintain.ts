@@ -123,7 +123,7 @@ export class CorralmaintainPage {
               for (j = 0; j < this.idcheck.length; j++) {
                  detail.push({ dam_id: this.idcheck[j].cattle_id, date: data.value.date, time: data.value.time, type_of_maintain: data.value.type_of_maintain,operator:data.value.operator,recoder: data.value.recoder });
                 //this.api.addDataType('maintain', this.user, detail).subscribe();
-                key.push(this.idcheck[j].key);
+
                 // this.api.updateType('cattle',this.user,this.idcheck[j].key,{status:"บำรุงแล้ว"}).subscribe();
                 var test = new Date(data.value.date);
                 test.setDate(test.getDate() + Number(this.AlertDate.day_length));
@@ -133,13 +133,15 @@ export class CorralmaintainPage {
                   test = new Date(data.value.date);
                 test.setDate(test.getDate() + Number(element.day_length));
                 var setDate = test.getFullYear() + "-" + (test.getMonth() + 1) + "-" + test.getDate();
-                  dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: element.drug_maintain, date: setDate })
+                  dataNoti.push({id_cattle: this.idcheck[j].cattle_id, type: 'การบำรุง '+element.drug_maintain, date: setDate })
+                  key.push({key:this.idcheck[j].key,status:'บำรุงแล้ว',process_date:setDate});
                 });
                 history.push({dam_id:this.idcheck[j].cattle_id,date:data.value.date,type:'บำรุงแม่พันธุ์'});
               }
               this.api.addMaintainCorral(this.user,detail).subscribe(d1=>{
                 if(d1.status=='OK'){
-                this.api.updateCattleCorral(this.user,key,"บำรุงแล้ว").subscribe(d2=>{
+                  this.api.updateCattleMulti(this.user,key).subscribe(d2=>{
+                // this.api.updateCattleCorral(this.user,key,"บำรุงแล้ว").subscribe(d2=>{
                   if(d2.status=='OK'){
                     this.api.addNotiMultiple(this.user,dataNoti).subscribe(d3=>{
                       if(d3.status=='OK'){
@@ -176,10 +178,11 @@ export class CorralmaintainPage {
     this.dams = [];
 
     this.api.getCattleByCorral(this.user, n).subscribe(data=>{
+      console.log(data);
       if(data!=null){
         var values = Object.keys(data).map(key => data[key]);
         for(let i =0; i<values.length; i++){
-          if (values[i].sex == 'MISS' && (values[i].status == ''|| values[i].status == 'คลอดแล้ว'|| values[i].status=='โคแท้ง')) {
+          if (values[i].sex == 'MISS' && (values[i].status == ''|| values[i].status == 'คลอดแล้ว'|| values[i].status=='โคแท้ง'||values[i].status=="ไม่ท้อง")) {
                   this.dams.push({ cattle_id: values[i].cattle_id, key: Object.keys(data)[i]});
             }
         }

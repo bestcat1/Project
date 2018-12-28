@@ -164,17 +164,19 @@ console.log(this.sire_id);
                 dataBreed.push({dam_id:this.idcheck[j].id,date_breeding:data.value.date_breeding,time_breeding:data.value.time_breeding,noti_oestrus:data.value.noti_oestrus,recoder:data.value.recoder,operator:data.value.operator,noti_pregnant:data.value.noti_pregnant,semen:data.value.semen,note:data.value.note,number_of_breeding:Number(this.idcheck[j].number_of_breeding)+1});
 
               }
-              key.push(this.idcheck[j].key);
+
             keyAndNumber.push({key:this.idcheck[j].key,number:Number(this.idcheck[j].number_of_breeding)+1});
             var test = new Date(data.value.date_breeding);
             test.setDate(test.getDate() + Number(data.value.noti_pregnant));
             var setDate = test.getFullYear() + "-" + this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
             dataNoti.push({id_cattle: this.idcheck[j].id, type: 'ตรวจท้อง', date: setDate });
             history.push({dam_id:this.idcheck[j].id,date:data.value.date_breeding,type:'ผสมพันธุ์'});
+            key.push({key:this.idcheck[j].key,status:'เหนี่ยวนำแล้ว',process_date:setDate});
           }
             this.api.addBreedCorral(this.user,dataBreed).subscribe(d=>{
               if(d.status=='OK'){
-                this.api.updateCattleCorral(this.user,key,'ผสมพันธุ์แล้ว').subscribe(d1=>{
+                this.api.updateCattleMulti(this.user,key).subscribe(d1=>{
+                // this.api.updateCattleCorral(this.user,key,'ผสมพันธุ์แล้ว').subscribe(d1=>{
                   if(d1.status=='OK'){
                     this.api.updateNumberOfBreeding(this.user,keyAndNumber).subscribe(d2=>{
                       if(d2.status == 'OK'){

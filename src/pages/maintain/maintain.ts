@@ -136,9 +136,9 @@ export class MaintainPage {
                   var test = new Date(mtData.value.date);
                   test.setDate(test.getDate() + Number(a.day_length));
                   var setDate =test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
-                  datanoti.push({id_cattle: mtData.value.dam_id, type: a.drug_maintain, date: setDate });
+                  datanoti.push({id_cattle: mtData.value.dam_id, type: 'การบำรุง '+a.drug_maintain, date: setDate });
                 })
-                  this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว"}).subscribe(d1=>{
+                  this.api.updateType('cattle',this.user,this.cattle_key,{status:"บำรุงแล้ว",process_date:this.viewDateSync}).subscribe(d1=>{
                     console.log(d1);
                     if(d1.status=='OK'){
                       this.api.addNotiMultiple(this.user,datanoti).subscribe(d2=>{

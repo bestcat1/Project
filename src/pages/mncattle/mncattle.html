@@ -131,12 +131,12 @@
     <ion-list *ngSwitchCase="'editcow'">
         <ion-item-divider>
       <ion-searchbar  (ionInput)="getItems($event)" placeholder="ค้นหา{{search_type}}" ></ion-searchbar>
-        <button ion-button item-end color="secondary" (click)="filterType()"> <ion-icon name="md-funnel"></ion-icon>
+        <button ion-button item-end color="primary" (click)="filterType()"> <ion-icon name="md-funnel"></ion-icon>
         </button>
       </ion-item-divider>
       <ion-row>
         <ion-col col-6>
-          <ion-item>
+          <ion-item class="border-item">
             <ion-label>ประเภท:</ion-label>
             <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" [(ngModel)]="sub_head" name="corralcattle" (ionChange)="selectsex($event)" interface="popover">
                 <ion-option value="0">เพศ</ion-option>
@@ -147,7 +147,7 @@
           </ion-item>
         </ion-col>
         <ion-col col-6>
-          <ion-item>
+          <ion-item class="border-item">
             <ion-label>เลือก:</ion-label>
             <ion-select okText="ยืนยัน" cancelText="ยกเลิก" class="myCustomSelect" [(ngModel)]="select_sub_type" name="sexcattle" (ionChange)="selectType($event)" interface="popover">
                 <ion-option value="ทั้งหมด">ทั้งหมด</ion-option>
@@ -160,9 +160,12 @@
 
       <ion-list>
         <ion-label color="danger">เลือกหมายเลขโค</ion-label>
-        <ion-item  *ngFor="let dam of damList">
+        <ion-item  *ngFor="let dam of damList" >
           <ion-label>หมายเลขโค: {{dam.cattle_id}}</ion-label>
-          <button type="button" ion-button round outline color="secondary" item-end (click)="showdetail(dam.cattle_id)">
+          <button class="button11" type="button" ion-button round outline color="primary" item-end (click)="showHistory(dam.cattle_id)" [hidden]="dam.sex=='BULL'">
+            <ion-icon name="clipboard"></ion-icon>
+         </button>
+          <button type="button" ion-button round outline color="primary" item-end (click)="showdetail(dam.cattle_id)">
               เลือก
           </button>
         </ion-item>

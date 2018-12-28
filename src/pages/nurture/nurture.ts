@@ -134,7 +134,7 @@ export class NurturePage {
                 if (d.status == 'OK') {
                   this.api.addTreatment(this.user, data.value).subscribe(d1 => {
                     if (d1.status == 'OK') {
-                      this.api.addNoti(this.user, this.viewDate, { id_cattle: data.value.id, type: 'รักษา', date: this.viewDate }).subscribe(d2 => {
+                      this.api.addNoti(this.user, this.viewDate, { id_cattle: data.value.id, type: 'การรักษา', date: this.viewDate }).subscribe(d2 => {
                         if (d2.status == 'OK') {
                           this.success();
                           this.navCtrl.pop();

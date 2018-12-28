@@ -188,7 +188,7 @@ noti_pregnant;
               this.api.addPregnant(this.user,{ dam_id: data.value.dam_id, alert_after_7D: this.alert_befor_7D, alert_sync: this.alert_sync, calve_date:  this.calve_date, dateabd: data.value.dateabd, not_pregnant_noti: data.value.not_pregnant_noti, note: data.value.note, pregnant_noti: data.value.pregnant_noti, result: data.value.result, timeabd: data.value.timeabd ,recoder:data.value.recoder,operator:data.value.operator, alert_befor_7D: this.alert_befor_7D }).subscribe(d2=>{
                 if(d2.status=='OK'){
                   if(data.value.result=='ท้อง'){
-                    this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" }).subscribe(d=>{
+                    this.api.updateType('cattle',this.user,k,{status: "ตรวจท้องแล้ว" ,process_date:this.noti_pregnant}).subscribe(d=>{
                       if(d.status=='OK'){
                         this.api.addNoti(this.user,this.calve_date,{id_cattle: data.value.dam_id, type: 'วันคลอด', date: this.calve_date }).subscribe(d3=>{
                           if(d3.status == 'OK'){
@@ -206,12 +206,17 @@ noti_pregnant;
                     });
                   }
                   else{
-                    this.api.updateType('cattle',this.user,k,{status: "ไม่ท้อง" }).subscribe(d=>{
+                    this.api.updateType('cattle',this.user,k,{status: "ไม่ท้อง",date: this.calve_date}).subscribe(d=>{
                       if(d.status=='OK'){
                         this.api.addNoti(this.user,this.calve_date,{id_cattle: data.value.dam_id, type: 'บำรุงแม่พันธุ์', date: this.calve_date }).subscribe(d1=>{
                           if(d1.status=='OK'){
-                            this.success();
-                            this.navCtrl.pop();
+                            this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.dateabd
+                              ,type:'บำรุงแม่พันธุ์'}).subscribe(d3=>{
+                                if(d3.status=='OK'){
+                                  this.success();
+                                  this.navCtrl.pop();
+                                }
+                              })
                           }
                         });
                       }

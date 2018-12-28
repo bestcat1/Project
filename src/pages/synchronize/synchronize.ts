@@ -127,11 +127,11 @@ sync(data: NgForm){
                   test = new Date(data.value.datepro);
                   test.setDate(test.getDate() + Number(element.day_length));
                   var setDate = test.getFullYear()+"-"+this.month_of_the_year(test)+"-"+this.day_of_the_month(test);
-                  datanoti.push({id_cattle: data.value.dam_id, type: element.drug_sync, date: setDate,time: element.time_length });
+                  datanoti.push({id_cattle: data.value.dam_id, type: 'การเหนี่ยวนำ '+element.drug_sync, date: setDate,time: element.time_length });
                 });
                 this.api.addNotiMultiple(this.user,datanoti).subscribe(d0=>{
                   if(d0.status == 'OK'){
-                    this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว"}).subscribe(d1=>{
+                    this.api.updateType('cattle',this.user,this.key,{status:"เหนี่ยวนำแล้ว",process_date:this.viewDate}).subscribe(d1=>{
                       if(d1.status=='OK'){
                         this.api.addHistory(this.user,{dam_id:data.value.dam_id,date:data.value.datepro
                           ,type:'เหนี่ยวนำกลับสัด'}).subscribe(d3=>{
